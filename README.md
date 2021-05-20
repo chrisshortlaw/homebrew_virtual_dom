@@ -60,6 +60,22 @@ The above features correspond to model, view, controller design pattern. The cal
 
 ## Testing
 
+Devise tests as we go along with recordings or pictures to demonstrate operations.
+
+Model Tests:
+
+- Addition function adds two numbers together. Addition is commutative.
+
+- Subtraction function deducts the right-most number from the leftmost. 
+
+- Multiplication yields the product of the left and right numbers.
+
+- Division yields the product of the inverse of the right-most number by the left-most.
+
+- Divide by zero errors are caught and prevented.\
+
+- Non-integers are caught and prevented.
+
 ## Deployment
 
 ### Using Git & Github
