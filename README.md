@@ -80,6 +80,138 @@ Model Tests:
 
 ### Using Git & Github
 
+#### Git
+
+Git is really useful. When you mess up some code trying to make some pointless improvement because some kid posted an article on medium.com saying this feature was essential to know if you wanted to be a competent coder in 2021, Git allows you to roll-back to your original, working code and undo the spaghetti you created trying to implement some sort of dark-mode.
+
+#### Initialising Git
+
+You will need to install Git. Google how to do this, it is not hard. If it is, using Git may not be for you and you should perhaps consider something else. Do not ask me how to set it up on Arch Linux; I do not know and I lack the time to try and find out.
+
+Having installed Git, we are going to use the command line, Git Bash, to initialise this. We could use the GUI but using the command line makes you feel you are smart and more efficient, even when you type 18 words-per-minute with lots of typos. Git Bash for the uninitiated is the shell that Git uses. Depending on your operating system, you might have another shell installed such as Microsoft's Powershell if you are using the Windows operating system or Terminal if you use a Mac. A shell is a program that processes text commands. From the command line, navigate to your project folder. To do this, you should use the command:
+
+```bash
+cd <insert name of folder here>
+```
+
+Here 'cd' stands for 'change directory' and directory is another name for a folder. If you have not made a project folder, you can make one by navigating to where you would like to place your new folder and using the following command:
+
+```bash
+mkdir <insert name of folder here>
+```
+
+This commands make a directory/folder bearing the name you gave it.
+
+Having made that directory, navigate into the directory with the shell (use 'cd' as outlined above) and type the following command:
+
+```bash
+git init
+```
+
+This initialises Git. Note the lower-case, capitalisation will matter in shells such as bash but may not matter as much in Powershell. For simplicity's sake, use lower-case and name all your files and directories in lower-case.
+
+#### Adding Files to Git
+
+Git has been initialised. In doing so, you told the Git programme to create a series of files in your desired directory. These files will allow git to track your project. Now, of course, it needs files to track. To tell Git to track files, enter the following command in bash:
+
+```bash
+git add <name of file>
+```
+
+If you do not have a file in there yet, use the following:
+
+```bash
+touch README
+```
+
+This will create a simple text file. On a windows OS, you might want to add a '.txt' or a '.md'. On a *Nix based OS, such as Mac OS, these are less important.
+
+Git is now tracking this file. To check if this is the case, while in the folder that you initialised git in, use the command:
+
+```bash
+git status
+```
+
+You should see something like this:
+
+```bash
+On branch master
+Changes to be committed:
+  (use "git restore --staged <file>..." to unstage)
+        modified:   README.md
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   viewModel.js
+```
+
+Git status tells you many useful things. Starting at the top, you will see output telling you which branch (more on this later) you are on. In this case, I am on 'branch master'. This can sometimes be called branch 'origin' or 'origin/master'. The names do not matter much save that these branches tell you this is the original branch.
+
+Next up, we have 'Changes to be committed:' and below this we see a 'modified: README.md'. When we use git add, we are doing what is referred to as staging the changes to a file. If git add has been used correctly, you will have output much like this with a change ready to be committed.
+
+#### Git Commit
+
+Commits are snapshots of a file or files at a point in time. They are what allows Git to roll-back your work when you break your code or to see where you were at a certain point in time. Commits should be in small pieces, hopefully corresponding to either a new feature or some update to a file or code. How large or small it might be shall depend on your plan and the software you are writing.
+
+All commits should be accompanied with a message. This message should give a succinct description of the changes the commit introduces or a conventional description. For example, the first commit of a file it is conventionally acceptable to write the message 'Initial Commit'. To make a commit, type:
+
+```bash
+git commit -m <insert message here>
+```
+
+This commits the changes you added along with the message you entered.
+
+#### Git Remotes
+
+Git remotes are versions of a project which can be found on another machine - whether this is a server or a workstation. Remotes allow people to work on a local or separate version of a repository and then upload the changes they made to that repository.
+
+Remotes will automatically appear when a project is cloned. Cloning a project makes a copy of it on your local machine. To clone a project, type:
+
+```bash
+git clone <insert project url>
+```
+
+Having cloned this project, you now have a remote located in the directory you were in when you typed the command. If you want to put your cloned repository somewhere other than your current working directory you could type:
+
+```bash
+git clone <insert project url> my-cloned-project
+```
+
+This will clone the project into a folder called 'my-cloned-project' which will be located in the current working directory.
+
+
+#### Creating & Uploading a Repository
+
+Sometimes you do not want to copy the work of others. Why imitate lesser mortals? In this instance, you will want to create your own github repository.
+
+Creating your own github repository requires you set up a github account. This account is free for most personal use and is relatively eay to do. Navigate to github.com in your browser, set up an account, sign-in to that account, and stay signed in.
+
+The next thing to do is create a new repository. The easiest way to do this is to navigate to 'your repositories' page. On the upper left corner of any github page, you should see a circle with an arrow, pointing down, beside it. Click on this symbol and a drop-down list will appear, on this dropdown list, after telling you if you are signed in and under your status bar, you will see a link to 'your profile' and below that 'your repositories'. Click on 'your repositories'. You will now be on a page listing out all your repositories. If you cloned any repositories, these can be found here. Near the top right, you will see a green button with the word 'New' on it. Click on this button, follow the instructions and give your new repository a name.
+
+Now your repository has a name, it needs files. To upload files from an existing repository, type the following commands: 
+
+```bash
+git remote add origin <insert github url here>
+git branch -M main
+git push -u origin main
+```
+
+If you want to create a repository on your computer, follow the instructions above regarding creating files and using git add ([Git Add](#Adding files to Git)). Then type the commands immediately above.
+
+#### Git Branch
+
+Want to try something out and make commits without breaking your existing code? Are other people using this code and a change to it might upset or undermine their work? If you have answered, 'yes' to either of the above then Git Branch is definitely for you. In my case, I will often work on two different machines and I desire a way to share the code I am working on between the two machines without having a messy commit history cluttering up my master/origin branch. Git Branch helps me avoid this.
+
+Branch takes a snapshot of your code and splits its timeline from the originating branch. Any commits you make will be made to that branch and will not affect the originating branch. Branching like this permits multiple people to simultaneously develop different features on a product without the concern they will interfere with each others work.
+
+To create a branch, type:
+
+```bash
+git branch <insert name of branch>
+```
+
+
 ### Deploying to Heroku
 
 ## Credits
