@@ -10,6 +10,31 @@ This Project was submitted as Milestone Project 2 as part of the developer's stu
 
 ## Table of Contents
 
+1. [Design and Development](#Design-and-Development)
+    - [User Stories](#User-Stories)
+    - [Strategy](#Strategy)
+    - [Scope](#Scope)
+    - [Structure](#Structure)
+    - [Skeleton](#Skeleton)
+    - [Surface](#Surface)
+
+2. [Features](#Features)
+    - [Features to be implemented](#Features-to-be-implemented)
+
+3. [Testing](#Testing)
+4. [Deployment](#Deployment)
+    - [Using Git & Github](#using-git-&-github)
+        - [Git](#Git)
+        - [Initialising Git](#initialising-git)
+        - [Adding Files to Git](#adding-files-to-git)
+        - [Git Commit](#git-commit)
+        - [Git Remotes](#git-remotes)
+        - [Creating and Uploading a Repository](#creating-&-uploading-a-repository)
+        - [Git Branch](#git-branch)
+    - [Deploying to Heroku](#deploying-to-heroku)
+5. [Credits](#credits)
+
+
 ## Design and Development
 
 ### User Stories
