@@ -34,7 +34,6 @@ This Project was submitted as Milestone Project 2 as part of the developer's stu
     - [Deploying to Heroku](#deploying-to-heroku)
 5. [Credits](#credits)
 
-
 ## Design and Development
 
 ### User Stories
@@ -205,7 +204,6 @@ git clone <insert project url> my-cloned-project
 
 This will clone the project into a folder called 'my-cloned-project' which will be located in the current working directory.
 
-
 #### Creating & Uploading a Repository
 
 Sometimes you do not want to copy the work of others. Why imitate lesser mortals? In this instance, you will want to create your own github repository.
@@ -236,8 +234,6 @@ To create a branch, type:
 git branch <insert name of branch>
 ```
 
-
 ### Deploying to Heroku
 
 ## Credits
-
