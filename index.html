@@ -6,9 +6,15 @@
         <title>JSCalc</title>
         <meta name="description" content="JSCalc">
         <meta name="author" content="Chris Short">
+        <meta name="viewport" content="width=device-width">
 
-        <!--<link rel="stylesheet" type="text/css" href="#"> -->
+
+        <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="./assets/style.css">
         <!--Insert View-Model JS Script Here-->
+        
+        <script src="https://kit.fontawesome.com/47685cdca8.js" crossorigin="anonymous"></script>
+
         <script src="/viewModel.js" type="module"></script>
         
         
@@ -16,7 +22,7 @@
 
     <body>
         
-        
+        <!-- 
         <span><input type="text" id="operand1" placeholder="1" required></span>
         <span><p>+</p></span>
         <span><input type="text" id="operand2" placeholder="2" required></span>
@@ -25,8 +31,78 @@
 
         <div><button type="button" id='result-button'>Get Result!</button></div>
 
-        <div><span>= </span><span id="result">0</span></div>
-        
+        <div><span>= </span><span id="result">0</span></div> -->
+        <div class="app-container">
+            <div id="calcDisplay">&nbsp;</div>
+
+            <div class="button-container">
+                <div id="num-buttons-container">
+                    <div class="num-row">
+                        
+                            <button class="button" id="num1" name="one">1</button>
+                        
+                            <button class="button" id="num2" name="two">2</button>
+                        
+                            <button class="button" id="num3" name="three">3</button>
+                        
+                    </div>
+                    <div class="num-row">
+                     
+                            <button class="button" id="num4" name="four">4</button>
+                       
+                            <button class="button" id="num5" name="five">5</button>
+                        
+                            <button class="button" id="num6" >6</button>
+                        
+                    </div>
+                    <div class="num-row">
+                       
+                            <button class="button" id="num7" role="button">7</button>
+                       
+                            <button class="button" id="num8" role="button">8</button>
+                       
+                            <button class="button" id="num9" role="button">9</button>
+                        
+                    </div>
+                    <div class="num-row">
+                       
+                            <button class="button" id="num0" role="button">0</button>
+                        
+                    </div>
+                </div>
+
+                <div id="operations-container">
+                    
+                    <button class="button" id="plus" role="button">
+                        +
+                        <!-- <i class="fas fa-plus"></i> -->
+                    </button>
+                   
+                    <button class="button" id="minus" role="button">
+                        -
+                        <!-- <i class="fas fa-minus"></i> -->
+                    </button>
+                    
+                   
+                    <button class="button" id="multiply" role="button">
+                        ×
+                        <!-- <i class="fas fa-times"></i>-->
+                    </button>
+                    
+                    
+                    <button class="button" id="divide" role="button">
+                        ÷
+                       <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+                    <button class="button" id="equals" name="equals">
+                        =
+                       <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+
+                    
+                </div>
+            </div>
+        </div>
 
     </body>
 
