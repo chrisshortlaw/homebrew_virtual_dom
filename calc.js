@@ -1,8 +1,52 @@
 
 
-let left;
-let right;
+
+const DATAMODEL = {
+    // operand1: 0, 
+    // operator: [], 
+    // operand2: 0,
+    calcData: [],       // holds 2 operands and 1 operator 
+    constructNumber: function(numString) {
+        // DMValue is value of Object (i.e. operand1, operand2)
+        // if (parseInt(numString) {
+        //    DATAMODEL.calcData.push(numString);
+        // } else {
+        //    if (numString === ('+'||'-'||'/'||'*'||'%')) {
+        //       DATAMODEL.operator = numString;
+        //     }
+        //  }
+        },
+    calcResult: function() {
+            // call function from calc.js to resolve function
+        },
+    clearData: function() {
+            for (data in this.calcData) {
+                this.calcData[data].pop();
+            }
+            for (op in this.operator) {
+                this.operator[op].pop();
+            } 
+        },
+    clearLastEntry: function() {
+        this.calcData.pop();
+        },
+    outputData: function() {
+        return this.calcData;
+        }
+    }
+
 // Insert function to enforce Number type, throwing errors where applicable, and passing correct values to appropriate function
+
+function expressionParser() {
+
+    /* Function that will use regular expressions to parse out input expressions and calculate them in accordance with BODMAS. This will use regular expressions to achieve this task. */
+}
+
+function evalInput(string){
+    /* Takes a string, converts it to javascript object,connects to Math.js API and transmits object via POST.
+    Returns JSON object which is parsed and a string is returned 
+    Consider refactoreing this function to respect single responsibility */
+}
 
 function NumberCheck(left, right, ...Args) {
     // Checks to see if values passed to it are numbers, throwing errors where applicable and passing correct values
@@ -57,4 +101,4 @@ function squareroot(num){
     return x;
 }
 
-export {addition, division, subtraction, multiplication};
+export {addition, division, subtraction, multiplication, DATAMODEL};
