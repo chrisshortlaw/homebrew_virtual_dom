@@ -1,43 +1,93 @@
 #!javascript
+import {PUBSUB} from 'C:/code/jscalc/viewModel.js';
+
+
 // This file implements vDOM methods
 
 
-function h(tagName, attrs, props) {
-    // h function will create vDOM elements which we shall manipulate
-    // tagName: 'string', attrs: {}, children: ['String' OR '{tagName, attrs...}']
-    // default parameters have been added to take out the tedium of creating objects
-    return {
-        tagName,
-        attrs,
-        props
+const vDOM = {
+
+    /**
+     * @type {object};
+     * Current Node is the Node that has been loaded and rendered by the vDOM
+     */
+
+    currentNode: {},
+
+    /**
+     * @param {object} setCurrentNode;
+     */
+
+    set setCurrentNode(vNode){
+        currentNode = vNode;
+        },
+    
+    get getCurrentNode() {
+        return this.currentNode;
+    },
+
+    h: function(tagName, attrs, props) {
+        // h function will create vDOM elements which we shall manipulate
+        // tagName: 'string', attrs: {}, children: ['String' OR '{tagName, attrs...}']
+            return {
+                tagName,
+                attrs,
+                props
+            }
+        },
+
+    mountVDOM: function (vnode, container) {
+        // vnode is the vDOMElement we created earlier but with a more succinct name
+        // container is the part of the existing DOM which will hold the rendered VDOM.
+        // create DOM element by using createElement built-in function
+        const el = (vnode.el = document.createElement(vnode.tagName));
+     
+        // iterate over the js Object and set DOM attributes in accordance with the attrs assigned to the vDOM object
+        for (const key in vnode.attrs) {
+            el.setAttribute(key, vnode.attrs[key]);
+        } 
+     
+        // loop over props object and assign data to textNode or attribute
+        for (const key in vnode.props) {
+            if (key == 'text') {
+                el.appendChild(document.createTextNode(vnode.props[key]));
+            } else {
+                el.setAttribute(key, vnode.props[key]);
+            }
+        }
+        // insert vnode in the actual DOM and render it.
+        container.appendChild(el);
+        this.setCurrentNode(vNode);
+        },
+
+     unmount: function(vnode) {
+        vnode.el.parentNode.removeChild(vnode.el);
+        },
+
+     patchText: function(n1, n2) {
+        // takes two rendered objects with h
+        // assigns the el key/value of n2 to be the same as n1 - n2 may replace n1
+            const el = (n2.el = n1.el);
+            // if statement comparing each node
+            if (n2.tagName !== n1.tagName) {
+                mountVDOM(n2, el.parentNode);
+                unmount(n1);
+            } else {
+                if (n2.props['text'] !== n1.props['text']) {
+                    el.removeChild(n1.props['text']);
+                    el.appendChild(document.createTextNode(n2.props['text']));
+                } else {
+                    continue;
+                    // update this at a later stage
+                }
+            }
+        },
+
+    hNumNode: function(numText) {
+        const newNode = h('span', {}, {text: `${numText}`});
+        patchText(this.getCurrentNode, newNode);
     }
-}
 
-function mountVDOM(vnode, container) {
-   // vnode is the vDOMElement we created earlier but with a more succinct name
-   // container is the part of the existing DOM which will hold the rendered VDOM.
-   // create DOM element by using createElement built-in function
-   const el = (vnode.el = document.createElement(vnode.tagName));
-
-   // iterate over the js Object and set DOM attributes in accordance with the attrs assigned to the vDOM object
-   for (const key in vnode.attrs) {
-       el.setAttribute(key, vnode.attrs[key]);
-   } 
-
-   // loop over props object and assign data to textNode or attribute
-   for (const key in vnode.props) {
-       if (key == 'text') {
-           el.appendChild(document.createTextNode(vnode.props[key]));
-       } else {
-           el.setAttribute(key, vnode.props[key]);
-       }
-   }
-   // insert vnode in the actual DOM and render it.
-   container.appendChild(el);
-}
-
-function unmount(vnode) {
-   vnode.el.parentNode.removeChild(vnode.el);
 }
 
 /* function patch(n1, n2) {
@@ -85,23 +135,7 @@ function unmount(vnode) {
    }
 } */
 
-function patchText(n1, n2) {
-    // takes two rendered objects with h
-    // assigns the el key/value of n2 to be the same as n1 - n2 may replace n1
-    const el = (n2.el = n1.el);
-    // if statement comparing each node
-    if (n2.tagName !== n1.tagName) {
-        mountVDOM(n2, el.parentNode);
-        unmount(n1);
-    } else {
-        if (n2.props['text'] !== n1.props['text']) {
-            el.removeChild(n1.props['text']);
-            el.appendChild(document.createTextNode(n2.props['text']));
-        } else {
-            continue;
-            // update this at a later stage
-        }
-    }
-}
+PUBSUB.subDataChange(VDOM.hNumNode);
 
-export {h, mountVDOM, unmount, patchText};
+
+export {vDOM};
