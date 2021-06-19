@@ -1,45 +1,75 @@
-
-
+import {pubDataChange} from './viewModel.js';
 
 const DATAMODEL = {
-    // operand1: 0, 
-    // operator: [], 
-    // operand2: 0,
-    calcData: [],       // holds 2 operands and 1 operator 
-    constructNumber: function(numString) {
-        // DMValue is value of Object (i.e. operand1, operand2)
-        // if (parseInt(numString) {
-        //    DATAMODEL.calcData.push(numString);
-        // } else {
-        //    if (numString === ('+'||'-'||'/'||'*'||'%')) {
-        //       DATAMODEL.operator = numString;
-        //     }
-        //  }
-        },
-    calcResult: function() {
-            // call function from calc.js to resolve function
-        },
-    clearData: function() {
-            for (data in this.calcData) {
-                this.calcData[data].pop();
-            }
-            for (op in this.operator) {
-                this.operator[op].pop();
-            } 
-        },
-    clearLastEntry: function() {
-        this.calcData.pop();
-        },
-    outputData: function() {
-        return this.calcData;
-        }
+                    // operand1: 0, 
+                    // operator: [], 
+                    // operand2: 0,
+                    numString: '0',  // String of inputs from DOM
+                    calcData: [],   // holds 2 operands and 1 operator
+                    /**
+                     * @param {string} num
+                     */
+                    get number(num) {
+                        parseFloat(num);
+                    },
+                    get outputData() {
+                        return this.calcData;
+                    },
+                    get getNumString() {
+                        return this.numString;
+                        },
+                    /** constructNumber: function(numString) {
+                        // DMValue is value of Object (i.e. operand1, operand2)
+                        // if (parseInt(numString) {
+                        //    DATAMODEL.calcData.push(numString);
+                        // } else {
+                        //    if (numString === ('+'||'-'||'/'||'*'||'%')) {
+                        //       DATAMODEL.operator = numString;
+                        //     }
+                        //  }
+                        }, **/
+                    calcResult: function() {
+                            // call function from calc.js to resolve function
+                        },
+                    clearData: function() {
+                            for (data in this.calcData) {
+                                this.calcData[data].pop();
+                            }
+                            for (op in this.operator) {
+                                this.operator[op].pop();
+                            } 
+                        },
+                    clearLastEntry: function() {
+                        this.calcData.pop();
+                        },
+                    
+                    /**
+                     * @param {string} newString
+                     */
+                    set num(newString) {
+                            if (this.numString === '0') {
+                                this.numString = newString;
+                                pubDataChange(this.numString);
+                            } else {
+                                this.numString += newString;
+                                pubDataChange(this.numString);
+                            }
+                        },
+                    /**
+                     * 
+                     */
+                    set clearDisplay() {
+                        this.numString = '0';
+                        pubDataChange(this.numString)
+                        },
     }
 
 // Insert function to enforce Number type, throwing errors where applicable, and passing correct values to appropriate function
 
-function expressionParser() {
+function expressionParser(exprString) {
 
     /* Function that will use regular expressions to parse out input expressions and calculate them in accordance with BODMAS. This will use regular expressions to achieve this task. */
+    return eval(exprString);
 }
 
 function evalInput(string){
@@ -88,7 +118,7 @@ function division(left, right) {
 
 }
 
-function squareroot(num){
+function squareroot(operand){
 
     let x = num;
     let y = 1;
@@ -101,4 +131,4 @@ function squareroot(num){
     return x;
 }
 
-export {addition, division, subtraction, multiplication, DATAMODEL};
+export {addition, division, subtraction, multiplication, DATAMODEL, expressionParser};
