@@ -1,4 +1,4 @@
-import {pubDataChange} from './viewModel.js';
+import {PUBSUB} from './viewModel.js';
 
 const DATAMODEL = {
                     // operand1: 0, 
@@ -13,10 +13,10 @@ const DATAMODEL = {
                         parseFloat(num);
                     },
                     get outputData() {
-                        return this.calcData;
+                        return DATAMODEL.calcData;
                     },
                     get getNumString() {
-                        return this.numString;
+                        return DATAMODEL.numString;
                         },
                     /** constructNumber: function(numString) {
                         // DMValue is value of Object (i.e. operand1, operand2)
@@ -32,35 +32,35 @@ const DATAMODEL = {
                             // call function from calc.js to resolve function
                         },
                     clearData: function() {
-                            for (data in this.calcData) {
-                                this.calcData[data].pop();
+                            for (data in DATAMODEL.calcData) {
+                                DATAMODEL.calcData[data].pop();
                             }
-                            for (op in this.operator) {
-                                this.operator[op].pop();
+                            for (op in DATAMODEL.operator) {
+                                DATAMODEL.operator[op].pop();
                             } 
                         },
                     clearLastEntry: function() {
-                        this.calcData.pop();
+                        DATAMODEL.calcData.pop();
                         },
                     
                     /**
                      * @param {string} newString
                      */
-                    set num(newString) {
-                            if (this.numString === '0') {
-                                this.numString = newString;
-                                pubDataChange(this.numString);
+                    set setNumString(newString) {
+                            if (DATAMODEL.numString === '0') {
+                                DATAMODEL.numString = newString;
+                                PUBSUB.pubDataChange(DATAMODEL.getNumString);
                             } else {
-                                this.numString += newString;
-                                pubDataChange(this.numString);
+                                DATAMODEL.numString += newString;
+                                PUBSUB.pubDataChange(DATAMODEL.getNumString);
                             }
                         },
                     /**
                      * 
                      */
                     set clearDisplay() {
-                        this.numString = '0';
-                        pubDataChange(this.numString)
+                        DATAMODEL.numString = '0';
+                        PUBSUB.pubDataChange(DATAMODEL.getNumString)
                         },
     }
 
@@ -130,5 +130,7 @@ function squareroot(operand){
     }
     return x;
 }
+
+PUBSUB.subscribe(DATAMODEl.setNumString);
 
 export {addition, division, subtraction, multiplication, DATAMODEL, expressionParser};
