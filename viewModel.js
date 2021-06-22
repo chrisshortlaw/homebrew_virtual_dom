@@ -1,5 +1,5 @@
 import { DATAMODEL } from './calc.js'; // imports functions from calc.js
-import * as vDom from './assets/viewModel/vDom.js';   // import vDOM functions
+// import * as vDom from './assets/viewModel/vDom.js';   // import vDOM functions
 
 
 
@@ -10,66 +10,107 @@ This viewModel will need to fulfil the following functions:
     - Event listener which listens for the input of an operator button and displays that operator in a separate div or p section.
     - Event listener which listens for the input of an additional operand and inputs that data in a single div 
     - Maintain a string of inputs which will update following every key press
-    - Ensure entries are valid mathematical operators (no double operators, only one decimal point, no division by zero etc.) 
+    - Ensure entries are valid mathematical operators (no double operators, only one decimal point, no division by zero etc.)
+
+    SOLID Principles:
+    - Single-Responsibility Principle
+    - Open-Closed Principle
+    - Liskov Substitution Principle
+    - Interface Segregation - Many client focussed interfaces better than 1 monolith
+    - Dependency Inversion - Depend on abstractions, not concretions.
  */
 
 
-const buttonList = Array.from(document.getElementsByTagName('button'));    
+/* --------------------------------- PUBLISHER/SUBSCRIBER MODEL ------------ */
+
+/*  
+The Publisher/Subscriber or Observer Pattern is a way to alert different functions, files or classes of a change in state in a certain function. The functions being alerted as subscribers; the function doing the alerting is the publisher. It is possible to have multiple publishers and multiple subscribers. Most front end frameworls operate a publish/subscribe pattern at some stage. In React, it is known as 'state'.
+*/
+
+export const PUBSUB = {
+    // Topics object with hard-coded default topics
+    topics: {
+        validInput: [],
+        UserInput: [],
+        DataChange: [],
+    },
+
+    subscribe: function(message, callbackFunction) {
+        if (PUBSUB.topics.hasOwnProperty(message)) {
+             PUBSUB.topics.message.push(callbackFunction);
+            } else {
+                PUBSUB.topics.message = [callbackFunction];
+            }
+    },
+    publish: function(message, output) {
+        if (PUBSUB.topics.hasOwnProperty(message)){
+            PUBSUB.topics.message.forEach((subscriber) => { subscriber(output) });
+        } else {
+            throw 'No Such Subscribed Topic';
+        }
+    },
+    get getSubscriberList(message) {
+        if (PUBSUB.topics.hasOwnProperty(message)) {
+            return PUBSUB.topics.message;
+        } else {
+            throw 'No Such Subscribed Topic';
+        }
+    },
+    get getAllSubscriptions() {
+        for (topic in topics) {
+            return [`${topic}:${topics[topic]}`];
+        }
+    }
+}
+
+    
 document.addEventListener('DOMContentLoaded', () => {
+
+    const buttonList = Array.from(document.getElementsByTagName('button'));
     // console.log(numberButton);
 
     for (let i = 0; i < buttonList.length; i++) {
-        buttonList[i].addEventListener('click', getInput(this.value));
+        buttonList[i].addEventListener('click', getUserInput)
     }
-    // getInput
-/*
-    for (let button in operButton) {
-        operButton[button].addEventListener('click', getInput);
-    } */
-
-    // numString = "0";
-
-    // console.log(vNode1);
-    // console.log(vNode1.tagName);
-    // console.log(document.getElementById('app-root'));
-
-    // console.log(initHistVNode);
-    // Render VNodes
-    // mountVDOM(initHistNode, document.getElementById('appRoot'));
-    // mountVDOM(initEqDisp, document.getElementById('appRoot'));
-   
-
-});
-
-
+})
 // END OF DOCUMENT EVENT LISTENER
 
 /* -------------------------------------------------  INPUT HANDLERS ----- */
 
-function getInput(clickInput) {
+function getUserInput(userInput) {
     /** 
-     * @param {string} clickInput 
+     * @param {string} userInput 
      * 
      * Retrieves inputs from click events
      * **/
 
-    switch(clickInput) {
-        case '=':
-            // send to calc.js for processing by function
-            break;
-        case 'clear':
-            DATAMODEL.clearDisplay;
-           // PUBSUB.publish();
-            break;
-        default:
-            DATAMODEL.num(clickInput);
-            PUBSUB.publish()        // publish change in state
-            break;
-    }
-    
-    
- }
+    if (typeof userInput == 'String') {
 
+        switch(userInput) {
+            case '=':
+                // send to calc.js for processing by function
+                break;
+            case 'clear':
+               // DATAMODEL.clearDisplay;
+               PUBSUB.pubUserInput(userInput);
+               // Change this to pub sub
+                break;
+            default:
+                // DATAMODEL.num(clickInput); change this to pub sub
+                PUBSUB.pubUserInput(userInput)        // publish change in state
+                break;
+                }
+        } else {
+            try {
+                let stringUserInput = userInput.toString();
+                getUserInput(stringUserInput);
+            }
+            catch(error) {
+                console.log(error);
+                }
+            }
+
+ 
  function inputValidator(numInput, Operand) {
      /* 
      Validates inputs - no double operators, no multiple decimals etc.
@@ -119,28 +160,3 @@ render initial state for calculator - display 0 as single operand
         
 */
 
-/* --------------------------------- PUBLISHER/SUBSCRIBER MODEL ------------ */
-
-/*  
-The Publisher/Subscriber or Observer Pattern is a way to alert different functions, files or classes of a change in state in a certain function. The functions being alerted as subscribers; the function doing the alerting is the publisher. It is possible to have multiple publishers and multiple subscribers. Most front end frameworls operate a publish/subscribe pattern at some stage. In React, it is known as 'state'.
-*/
-
-const PUBSUB = {
-    changeNotification: [],
-    dataChangeNotification: [],     // list of functions
-    subscribe: function(callbackFunction) {
-        // subscribes a function to a
-        this.changeNotification.push(callbackFunction);
-    },
-    publish: function() {
-        this.changeNotification.forEach((changeNotification) => { changeNotification() });
-    },
-    subDataChange: function(callbackFunction) {
-        this.dataChangeNotification.push(callbackFunction);
-    },
-    pubDataChange: function(callbackFunction) {
-        this.dataChangeNotification.forEach((dataChangeNotification) => { dataChangeNotification(newString)});
-    }
-}
-
-export {PUBSUB};
