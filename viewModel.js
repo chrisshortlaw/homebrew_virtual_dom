@@ -2,7 +2,6 @@ import { DATAMODEL } from './calc.js'; // imports functions from calc.js
 // import * as vDom from './assets/viewModel/vDom.js';   // import vDOM functions
 
 
-
 /* 
 This viewModel will need to fulfil the following functions:
     - Event listener which listens for clicks/input and displays the inputs in a div on the display section
@@ -33,9 +32,14 @@ export const PUBSUB = {
         validInput: [],
         UserInput: [],
         DataChange: [],
+        ClearInput: [],
     },
 
     subscribe: function(message, callbackFunction) {
+        /**
+         * Sample Execution: PUBSUB.subscribe('UserInput', DATAMODEL.setUserInputString)
+         * Subscribe to UserInput channel
+         */
         if (PUBSUB.topics.hasOwnProperty(message)) {
              PUBSUB.topics.message.push(callbackFunction);
             } else {
@@ -43,6 +47,10 @@ export const PUBSUB = {
             }
     },
     publish: function(message, output) {
+        /**
+         * Sample: PUBSUB.publish('UserInput', '1')
+         * Publishes the string value one to 'UserInput' topic channel, value is an argument to each subscribing function.
+         */
         if (PUBSUB.topics.hasOwnProperty(message)){
             PUBSUB.topics.message.forEach((subscriber) => { subscriber(output) });
         } else {
@@ -67,11 +75,10 @@ export const PUBSUB = {
 document.addEventListener('DOMContentLoaded', () => {
 
     const buttonList = Array.from(document.getElementsByTagName('button'));
-    // console.log(numberButton);
-
     for (let i = 0; i < buttonList.length; i++) {
         buttonList[i].addEventListener('click', getUserInput)
     }
+    document.addEventListener('keypress', getUserInput)
 })
 // END OF DOCUMENT EVENT LISTENER
 
@@ -92,37 +99,24 @@ function getUserInput(userInput) {
                 break;
             case 'clear':
                // DATAMODEL.clearDisplay;
-               PUBSUB.pubUserInput(userInput);
+               PUBSUB.publish('ClearInput', '0');
                // Change this to pub sub
                 break;
             default:
                 // DATAMODEL.num(clickInput); change this to pub sub
-                PUBSUB.pubUserInput(userInput)        // publish change in state
+                PUBSUB.publish('UserInput', userInput)        // publish change in state
                 break;
                 }
-        } else {
-            try {
-                let stringUserInput = userInput.toString();
-                getUserInput(stringUserInput);
+    } else {
+        try {
+            let stringUserInput = userInput.toString();
+            getUserInput(stringUserInput);
+        }
+        catch(error) {
+            console.log(error);
             }
-            catch(error) {
-                console.log(error);
-                }
-            }
-
- 
- function inputValidator(numInput, Operand) {
-     /* 
-     Validates inputs - no double operators, no multiple decimals etc.
-     Uses regular expressions to evaluate inputs
-     Use if/else or case statement before calling upon displayInput()
-     */
-    const decimalRegex = /\./;
-    const numRegex = /\d/;
-    const operatorRegex = /\+|\-|\/|\*|\%/;
-    // numRegex.test(numString) - test string for
-    
- }
+        }
+}
 
 /* -------------------------  VIRTUAL DOM: Functions ----------- */
 
@@ -159,4 +153,3 @@ render initial state for calculator - display 0 as single operand
     consider using class
         
 */
-
