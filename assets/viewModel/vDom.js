@@ -12,7 +12,7 @@ const vDOM = {
      * Current Node is the Node that has been loaded and rendered by the vDOM
      */
 
-    currentNode: {},
+    currentNode: null,
 
     /**
      * @param {object} setCurrentNode;
@@ -63,7 +63,11 @@ const vDOM = {
      unmount: function(vnode) {
         vnode.el.parentNode.removeChild(vnode.el);
         },
-
+     /**
+      * 
+      * @param {object} n1 - object rendered with vDOM.h function 
+      * @param {object} n2 - object rendered with vDOM.h or .hNumNode function
+      */   
      patchText: function(n1, n2) {
         // takes two rendered objects with h
         // assigns the el key/value of n2 to be the same as n1 - n2 may replace n1
@@ -76,6 +80,7 @@ const vDOM = {
                 if (n2.props['text'] !== n1.props['text']) {
                     el.removeChild(n1.props['text']);
                     el.appendChild(document.createTextNode(n2.props['text']));
+                    this.setCurrentNode(n2);
                 } else {
                     continue;
                     // update this at a later stage
@@ -84,8 +89,13 @@ const vDOM = {
         },
 
     hNumNode: function(numText) {
-        const newNode = h('span', {}, {text: `${numText}`});
-        patchText(this.getCurrentNode, newNode);
+        const newNode = new h('span', {}, {text: `${numText}`});
+        if (!this.getCurrentNode) {
+            this.mountVDOM(newNode, document.getElementById('app-root'));
+        } else {
+            patchText(this.getCurrentNode, newNode);
+        }
+        
     }
 
 }
@@ -135,7 +145,7 @@ const vDOM = {
    }
 } */
 
-PUBSUB.subDataChange(VDOM.hNumNode);
+PUBSUB.subscribe('DataChange', vDOM.hNumNode);
 
 
 export {vDOM};
