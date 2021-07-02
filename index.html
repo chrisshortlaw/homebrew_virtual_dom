@@ -7,7 +7,7 @@
         <meta name="description" content="JSCalc">
         <meta name="author" content="Chris Short">
         <meta name="viewport" content="width=device-width">
-        <meta name='X-Content-Type-Options' value='nosniff'>
+        <!-- <meta name='X-Content-Type-Options' value='nosniff'> -->
 
 
         <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"> -->
@@ -35,10 +35,8 @@
 
         <div><span>= </span><span id="result">0</span></div> -->
         <div class="app-container" role="application">
-            <div id="calcBg">
-                <div id="app-root">
-                    
-                </div>
+            <div id="appMountPoint">
+                
             </div>
 
             <div class="button-container">
@@ -104,6 +102,10 @@
                         =
                        <!-- <i class="fas fa-divide"></i> -->
                     </button>
+                    <button class="op-button" id="clear" name="clear" value="clear">
+                        CL
+                       <!-- <i class="fas fa-divide"></i> -->
+                    </button>
 
                     
                 </div>
@@ -113,6 +115,6 @@
     </body>
 
 
-    <script src="./viewModel.js" type="text/javascript" defer ></script>
+    <script src=".\code\jscalc\monolith.js" type="text/javascript" defer ></script>
 
 </html>
