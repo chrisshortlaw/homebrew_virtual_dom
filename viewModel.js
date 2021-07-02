@@ -20,6 +20,40 @@ This viewModel will need to fulfil the following functions:
     - Dependency Inversion - Depend on abstractions, not concretions.
  */
 
+/* --------------------------------- INIT & LOAD STATES ------------------------------ */
+
+/**
+ * Function fires upon initial load - mounts initial vDOM and adds event listeners
+ */
+
+document.onreadystatechange(function () {
+    if (document.readyState === 'complete') {
+        init();
+    }
+})
+
+function init() {
+    //mount init State here
+
+    // Follow Mount - verify mount has loaded
+    const mountPoint = document.getElementById("");
+    mountPoint.onload = function () {
+        // Use a class attribute to add event listeners to part of the vDOM when they load
+        const elWithClickListeners = Array.from(document.getElementsByClassName('clickListener'));
+        const elWithKeyBListeners = Array.from(document.getElementsByClassName('keybListener'));
+        for (let i=0; i < elWithClickListeners.length; i++) {
+            elWithClickListeners[i].addEventListener('click', getUserInput(this.value));
+                }
+        for (let j=0; j < elWithKeyBListeners; j++) {
+            elWithKeyBListeners[j].addEventListener('keydown', getUserInput(this.value));
+                }
+
+    }
+    // add event listeners
+
+}
+
+
 
 /* --------------------------------- PUBLISHER/SUBSCRIBER MODEL ------------ */
 
@@ -36,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < buttonList.length; i++) {
         buttonList[i].addEventListener('click', getUserInput)
     }
-    document.addEventListener('keypress', getUserInput)
+    document.addEventListener('keydown', getUserInput)
 })
 // END OF DOCUMENT EVENT LISTENER
 
@@ -111,3 +145,15 @@ render initial state for calculator - display 0 as single operand
     consider using class
         
 */
+
+
+/* ----------------------------------------- STATE CHANGE --------------------------------------- */
+
+/* This needs to listen for changes to the DATA MODEL, extract that data, and prepare new vNodes for mounting */
+
+function createNewNode() {}
+
+PUBSUB.subscribe('dataChange', createNewNode())
+
+
+/* ----------------------------------------- END OF STATE CHANGE ------------------------------- */
