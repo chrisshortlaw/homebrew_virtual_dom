@@ -1,10 +1,7 @@
 import {PUBSUB} from './viewModel.js';
 
 const DATAMODEL = {
-                    // operand1: 0, 
-                    // operator: [], 
-                    // operand2: 0,
-                    numString: '0',  // String of inputs from DOM
+                    UserInputString: '0',  // String of inputs from DOM
                     calcData: [],   // holds 2 operands and 1 operator
                     /**
                      * @param {string} num
@@ -15,19 +12,9 @@ const DATAMODEL = {
                     get outputData() {
                         return DATAMODEL.calcData;
                     },
-                    get getNumString() {
-                        return DATAMODEL.numString;
+                    get getUserInputString() {
+                        return DATAMODEL.UserInputString;
                         },
-                    /** constructNumber: function(numString) {
-                        // DMValue is value of Object (i.e. operand1, operand2)
-                        // if (parseInt(numString) {
-                        //    DATAMODEL.calcData.push(numString);
-                        // } else {
-                        //    if (numString === ('+'||'-'||'/'||'*'||'%')) {
-                        //       DATAMODEL.operator = numString;
-                        //     }
-                        //  }
-                        }, **/
                     calcResult: function() {
                             // call function from calc.js to resolve function
                         },
@@ -40,28 +27,34 @@ const DATAMODEL = {
                             } 
                         },
                     clearLastEntry: function() {
-                        DATAMODEL.calcData.pop();
+                        return DATAMODEL.calcData.pop();
                         },
                     
                     /**
                      * @param {string} newString
                      */
-                    set setNumString(newString) {
-                            if (DATAMODEL.numString === '0') {
-                                DATAMODEL.numString = newString;
-                                PUBSUB.pubDataChange(DATAMODEL.getNumString);
+                    set setUserInputString(newString) {
+                            if (DATAMODEL.UserInputString === '0') {
+                                DATAMODEL.UserInputString = newString;
+                                return PUBSUB.publish('dataChange', DATAMODEL.getUserInputString);
                             } else {
-                                DATAMODEL.numString += newString;
-                                PUBSUB.pubDataChange(DATAMODEL.getNumString);
+                                DATAMODEL.UserInputString += newString;
+                                return PUBSUB.publish('dataChange', DATAMODEL.getUserInputString);
                             }
                         },
+                    set setResult(number) {
+                        this.result = toString(number);
+                        return PUBSUB.publish('resultChange', this.result);
+                    },
                     /**
                      * 
                      */
                     set clearDisplay() {
-                        DATAMODEL.numString = '0';
-                        PUBSUB.pubDataChange(DATAMODEL.getNumString)
+                        DATAMODEL.UserInputString = '0';
+                        return PUBSUB.publish('dataChange', DATAMODEL.getUserInputString);
                         },
+                    
+                    
     }
 
 // Insert function to enforce Number type, throwing errors where applicable, and passing correct values to appropriate function
@@ -131,6 +124,61 @@ function squareroot(operand){
     return x;
 }
 
-PUBSUB.subscribe(DATAMODEl.setNumString);
+// Turn this into object later
+/* -----------------------------  INPUT VALIDATION --------------------------------- */
+function inputValidator(input, currentString) {
+    /* 
+    Validates inputs - no double operators, no multiple decimals etc.
+    Uses regular expressions to evaluate inputs
+    Use if/else or case statement before calling upon displayInput()
+    */
+   const decimal = /(\d+\.\d+)|(\.\d+)/;
+   const notNumeral = /\D|\W/;
+   const operator = /\+|\-|\/|\*|\%/;
+   const validInputs = /(?<digit>\d)|(?<decimal>\.)|(?<operator>\+|\-|\/|\*|\%)/
+   const digitInput = /\d/;
+   const decimalInput = /\./;
+   const operatorInput = /[+*-/]/;
 
-export {addition, division, subtraction, multiplication, DATAMODEL, expressionParser};
+   
+   // const arithExpInput = /(\d+)\s*([+*-/])\s*(\d+)/;
+   const arithExpInput = /^\d(?:\s[+*-/]\s\d)+$/
+
+
+   
+   if (digitInput.test(input)) {
+        PUBSUB.publish('validInput', input)
+   } else if (decimalInput.test(input)) {
+        if (decimal.test(currentString)) {
+            return alert('Invalid Decimal Point Entry');
+        } else {
+            return PUBSUB.publish('validInput', input)
+        }
+   } else if (operatorInput.test(input)) {
+        let currentExp = currentString.slice(-1);
+        if (operatorInput.test(currentExp)) {
+            return invalidInputCounter()
+        } else {
+            return PUBSUB.publish('validInput', input);
+        }
+   } else {
+        return invalidInputCounter();
+   }
+}
+
+let invalidInputCount = 0;
+
+function invalidInputCounter() {
+    if (invalidInputCount > 3){
+        alert ('Multiple Invalid Inputs. Only numerals and arithmetic operators permitted. Double operators and decimal points are not permitted.');
+    } else {
+        invalidInputCount++;
+    } 
+}
+
+
+
+PUBSUB.subscribe('UserInput', inputValidator)
+PUBSUB.subscribe('validInput', DATAMODEl.setUserInputString);
+
+export {addition, division, subtraction, multiplication, DATAMODEL, expressionParser, inputValidator, invalidInputCounter, invalidInputCount};
