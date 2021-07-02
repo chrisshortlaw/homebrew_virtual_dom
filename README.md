@@ -428,11 +428,19 @@ We run this through our mount function, using 'vnode' as shorthand for our objec
         <span id='operand1'>0</span>
         ```
 
-##### State Reactivity
+##### State & Reaction
 
-State reactivity is the next part of our virtual DOM. It observes for changes in state and takes steps as necessary.
+The ability to maintain, update and recall state is an important part of any User Interface and Experience. Most front-end libraries have a state-management library: React integrates tightly with Redux, Vue.js uses vuex. State management allows for the *encapsulation* of the underlying data or dat-model as well as ensuring the user-interface changes and updates along with said underlying data.
 
-The first thing needed for state reactivity is an observer function. This follows the observer (or Pub/Sub) design pattern where a a function subscribes to another function and then that function notifies those functions when an event fires.
+It does this in two ways: it holds the data as an object (we shall call it a 'state object'), updating and altering this object as necessary, and it deploys a publish/subscribe pattern to alert other elements (the render functions in the vDOm, the vDOM itself etc.) of any such changes or updates. A useful animation and explanation can be found in vue.js' [documentation](https://vuejs.org/v2/guide/reactivity.html).
+
+The Data Object is, as the name states, a Javascript object (or version thereof, Redux is written Typescript). In vuex, this object is an instance of a class which is defined by the user of the library. The class uses Object.defineProperty() to define a series of getters/setters on the object which relate to the default properties of the class. This permits encapsulation of data (getters and setters will be how outside functions interface with the properties of the object).
+
+Each of these getters & setters will have a publish or subscribe function attached to them. This segues to the next part of the state management system: publish/subscribe. Publish/Subscribe is a variation on the Observer pattern and both names make plain their purpose. An object acts as an intermediary, gathering up those functions or objects depend on the data-model or need be apprised of changes to it, and listening for such changes in the Data-Model. Upon such changes, the intermediary broadcasts these changes to the relevant functions. This is usally done via a series of channels.
+
+For example, a publish/subscribe class has two methods: subscribe and publish (naturally). Subscribe takes two arguments: a topic (a string) and an array. The array is comprised of several functions ('subscribers'). Publish also takes two arguments: a topic and a value. Upon calling the publish function, the value is sent to each of the subscribers to the particular topic which was listed.
+
+This intermediary process grants us two advantages: encapsulation of data and a central place where we can see which functions are subscribing to which channel. The decoupling of the publisher from the subscribers allows each function to scale independently of one another. It also permits asynchronous updating.
 
 The below is an adaptation of the observer pattern from an article by [Devan Patel](https://www.digitalocean.com/community/conceptual_articles/observer-design-pattern-in-javascript).
 
