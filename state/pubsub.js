@@ -98,6 +98,4 @@ export class PublishSubscribe {
             this.topics.topic = subList;
         }
     }
-
-
 }

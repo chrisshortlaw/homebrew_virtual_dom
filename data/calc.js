@@ -1,61 +1,5 @@
-import {PUBSUB} from './viewModel.js';
+import {PUBSUB} from '../viewModel.js';
 
-const DATAMODEL = {
-                    UserInputString: '0',  // String of inputs from DOM
-                    calcData: [],   // holds 2 operands and 1 operator
-                    /**
-                     * @param {string} num
-                     */
-                    get number(num) {
-                        parseFloat(num);
-                    },
-                    get outputData() {
-                        return DATAMODEL.calcData;
-                    },
-                    get getUserInputString() {
-                        return DATAMODEL.UserInputString;
-                        },
-                    calcResult: function() {
-                            // call function from calc.js to resolve function
-                        },
-                    clearData: function() {
-                            for (data in DATAMODEL.calcData) {
-                                DATAMODEL.calcData[data].pop();
-                            }
-                            for (op in DATAMODEL.operator) {
-                                DATAMODEL.operator[op].pop();
-                            } 
-                        },
-                    clearLastEntry: function() {
-                        return DATAMODEL.calcData.pop();
-                        },
-                    
-                    /**
-                     * @param {string} newString
-                     */
-                    set setUserInputString(newString) {
-                            if (DATAMODEL.UserInputString === '0') {
-                                DATAMODEL.UserInputString = newString;
-                                return PUBSUB.publish('dataChange', DATAMODEL.getUserInputString);
-                            } else {
-                                DATAMODEL.UserInputString += newString;
-                                return PUBSUB.publish('dataChange', DATAMODEL.getUserInputString);
-                            }
-                        },
-                    set setResult(number) {
-                        this.result = toString(number);
-                        return PUBSUB.publish('resultChange', this.result);
-                    },
-                    /**
-                     * 
-                     */
-                    set clearDisplay() {
-                        DATAMODEL.UserInputString = '0';
-                        return PUBSUB.publish('dataChange', DATAMODEL.getUserInputString);
-                        },
-                    
-                    
-    }
 
 // Insert function to enforce Number type, throwing errors where applicable, and passing correct values to appropriate function
 
@@ -162,17 +106,17 @@ function inputValidator(input, currentString) {
             return PUBSUB.publish('validInput', input);
         }
    } else {
-        return invalidInputCounter();
+        return invalidInputCounter(invalidInputCount);
    }
 }
 
 let invalidInputCount = 0;
 
-function invalidInputCounter() {
-    if (invalidInputCount > 3){
-        alert ('Multiple Invalid Inputs. Only numerals and arithmetic operators permitted. Double operators and decimal points are not permitted.');
+function invalidInputCounter(inputCount) {
+    if (inputCount > 3){
+        return alert ('Multiple Invalid Inputs. Only numerals and arithmetic operators permitted. Double operators and decimal points are not permitted.');
     } else {
-        invalidInputCount++;
+        return inputCount++;
     } 
 }
 

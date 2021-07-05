@@ -1,6 +1,6 @@
 #!javascript
 import {expressionParser} from './calc.js';
-import {PUBSUB} from './viewModel.js';
+import {PUBSUB} from '../viewModel.js';
 
 /**
  * DATAMODEL holds the DATA and will interact exclusively with inputValidator, State and calc.js. It will hold data, transmit and retrieve it from calc.js
