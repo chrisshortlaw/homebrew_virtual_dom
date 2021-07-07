@@ -1,5 +1,3 @@
-import {PUBSUB} from '../viewModel.js';
-
 
 // Insert function to enforce Number type, throwing errors where applicable, and passing correct values to appropriate function
 
@@ -68,61 +66,5 @@ function squareroot(operand){
     return x;
 }
 
-// Turn this into object later
-/* -----------------------------  INPUT VALIDATION --------------------------------- */
-function inputValidator(input, currentString) {
-    /* 
-    Validates inputs - no double operators, no multiple decimals etc.
-    Uses regular expressions to evaluate inputs
-    Use if/else or case statement before calling upon displayInput()
-    */
-   const decimal = /(\d+\.\d+)|(\.\d+)/;
-   const notNumeral = /\D|\W/;
-   const operator = /\+|\-|\/|\*|\%/;
-   const validInputs = /(?<digit>\d)|(?<decimal>\.)|(?<operator>\+|\-|\/|\*|\%)/
-   const digitInput = /\d/;
-   const decimalInput = /\./;
-   const operatorInput = /[+*-/]/;
 
-   
-   // const arithExpInput = /(\d+)\s*([+*-/])\s*(\d+)/;
-   const arithExpInput = /^\d(?:\s[+*-/]\s\d)+$/
-
-
-   
-   if (digitInput.test(input)) {
-        PUBSUB.publish('validInput', input)
-   } else if (decimalInput.test(input)) {
-        if (decimal.test(currentString)) {
-            return alert('Invalid Decimal Point Entry');
-        } else {
-            return PUBSUB.publish('validInput', input)
-        }
-   } else if (operatorInput.test(input)) {
-        let currentExp = currentString.slice(-1);
-        if (operatorInput.test(currentExp)) {
-            return invalidInputCounter()
-        } else {
-            return PUBSUB.publish('validInput', input);
-        }
-   } else {
-        return invalidInputCounter(invalidInputCount);
-   }
-}
-
-let invalidInputCount = 0;
-
-function invalidInputCounter(inputCount) {
-    if (inputCount > 3){
-        return alert ('Multiple Invalid Inputs. Only numerals and arithmetic operators permitted. Double operators and decimal points are not permitted.');
-    } else {
-        return inputCount++;
-    } 
-}
-
-
-
-PUBSUB.subscribe('UserInput', inputValidator)
-PUBSUB.subscribe('validInput', DATAMODEl.setUserInputString);
-
-export {addition, division, subtraction, multiplication, DATAMODEL, expressionParser, inputValidator, invalidInputCounter, invalidInputCount};
+export {addition, division, subtraction, multiplication, expressionParser};
