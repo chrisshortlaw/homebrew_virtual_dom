@@ -1,9 +1,13 @@
 
 // Insert function to enforce Number type, throwing errors where applicable, and passing correct values to appropriate function
-
+/**
+ * Function that will use regular expressions to parse out input expressions and calculate them in accordance with BODMAS. This will use regular expressions to achieve this task.
+ * As a temporary measure, eval is being used here. This is less risky as only user input which has been deemed valid will be passed to eval.
+ * @param {String} exprString 
+ * @returns String with result
+ */
 function expressionParser(exprString) {
 
-    /* Function that will use regular expressions to parse out input expressions and calculate them in accordance with BODMAS. This will use regular expressions to achieve this task. */
     return eval(exprString);
 }
 
@@ -31,16 +35,15 @@ function addition(left, right) {
 function subtraction(left, right) {
     // Subtracts two numbers.
     // Adhering to D.R.Y. principles, this inverts the right number to a negative and the updated right number and left number to the addition function
-    right = right * -1;
-    addition(left, right);
+    let newRight = multiplication(right, -1);
+    return addition(left, newRight);
 
 }
 
 function multiplication(left, right) {
 
-    let result = Number;
+    let result;
     result = left * right;
-    console.log(result);
     return result;
 
 }
@@ -48,17 +51,17 @@ function multiplication(left, right) {
 
 function division(left, right) {
 
-    right = (1/right);
-    multiplication(left, right);
+    let newRight = (1/right);
+    return multiplication(left, newRight);
 
 }
 
-function squareroot(operand){
+function squareroot(num){
 
     let x = num;
     let y = 1;
 
-    e = 0.01;
+    let e = 0.000001;
     while((x - y) > e) {
         x = (x + y)/2;
         y = num/x;
@@ -67,4 +70,4 @@ function squareroot(operand){
 }
 
 
-export {addition, division, subtraction, multiplication, expressionParser};
+export {addition, division, subtraction, multiplication, squareroot, expressionParser};
