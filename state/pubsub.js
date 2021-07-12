@@ -2,58 +2,97 @@
 
 /* --------------------------------- PUBLISHER/SUBSCRIBER MODEL ------------ */
 
-/*  
-The Publisher/Subscriber or Observer Pattern is a way to alert different functions, files or classes of a change in state in a certain function. The functions being alerted as subscribers; the function doing the alerting is the publisher. It is possible to have multiple publishers and multiple subscribers. Most front end frameworls operate a publish/subscribe pattern at some stage. In React, it is known as 'state'.
-*/
 
-/**Create Class for Publish-Subscribe Pattern */
+/**
+ * The Publisher/Subscriber or Observer Pattern is a way to alert different functions, files or classes of a change in state in a certain function. The functions being alerted as subscribers; the function doing the alerting is the publisher. It is possible to have multiple publishers and multiple subscribers. Most front end frameworks operate a publish/subscribe pattern as part of their state management.
+ * 
+ * 
+ * */
 
 
 
 export class PublishSubscribe {
     /**
      * 
-     * @param {[Array]} topic; 
+     * @param {Array} topic Array of strings denoting topics to subscribe to 
      */
     constructor(topic) {
-        this.topics[topic] = topic.forEach(element => {element : []})
+        
+
+        if (Array.isArray(topic)){
+            topic.forEach(element => {
+                this[element] = [];
+                });
+             
+        } else {
+            throw 'PublishSubscribe Constructor takes array as argument. Topics not loaded.';
+        }
+
+        this.topicList = this.topicList.bind(this);
+        //this.topics = this.topics.bind(this);
+        this.subscribe = this.subscribe.bind(this);
+        this.publish = this.publish.bind(this);
+        this.getSubscriberList = this.getSubscriberList.bind(this);
+        this.unsubscribe = this.unsubscribe.bind(this);
+        this.addTopic = this.addTopic.bind(this);
+        
     }
     //Getters
     // List of Topics
-    get topicList() {
-        const topicList = this.topics;
-        for (topic in topicList) {
-            return (`${topic}`)
-        }
+    topicList() {
+        //let list_of_topics = [];
+        /*for (let key in Object.keys(this.topics)) {
+                list_of_topics.push(`${key}`); */
+        let topicList = [];
+        let propList = Object.keys(this);
+        propList.forEach(prop => {
+            if (Array.isArray(this[prop])) {
+                topicList.push(prop);
+            }
+        })
+        return topicList;
     }
 
-    get getSubscriberList(message) {
-        if (this.topics.hasOwnProperty(message)) {
-            return this.topics.message;
-        } else {
-            throw 'No Such Subscribed Topic';
-        }
-    }
+        //return Object.entries(this);
+    
 
-    get allSubscriptions() {
-        for (topic in topics) {
-            return (`${topic}:${topicList[topic]}`);
-        }
+    /**
+     * Returns all topics and subscribers
+     * Returns array of strings
+     */
+    allSubscriptions() {
+        const subList = [];
+        this.topicList.forEach((topic) =>{subList.push(this[topic])});
+        
+        return subList;
     }
 
 
     //Setters
     /**
-     * @param {String} entry name of prop for topics obj; all props are arrays;
+     * @param {string} entry name of prop for topics obj; all props are arrays;
+     * 
+     * @returns Property with a getter and setter; getter returns an array; setter pushes to array
      */
 
-    set addTopic(entry) {
-        this.topics[entry] = [];
-    }
+    addTopic(entry) {
+        
+        Object.defineProperty(this, entry, {
+            value: [],
+            writable: true,
+            });
+             
+           
+            }   
+        // use Object.define prop and have getters and setters
+        
+        
+    
 
     //Methods
     /**
-     * 
+     * Subscribes to a topic with a callback Function
+     * Takes arguments (topic, callBackFunction)
      * @param {String} topic 
      * @param {Function} callbackFunction 
      */
@@ -61,9 +100,10 @@ export class PublishSubscribe {
         /**
          * Sample Execution: PUBSUB.subscribe('UserInput', DATAMODEL.setUserInputString)
          * Subscribe to UserInput channel
+         * FIX ME!!!
          */
-        if (this.topics.hasOwnProperty(topic)) {
-             this.topics.topic.push(callbackFunction);
+        if (Object.prototype.hasOwnProperty.call(this, topic)) {
+             this[topic].push(callbackFunction);
             } else {
                 throw 'No Such Subscription Created';
             }
@@ -77,16 +117,19 @@ export class PublishSubscribe {
         /**
          * Sample: PUBSUB.publish('UserInput', '1')
          * Publishes the string value one to 'UserInput' topic channel, value is an argument to each subscribing function.
+         * 
+         * 
+         * FIX ME!!! USE GETTERS
          */
-        if (this.topics.hasOwnProperty(topic)){
-            this.topics.topic.forEach((subscriber) => { subscriber(output) });
+        if (Object.prototype.hasOwnProperty.call(this, topic)){
+            this[topic].forEach((subscriber) => { subscriber(output) });
         } else {
             throw 'No Such Subscribed Topic';
         }
     }
 
      /**
-     * 
+     * NEEDS FIXING
      * @param {String} topic 
      * @param {Function} callbackFunction 
      */
@@ -96,6 +139,19 @@ export class PublishSubscribe {
         if (functionIndex != -1) {
             subList.splice(functionIndex, 1);
             this.topics.topic = subList;
+        }
+    }
+    /**
+     * NEEDS FIXING
+     * Gets a List of subscribers to a topic
+     * @param {string} message string topic to which functions have subscribed
+     * Returns an array comprised of functions
+     */
+    getSubscriberList(topic) {
+        if (Object.prototype.hasOwnProperty(this.topics, topic)) {
+            return this.topics[topic];
+        } else {
+            throw 'No Such Subscribed Topic';
         }
     }
 }
