@@ -56,11 +56,13 @@ export class StateManager {
                 Object.freeze(oldState);
                 this._history.push(oldState);
                 this.notifyStateUpdate()
+            } else {
+                alert ('Argument must be an Object');
             }
         }
 
         resetState(){
-            this.setState(this.getInitState);
+            this.setState(this.getInitState());
             this.notifyStateUpdate();
         }
 
