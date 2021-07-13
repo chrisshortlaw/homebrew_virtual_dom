@@ -95,7 +95,23 @@ function testGetState(testObj, stateData){
     console.assert(compareStates(returnedState, stateData), 'GetState Failed: States are not equal');
 }
 
-function testResetState(){
+function testResetState(testObj) {
+
+    const resetStateObj = new StateManager(testObj);
+
+    let oldState = resetStateObj.getState();
+
+    let initialState = resetStateObj.getInitState();
+
+    resetStateObj.resetState();
+
+    let currState = resetStateObj.getState();
+
+    console.log(currState);
+    console.log(initialState);
+
+    console.assert(compareStates(oldState, currState), 'Reset State Success: Objects are not the same');
+    console.assert(compareStates(currState, initialState), 'Reset State Fail: Init State and Current State are not equal');
 
 }
 
@@ -106,4 +122,7 @@ testSetState(data_test_obj, stateChangeObj);
 /* Working as of 13/7/21 */
 
 testGetState(data_test_obj, test_state_data);
+/* Working as of 13/7/21 */
+
+testResetState(data_test_obj);
 /* Working as of 13/7/21 */
