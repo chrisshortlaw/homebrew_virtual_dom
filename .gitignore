@@ -2,3 +2,5 @@ workspace.code-workspace
 node_modules
 package-lock.json
 localserver.js
+package.json
+monolith.js
