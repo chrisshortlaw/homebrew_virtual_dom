@@ -2,7 +2,9 @@
 
 This project will showcase a single-page app using html, css, and javascript to provide for interactive elements.
 
-The single-page app will be a graphing calculator which will be able to evaluate functions as well as draw graphs of those functions where required.
+The single-page app will be a calculator which will be able to evaluate functions and perform arithmetic.
+
+This app will be built upon a custom library, built by the author, which will manipulate a virtual DOM a la React & Vue.
 
 The project itself will deploy a model-view-controller design pattern, separating the logic from the user input and the view aspects.
 
@@ -118,7 +120,17 @@ Because we anticipate we shall need to scale our app, we should implement an app
 
 If we think about the user interface many modern calculators possess, it has a display and a set of physical buttons. The physical buttons can be depressed and the display shows those inputs to the user. In certain contexts (such as pressing an enter or equals button) the display will show the user the upshot of an expression. Users therefore expect a responsive user interface which will show them the inputs they enter. They will also expect more feedback when there inputs are invalid. An example of an invalid input would be multiple decimal points or successive, double operators. One method would be to check their validity and disregard the invalid input. The app should also be able to display the inputs dynamically, like a calculator displays numbers and operators following each button press.
 
-To achieve this, the 'Model'-'View'-'ViewModel' design pattern will be adopted. This splits the responsibility for the data processing to the 'Model', the general presentation and style to the 'View' and the mediation between the the aforementioned VIew and Model to the View-Model. In this case, the Model will hold the mathematical functions, api calls (if any), expression evaluations, and arrays (stack). The View-Model is charged with validating inputs, and managing the data bindings. The View-Model will also manage and render the VirtualDOM. Finally, the View will be our static HTML & CSS. The View will be manipulated by the ViewModel.
+To achieve this, the 'Model'-'View'-'Controller' design pattern will be adopted. This splits the responsibility for the data processing to the 'Model', the general presentation and style to the 'View' and the mediation between the the aforementioned View and Model to the Controller. In this case, the Model will hold the mathematical functions, api calls (if any), expression evaluations,arrays (stack), and the core data for the app. The Controller is charged with validating inputs, and managing the state. The View will  manage and render the VirtualDOM as well as hold our static HTML & CSS. The View will be manipulated by the Controller.
+
+#### The Underlying Structure
+
+When building this app, my intention was to get to grips with the Virtual-Dom and the problems it solves. I started out by reading the documentation of some of the better known front -end libraries: React and Vue.js. Yet, I found the terminology confounding at times, even if the documentation was otherwise very well written. A desire to overcome my diffidence pushed me to try an write my own (cut-down) versions of what they were doing. This diversion quickly became a rabbit-hole but the more I wrote, the more I understood and the more I began to see the underlying logic and simplicity of each library. At some point, I had written enough that it could qualify as my own front-end library, albeit a rudimentary one.
+
+Most apps are straightforward when decomposed. They consist of data and a way of presenting that data: 'Hello World' with pretensions. A wrinkle comes about when your presentation and the form of data is not one-to-one. At that stage, an intermediary is introduced to handle the data and transform it to something presentable. And thus we have our three part app. Below, I shall outline how I understand this and how I understand the approaches taken by React and Vue.js.
+
+At this point, I should state that I was greatly assisted by a volume of work by other developers in this area. In particular, the [Preact](), [PubSub.js](), and [Mozart]() by Tom Cully all provided insight and assistance into how these systems work. In particular, the effectiveness and simplicity of their code belies the clever decisions and approaches each of those projects deployed.
+
+[INSERT MORE HERE]
 
 #### _VirtualDOM_
 
@@ -366,7 +378,7 @@ Where *components* are functions that take data as parameters and create parts o
 
 Turning to the present app, I propose to start very simply with four components: An 'operand-1' component, an 'operand-2', 'operator' component and a 'result' component. Each of these shall have a single prop which shall be a string. For operand1 and operand2, these shall be numbers (either integers or floats), the operator will be a series of symbols or a string (i.e exponent, squareroot etc.). The prop attached to result shall also be a number, either an integer (where both numbers are integers) or a float.
 
-A sample of what our component will look like:
+A sample of what our component might look like:
 
     ```javascript
     function operand1(tagName = 'span', attrs = {id: 'operand1'}, props = {value: 0, text: `${this.value}`})  {
@@ -432,15 +444,21 @@ We run this through our mount function, using 'vnode' as shorthand for our objec
 
 The ability to maintain, update and recall state is an important part of any User Interface and Experience. Most front-end libraries have a state-management library: React integrates tightly with Redux, Vue.js uses vuex. State management allows for the *encapsulation* of the underlying data or dat-model as well as ensuring the user-interface changes and updates along with said underlying data.
 
-It does this in two ways: it holds the data as an object (we shall call it a 'state object'), updating and altering this object as necessary, and it deploys a publish/subscribe pattern to alert other elements (the render functions in the vDOm, the vDOM itself etc.) of any such changes or updates. A useful animation and explanation can be found in vue.js' [documentation](https://vuejs.org/v2/guide/reactivity.html).
+It does this in two ways: it holds the data as an object (we shall call it a 'state manager'), updating and altering this object as necessary, and it deploys a publish/subscribe pattern to alert other elements (the render functions in the vDOm, the vDOM itself etc.) of any such changes or updates. A useful animation and explanation can be found in vue.js' [documentation](https://vuejs.org/v2/guide/reactivity.html).
 
-The Data Object is, as the name states, a Javascript object (or version thereof, Redux is written Typescript). In vuex, this object is an instance of a class which is defined by the user of the library. The class uses Object.defineProperty() to define a series of getters/setters on the object which relate to the default properties of the class. This permits encapsulation of data (getters and setters will be how outside functions interface with the properties of the object).
+The State Manager is a Javascript object (or version thereof, Redux is written Typescript). In vuex, this object is an instance of a class which is defined by the user of the library. The class uses Object.defineProperty() to define a series of getters/setters on the object which relate to the default properties of the class. This permits encapsulation of data (getters and setters will be how outside functions interface with the properties of the object).
+
+##### Publish/Subscribe
 
 Each of these getters & setters will have a publish or subscribe function attached to them. This segues to the next part of the state management system: publish/subscribe. Publish/Subscribe is a variation on the Observer pattern and both names make plain their purpose. An object acts as an intermediary, gathering up those functions or objects depend on the data-model or need be apprised of changes to it, and listening for such changes in the Data-Model. Upon such changes, the intermediary broadcasts these changes to the relevant functions. This is usally done via a series of channels.
 
 For example, a publish/subscribe class has two methods: subscribe and publish (naturally). Subscribe takes two arguments: a topic (a string) and an array. The array is comprised of several functions ('subscribers'). Publish also takes two arguments: a topic and a value. Upon calling the publish function, the value is sent to each of the subscribers to the particular topic which was listed.
 
 This intermediary process grants us two advantages: encapsulation of data and a central place where we can see which functions are subscribing to which channel. The decoupling of the publisher from the subscribers allows each function to scale independently of one another. It also permits asynchronous updating.
+
+An variation of this approach is deployed using the store pattern. This approach is outlined in an article [here](https://dev.to/bnevilleoneill/state-management-pattern-in-javascript-sharing-data-across-components-2gkj)*
+
+*(The ostensible author, Bryan Neville-O'Neill,  states that he did not write the article but I was unable to ascertain the true author. For the sake of veracity, I include the link but do not credit an author in the body.)
 
 The below is an adaptation of the observer pattern from an article by [Devan Patel](https://www.digitalocean.com/community/conceptual_articles/observer-design-pattern-in-javascript).
 
@@ -481,6 +499,12 @@ The below is an adaptation of the observer pattern from an article by [Devan Pat
     }
     ```
 We could also use jQuery .on() events in place of an observer pattern. This might be a simpler implementation.
+
+#### Model/DATA
+
+The VirtualDOM, its components and props, form what will be painted to the browser. In turn, this receives props from the State Manager communicated via our PublishSubscribe instance. The State Manager will in turn, receives inputs from an instance of our Model Class.
+
+In making this class, I have, for now, required it be linked to an instance of the PublishSubscribe class. This makes this part of the library opinionated, even though PublishSubscribe only loosely couples classes and instances. I will freely admit this,
 
 ### Skeleton
 
@@ -570,32 +594,32 @@ You will need to install Git. Google how to do this, it is not hard. If it is, u
 
 Having installed Git, we are going to use the command line, Git BASH, to initialise it. We could use the GUI but using the command line makes you feel you are smart and more efficient, even when you type 18 words-per-minute with lots of typos. Git Bash for the uninitiated is the shell that Git uses. Depending on your operating system, you might have another shell installed such as Microsoft's Powershell if you are using the Windows operating system or Terminal if you use a Mac. A shell is a program that processes text commands. Sometimes you will also hear this referred to as the command line. The command line is the line in which you input text commands to the shell. Using Git BASH, you will see a command line that resembles this:
 
-```bash
-{username}@{computername} MINGW64 /c/code/jscalc
-$
-```
+    ```bash
+    {username}@{computername} MINGW64 /c/code/jscalc
+    $
+    ```
 
 The username will be your username (could be admin or your name) and your computer name. The 'MINGW64' above is the name of a programme which allows Git BASH to run on Microsoft Windows. You may have something different if you use a different operating system. After that, the path of the current working directory (CWD) is shown. In this case it is a folder called 'jscalc' (name of the project), which is located in a folder called 'code' which in turn is located at the top level of the C: drive. In Unix based systems, there is no distinction between drives and folders, so the address will resemble something like '/home/code/jscalc'.
 
 From the shell, navigate to your project folder. To do this, you should use the command:
 
-```bash
-cd <insert name of folder here>
-```
+    ```bash
+    cd <insert name of folder here>
+    ```
 
 Here 'cd' stands for 'change directory' and directory is another name for a folder. If you have not made a project folder, you can make one by navigating to where you would like to place your new folder and using the following command:
 
-```bash
-mkdir <insert name of folder here>
-```
+    ```bash
+    mkdir <insert name of folder here>
+    ```
 
 This commands make a directory/folder bearing the name you gave it.
 
 Having made that directory, navigate into the directory with the shell (use 'cd' as outlined above) and type the following command:
 
-```bash
-git init
-```
+    ```bash
+    git init
+    ```
 
 This initialises Git. Note the lower-case, capitalisation will matter in shells such as BASH but may not matter as much in Powershell. For simplicity's sake, use lower-case and name all your files and directories in lower-case.
 
@@ -603,37 +627,37 @@ This initialises Git. Note the lower-case, capitalisation will matter in shells 
 
 Git has been initialised. In doing so, you told the Git programme to create a series of files in your desired directory. These files will allow git to track your project. Now, it needs files to track. To tell Git to track files, enter the following command in bash:
 
-```bash
-git add <name of file>
-```
+    ```bash
+    git add <name of file>
+    ```
 
 If you do not have a file in there yet, use the following:
 
-```bash
-touch README
-```
+    ```bash
+    touch README
+    ```
 
 This will create a simple text file. On a windows OS, you might want to add a '.txt' or a '.md'. On a *Nix based OS, such as Mac OS, these are less important.
 
 Git is now tracking this file. To check if this is the case, while in the folder that you initialised git in, use the command:
 
-```bash
-git status
-```
+    ```bash
+    git status
+    ```
 
 You should see something like this:
 
-```bash
-On branch master
-Changes to be committed:
-  (use "git restore --staged <file>..." to unstage)
-        modified:   README.md
+    ```bash
+    On branch master
+    Changes to be committed:
+    (use "git restore --staged <file>..." to unstage)
+            modified:   README.md
 
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-        modified:   viewModel.js
-```
+    Changes not staged for commit:
+    (use "git add <file>..." to update what will be committed)
+    (use "git restore <file>..." to discard changes in working directory)
+            modified:   viewModel.js
+    ```
 
 Git status provides you with useful information. Starting at the top, you will see output telling you which branch (more on this later) you are on. In this case, I am on 'branch master'. This can sometimes be called branch 'origin' or 'origin/master'. The names do not matter much save that these branches tell you this is the original branch.
 
@@ -645,9 +669,9 @@ Commits are snapshots of a file or files at a point in time. They are what allow
 
 All commits should be accompanied with a message. This message should give a succinct description of the changes the commit introduces or a conventional description. For example, the first commit of a file it is conventionally acceptable to write the message 'Initial Commit'. To make a commit, type:
 
-```bash
-git commit -m <insert message here>
-```
+    ```bash
+    git commit -m <insert message here>
+    ```
 
 This commits the changes you added along with the message you entered.
 
@@ -657,15 +681,15 @@ Git remotes are versions of a project which can be found on another machine - wh
 
 Remotes will automatically appear when a project is cloned. Cloning a project makes a copy of it on your local machine. To clone a project, type:
 
-```bash
-git clone <insert project url>
-```
+    ```bash
+    git clone <insert project url>
+    ```
 
 Having cloned this project, you now have a remote located in the directory you were in when you typed the command. If you want to put your cloned repository somewhere other than your current working directory you could type:
 
-```bash
-git clone <insert project url> my-cloned-project
-```
+    ```bash
+    git clone <insert project url> my-cloned-project
+    ```
 
 This will clone the project into a folder called 'my-cloned-project' which will be located in the current working directory.
 
@@ -679,11 +703,11 @@ The next thing to do is create a new repository. The easiest way to do this is t
 
 Now your repository has a name, it needs files. To upload files from an existing repository, type the following commands:
 
-```bash
-git remote add origin <insert github url here>
-git branch -M main
-git push -u origin main
-```
+    ```bash
+    git remote add origin <insert github url here>
+    git branch -M main
+    git push -u origin main
+    ```
 
 If you want to create a repository on your computer, follow the instructions above regarding creating files and using git add ([Git Add](#Adding files to Git)). Then type the commands immediately above.
 
@@ -695,9 +719,9 @@ Branch takes a snapshot of your code and splits its timeline from the originatin
 
 To create a branch, type:
 
-```bash
-git branch <insert name of branch>
-```
+    ```bash
+    git branch <insert name of branch>
+    ```
 
 ### Deploying to Heroku
 
