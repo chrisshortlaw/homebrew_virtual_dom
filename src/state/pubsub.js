@@ -28,8 +28,9 @@ export class PublishSubscribe {
             throw 'PublishSubscribe Constructor takes array as argument. Topics not loaded.';
         }
 
+        this._isPubSubObj = true;
+
         this.topicList = this.topicList.bind(this);
-        //this.topics = this.topics.bind(this);
         this.subscribe = this.subscribe.bind(this);
         this.publish = this.publish.bind(this);
         this.getSubscriberList = this.getSubscriberList.bind(this);
@@ -40,16 +41,14 @@ export class PublishSubscribe {
     //Getters
     // List of Topics
     topicList() {
-        //let list_of_topics = [];
-        /*for (let key in Object.keys(this.topics)) {
-                list_of_topics.push(`${key}`); */
+        
         let topicList = [];
         let propList = Object.keys(this);
         propList.forEach(prop => {
             if (Array.isArray(this[prop])) {
                 topicList.push(prop);
             }
-        })
+        });
         return topicList;
     }
 
@@ -62,7 +61,7 @@ export class PublishSubscribe {
      */
     allSubscriptions() {
         const subList = [];
-        this.topicList.forEach((topic) =>{subList.push(this[topic])});
+        this.topicList.forEach((topic) =>{ subList.push(this[topic]); });
         
         return subList;
     }
@@ -80,6 +79,7 @@ export class PublishSubscribe {
         Object.defineProperty(this, entry, {
             value: [],
             writable: true,
+            enumerable: true,
             });
              
            
@@ -100,7 +100,7 @@ export class PublishSubscribe {
         /**
          * Sample Execution: PUBSUB.subscribe('UserInput', DATAMODEL.setUserInputString)
          * Subscribe to UserInput channel
-         * FIX ME!!!
+         * 
          */
         if (Object.prototype.hasOwnProperty.call(this, topic)) {
              this[topic].push(callbackFunction);
@@ -118,11 +118,9 @@ export class PublishSubscribe {
          * Sample: PUBSUB.publish('UserInput', '1')
          * Publishes the string value one to 'UserInput' topic channel, value is an argument to each subscribing function.
          * 
-         * 
-         * FIX ME!!! USE GETTERS
          */
         if (Object.prototype.hasOwnProperty.call(this, topic)){
-            this[topic].forEach((subscriber) => { subscriber(output) });
+            this[topic].forEach((subscriber) => { subscriber(output); });
         } else {
             throw 'No Such Subscribed Topic';
         }
@@ -142,7 +140,7 @@ export class PublishSubscribe {
         }
     }
     /**
-     * NEEDS FIXING
+     *
      * Gets a List of subscribers to a topic
      * @param {string} message string topic to which functions have subscribed
      * Returns an array comprised of functions
@@ -155,3 +153,18 @@ export class PublishSubscribe {
         }
     }
 }
+
+/*
+    JSHint Output:
+
+    Metrics:
+
+    There are 12 functions in this file.
+
+    Function with the largest signature take 2 arguments, while the median is 1.
+
+    Largest function has 9 statements in it, while the median is 3.
+
+    The most complex function has a cyclomatic complexity value of 2 while the median is 1.5.
+
+*/
