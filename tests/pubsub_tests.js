@@ -1,4 +1,4 @@
-import {PublishSubscribe} from '../state/pubsub.js';
+import {PublishSubscribe} from '../src/state/pubsub.js';
 import {testFunction, createResultObj, printResultConsole, makeResultList, testObjConstructor, testObjFunc} from './test_funcs.js';
 
 
@@ -57,11 +57,20 @@ function testPublish(testObj, topic, cnsl, value){
     testObj.publish(topic, value);
 }
 
+function testIsPubSubRef(testObj) {
+    const testKeys = Object.keys(testObj);
+
+    console.assert((testKeys.indexOf('_isPubSubObj')), 'PubSubRef Test FAIL: No "_isPubSubObj" property'); 
+        
+    console.assert(testObj._isPubSubObj, 'FAIL: isPubSub prop present but value set to false or null');
+}
+
 const observertest3 = new PublishSubscribe(['topic1']);
 const observertest4 = new PublishSubscribe(['topic1']);
 const observertest5 = new PublishSubscribe(['topic1']);
 const observertest6 = new PublishSubscribe(['topic1']);
 const observertest7 = new PublishSubscribe(['topic1']);
+const observertest8 = new PublishSubscribe(['topic1']);
 
 
 testObjconstructor();
@@ -71,10 +80,12 @@ testAddTopic(observertest3, 'Add Topic Failed');
 /* Apparently working */
 testTopicList(observertest4, 'Failed to create Array', 'Incorrect Number of Topics');
 
-testSubscribe(observertest5, 'topic1', console.log, 'Subscription Method Failed');
+testSubscribe(observertest5, 'topic1', console.log, 'TestSubscribe: Subscription Method Failed');
 /* Apparently Working */
-testPublish(observertest7, 'testTopic', console.log, 'This is a working test');
-testSubscribe(observertest6, 'topic2', console, 'You may not see this. Expect Error Thrown'); 
+testPublish(observertest7, 'testTopic', console.log, 'TestPublish: This is a working test');
+//testSubscribe(observertest6, 'topic2', console, 'You may not see this. Expect Error Thrown'); 
 // This test should fail and throw an internal error in the method.
+testIsPubSubRef(observertest8);
+/* Passed as of 14/7/21 */
 
 
