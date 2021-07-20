@@ -4,3 +4,5 @@ package-lock.json
 localserver.js
 package.json
 monolith.js
+scratch.js
+.gitignore
