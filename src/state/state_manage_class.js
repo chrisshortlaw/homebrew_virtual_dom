@@ -55,7 +55,7 @@ export class StateManager {
                 this._state = stateObj;
                 Object.freeze(oldState);
                 this._history.push(oldState);
-                this.notifyStateUpdate()
+                this.notifyStateUpdate();
             } else {
                 alert ('Argument must be an Object');
             }
@@ -67,7 +67,7 @@ export class StateManager {
         }
 
         getPrevState(){
-            let prevState = this._history[-1]
+            let prevState = this._history[-1];
             return prevState;
         }
         /**
@@ -109,3 +109,15 @@ export class StateManager {
 // StateObj for Each Component: Display Input, Result Input (Later Buttons etc.)
 // Subscribe to DATA
 // Publish to vDOM Render Functions
+
+/* 
+    JSHint:
+
+    There are 11 functions in this file.
+
+    Function with the largest signature take 2 arguments, while the median is 0.
+
+    Largest function has 11 statements in it, while the median is 2.
+
+    The most complex function has a cyclomatic complexity value of 4 while the median is 1.
+*/
