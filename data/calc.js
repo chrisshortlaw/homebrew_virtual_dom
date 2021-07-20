@@ -69,5 +69,34 @@ function squareroot(num){
     return x;
 }
 
+function fahrenheitToCelsius(num) {
+    return (multiplication(
+            subtraction(num, 32), division(5, 9)
+            )
+        );
+}
 
-export {addition, division, subtraction, multiplication, squareroot, expressionParser};
+function celsiusToFahrenheit(num) {
+    return (addition(
+            (multiplication(num, division(9, 5))
+                ), 32)
+            );
+}
+
+function celsiusToKelvin(num) {
+    return (addition(num, 273.15));
+}
+
+function fahrenheitToKelvin(num) {
+    return celsiusToKelvin(fahrenheitToCelsius(num));
+}
+
+function kelvinToCelsius(num) {
+    return (subtraction(273.15, num));
+}
+
+function kelvinToFahrenheit(num) {
+    return (celsiusToFahrenheit(kelvinToCelsius(num)));
+}
+
+export {addition, division, subtraction, multiplication, squareroot, expressionParser, fahrenheitToCelsius, celsiusToFahrenheit, celsiusToKelvin, fahrenheitToKelvin};
