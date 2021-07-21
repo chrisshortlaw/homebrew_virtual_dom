@@ -4,11 +4,11 @@
  */
 
 export class DomNode {
-    constructor(tagName = '', attrs, props) {
+    constructor(tagName, attrs, props) {
         this.tagName = tagName;
         this._children = [];
-        this.attrs = attrs || {};
-        this.props = props || {};
+        //this.attrs = attrs || {};
+        //this.props = props || {};
         
         
         
@@ -46,7 +46,7 @@ export class DomNode {
             '_children' : {
                 value: [],
                 configurable: false,
-                enumerable: false
+                enumerable: true
                 }
             }
         );
