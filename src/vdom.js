@@ -63,10 +63,9 @@ const vdom = {
          */
         // loop over props object and assign data to textNode or attribute
         if (vnode.hasChildren() === true) {
-            for (const child in vnode._children) {
-                if (typeof child === 'object' && 
-                        (Object.getPrototypeOf(child) === 'Vnode')) {
-                            vdom.mount(key, el);
+            for (const child of vnode._children) {
+                if (typeof child === 'object') {
+                            vdom.mount(child, el);
                         } else {
                             el.append(child);
                             }
@@ -77,7 +76,9 @@ const vdom = {
     },
 
     unmount: function(v_node) {
-        v_node.el.parentNode.removeChild(v_node.el);
+        if (v_node.hasOwnProperty(el)) {
+            v_node.el.parentNode.removeChild(v_node.el);
+            }
         },
    
         
