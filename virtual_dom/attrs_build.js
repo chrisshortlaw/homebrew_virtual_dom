@@ -4,10 +4,15 @@
 */
 
 export class AttrsBuild {
-    constructor(AttrsBuilder = {className, style, id}){
-        this.className = AttrsBuilder.className ?? '';
-        this.style = AttrsBuilder.style ?? {};
-        this.id = AttrsBuilder.id ?? '';
+    constructor(AttrsBuilder){
+
+        this._className = AttrsBuilder?._className ?? '';
+        this._style = AttrsBuilder?._style ?? {};
+        this._id = AttrsBuilder?._id ?? '';
+        this.className = AttrsBuilder?.className ?? '';
+        this.style = AttrsBuilder?.style ?? {};
+        this.id = AttrsBuilder?.id ?? '';
+        
         if (AttrsBuilder != null || undefined){
             for (const key in Object.keys(AttrsBuilder)){
                 if (key !== ('className'||'id'||'style')){
@@ -18,66 +23,92 @@ export class AttrsBuild {
     }
     static get AttrsBuilder() {
         class AttrsBuilder{
-            constructor(){
+            constructor(AttrsBuilder){
+                this.className = AttrsBuilder?.className ?? '';
+                this.style = AttrsBuilder?.style ?? {};
+                this.id = AttrsBuilder?.id ?? '';
 
+                Object.defineProperties(this, {
+                    '_class': {
+                        writable: true,
+                        enumerable: true,
+                        configurable: false
+                    },
+                    '_style': {
+                        writable: true,
+                        enumerable: true,
+                        configurable: false
+                    },
+                    '_id': {
+                        writable: true,
+                        enumerable: true,
+                        configurable: false
+                    }
+                });
             }   
         withClass(string) {
 
-            if (!this.hasOwnProperty('className')) {
-                Object.defineProperty(this, 'className', {
-                    writable: true,
-                    configurable: false,
-                    enumerable: true,
-        
-                    set (val) {
-                        if (typeof val === 'string') {
-                            if (this.className == null || '') {
-                                this.className = val;
-                            } else {
-                                this.className += val; 
-                                }
+            Object.defineProperty(this, 'className', {
+                configurable: false,
+                enumerable: true,
+            
+                set (val) {
+                    if (typeof val === 'string') {
+                        if (this._class == null || '') {
+                            this._class = val;
+                        } else {
+                            this._class += val; 
                             }
+                        } else {
+                            throw('ClassName only takes a string as an argument');
                         }
-                    })
-                this.className = string;
-            } else {
-                this.className = string;
-            }
+                    },
+                
+                get() {
+                    return this._class;
+                    }
+            })
+
+            this.className = string;
             return this;
         }
         withStyle(styleObject) {
-    
-            Object.defineProperty(this ,'style', {
+
+            Object.defineProperty(this, 'style', {
                 enumerable: true,
-                configurable: true,
-        
+                configurable: false,
+
                 set (val) {
-                    if (typeof val == 'object' && val != (null || undefined)){
-                        for (const key in Object.keys(styleObject)){
-                            this['style'][key] = styleObject[key];
-                        }
-                    } else {
-                        throw('AttrsBuild.style: Argument set to it must be an object');
+                    if (typeof val === 'object' && Object.keys(val) != null || 0 || undefined) {
+                        this._style = val;
                     }
+                    
+                },
+                get () {
+                    return this._style;
                 }
+        
+
             })
             this.style = styleObject;
             return this;
         }
         withId(val) {
-
             Object.defineProperty(this, 'id', {
                 enumerable: true,
                 configurable: false,
-
+        
                 set (id) {
                     if (typeof id === 'string') {
-                        this.id = id;
+                        this._id = id;
                     } else {
                         throw('AttrsBuilder.withId: Argument must be a string.');
                     }
+                },
+                get () {
+                    return this._id;
                 }
-            })
+            })            
             this.id = val;
             return this;
         }
@@ -91,7 +122,7 @@ export class AttrsBuild {
             return this;
         }
         build() {
-            return new AttrsBuild(this);
+            return new AttrsBuilder(this);
             }
         }
         return AttrsBuilder;
