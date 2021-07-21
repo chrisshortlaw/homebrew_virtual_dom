@@ -2,10 +2,11 @@
 import {PUBSUB} from 'C:/code/jscalc/viewModel.js';
 
 
+
 // This file implements vDOM methods
 
 
-const vDOM = {
+const vdom = {
     /**
      * 
      * @param {String} tagName - 'div'; 'span'; 'p' etc.
@@ -21,39 +22,68 @@ const vDOM = {
         this.attrs= attrs;
         this.props = props;
     },
-
-    mountVDOM: function (vnode, container) {
+    /**
+     * This function takes our virtual Dom and mounts it.
+     * Turns the various nodes (objects) in DOM Elements which are then appended to one another.
+     * 
+     * @param {object} vnode Either a vnode or dom_tree instance
+     * @param {Element} container An element object to which our virtual Dom will attach itself after manifestation.
+     */
+    mount: function (vnode, container) {
         // vnode is the vDOMElement we created earlier but with a more succinct name
         // container is the part of the existing DOM which will hold the rendered VDOM.
         // create DOM element by using createElement built-in function
         const el = (vnode.el = document.createElement(vnode.tagName));
      
         // iterate over the js Object and set DOM attributes in accordance with the attrs assigned to the vDOM object
+         /**
+          * This loops passes key to a switch whih evaluates them and  conducts the necessary operations          
+          * 
+          * */
         for (const key in vnode.attrs) {
-            el.setAttribute(key, vnode.attrs[key]);
+            switch(key) {
+                case 'className':
+                case 'class':
+                    el.setAttribute('class', vnode['attrs'][key]);
+                    break;
+                case 'style':
+                    let styleString = '';
+                    for (const key in vnode['attrs']['_style']){
+                        styleString += `${key}:${vnode['attrs']['_style'][key]};`
+                    }
+                    el.setAttribute('style', styleString);
+                case 'id':
+                    el.setAttribute('id', vnode['attrs']['_id'])
+                default:
+                    el.setAttribute(key, vnode['attrs'][key]);
+            }   
         } 
-     
+        /**
+         * The _children property is marked private on our Vnode. It copies the children in props.children. _children will either contain vnodes or strings, which we can deal with here specifically.
+         */
         // loop over props object and assign data to textNode or attribute
-        for (const key in vnode.props) {
-            if (key == 'text') {
-                el.appendChild(document.createTextNode(vnode.props[key]));
-            } else {
-                el.setAttribute(key, vnode.props[key]);
-            }
-        }
-        // insert vnode in the actual DOM and render it.
-        container.appendChild(el);
-        //this.setCurrentNode(vNode);
-        },
+        if (vnode.hasChildren() === true) {
+            for (const child in vnode._children) {
+                if (typeof child === 'object' && 
+                        (Object.getPrototypeOf(child) === 'Vnode')) {
+                            vdom.mount(key, el);
+                        } else {
+                            el.append(child);
+                            }
+                        }
+                    }
+        
+        return container.append(el);
+    },
 
-    unmount: function(vnode) {
-        vnode.el.parentNode.removeChild(vnode.el);
+    unmount: function(v_node) {
+        v_node.el.parentNode.removeChild(v_node.el);
         },
    
         
     /**
-     * @param {object} a - object rendered with vDOM.h function 
-     * @param {object} b - object rendered with vDOM.h or .hNumNode function 
+     * @param {object} a - a vnode or a dom_tree object 
+     * @param {object} b - a vnode or a dom_tree object 
     */ 
     patch: function(a, b) {
         // compare two vnodes, identify differences
@@ -62,8 +92,8 @@ const vDOM = {
         
         // simple if state comparing the tags
         if (a.tagName !== b.tagName) {
-            mountVDOM(b, el.parentNode);
-            unmount(a);
+            vdom.mount(b, el.parentNode);
+            vdom.unmount(a);
         } else {
             // Old vNode has string children
             if (typeof a.props.children === 'string') {
