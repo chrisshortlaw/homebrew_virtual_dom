@@ -95,22 +95,27 @@ export class Vnode extends DomNode {
      * @returns A string or a Vnode instance
      */
     getChild(index) {
-        return this._children[index];
-    }
+        if ((typeof index == 'number'|| 'bigInt') && index != NaN) {
+            if (index < this._children.length) {
+                return this._children[index];
+            } else {
+                throw('vnode.getChild(): Argument exceeds index');
+            }
+            
+        } else {
+            throw('vnode.getChild() only takes number as parameter');
+            }
+        }
+    
     /**
      * Checks to see if node has any child nodes
      * @returns true or false
      */
     hasChildren() {
-        if ((typeof index == 'number'|| 'bigInt') && index != NaN) {
-            if (index < this._children.length) {
-                return this._children[index];
-            } else {
-                throw('DomTree.getChild(): Argument exceeds index');
-            }
-            
+        if (Array.isArray(this._children) && (this._children.length > 0 )) {
+            return true;
         } else {
-            throw('DomTree.getChild() only takes number as parameter');
+            return false;
         }
     }
     set ParentID(id) {
