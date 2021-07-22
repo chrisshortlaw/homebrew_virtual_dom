@@ -13,8 +13,7 @@ div,
 #calcDisplay > * {
     font-family: 'Mitr', sans-serif;
     font-size: 18px;
-    color: rgb(45)
-    
+    color: rgb(45, 30, 47);
 }
 
 /* --------------------------------------------------------------------------- COLORS --------------------------------------------------------------- */
@@ -63,59 +62,63 @@ div,
 /* --------------------------------------------------------------------------- INDEX.HTML ---- */
 
 .main-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
 
 }
 
 
 /* Generic Container for single page app to centre content */
 .app-container {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
 }
 
 #calcBg {
-
-    background-color: darkgray;
     width: 100%;
     height: 40%;
     /* border: solid 5pt; */
     overflow: auto;
     overflow-wrap: break-word;
     border-radius: 16px;
-
 }
 /* The display of our calculator app */
 #appRoot {
     position: absolute;
     bottom: 62%;
     left: 30%;
-
     display: flex;
-    flex-flow: column wrap-reverse;
-    /* justify-content: end;*/
+    flex-flow: column-reverse nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
     width: 66%;
     height: 30%;
     overflow: auto;
-    overflow-wrap: break-word;
     font-weight: 200;
 }
 
-.number {
+
+.result-display {
     
+}
+
+.op-display {
+
+}
+
+.number {
+    font-size: 36px;
 }
 
     /* This background colour is here for the purposes of debugging and to identify margins. Remove for finished product */
   
 .num-button,
 .op-button {
-    
     margin: 10px 0px 10px 0px;
-    width: 100%;
-    height: 100%;
+    width: 80%;
+    height: 80%;
     border-radius: 50%;
     box-shadow: 6px 6px 16px 0 rgba(209, 205, 199, .5),
     -6px -6px 16px 0 rgba(255, 255, 255, .5);
@@ -125,21 +128,18 @@ div,
 .num-button:hover,
 .op-button:hover {
     background-color: rgba(53,167,255, 0.2);
-    
 }
 
  .num-button, 
  .op-button {
     margin: 0 auto;
-    
 }
 
 .button-container {
-    width: 100%;
+    position: absolute;
+    top: 40vh;
     height: 60%;
-
-
-   
+    width: 100%;
 }
 
 /* ---------------------------------- GRID AREAS & NUMBER BUTTONS CONTAINER --------------------------------- */
@@ -217,10 +217,7 @@ div,
 }
 
 .num-buttons-container {
-    position: absolute;
-    top: 40vh;
-    height: 60%;
-    width: 100%;
+   
     padding: 7.5px 7.5px;
     /*position: relative; */
     
@@ -261,8 +258,7 @@ div,
 }
 
 #divide span{
-   
-   
+
 }
 
 #decimal {
@@ -274,7 +270,7 @@ div,
 }
 
 #zero {
-    width: 80%;
+    width: 75%;
     border-radius: 25px;
 }
 
@@ -282,7 +278,6 @@ div,
     background-color:rgb(247, 44, 37, 0.5);;
 }
 #undo {
-   
     font-size: 16px;
 }
 
@@ -309,8 +304,12 @@ button:active {
 /* ----------------------------------- BASE IPHONE SE BREAK POINT --------- */
 @media only screen and (min-width: 321px) {
     .app-container {
-        
-        width: 30vw;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 95vh;
+        width: 25vw;
     }
 
     .appRoot {
@@ -342,3 +341,8 @@ button:active {
 
 
 /* -------------------------------------- RESIDUAL DESKTOP BREAKPOINT ------------- */
+
+
+
+
+/* ------------------------ AS OF 22/7/2021 ------- No Errors in CSS: W3C CSS Validation Service ------------------------------ */
