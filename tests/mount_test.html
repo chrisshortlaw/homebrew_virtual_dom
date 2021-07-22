@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>JSCalc - MountTest2</title>
+        <meta name="description" content="JSCalc">
+        <meta name="author" content="Chris Short">
+        <meta name="viewport" content="width=device-width">
+        <meta name='X-Content-Type-Options' value='nosniff'>
+
+
+       
+        
+
+        <link rel="stylesheet" type="text/css" href="../assets/style.css">
+        
+    </head>
+
+    <body>
+        <div class='main-container highlight-color-bg-lightmode'>
+
+            <div class="app-container lightmode-bg" id='app-container' role="application">   
+                <div class = "button-container">
+                    <div class = "num-buttons-container">
+                    <!-- <div class="num-row"> -->
+                        
+                            <button class="num-button one lightmode-bg text-dark" id="one" name="one" value="1">1</button>
+                        
+                            <button class="num-button two lightmode-bg text-dark" id="two" name="two" value="2">2</button>
+                        
+                            <button class="num-button three lightmode-bg text-dark" id="three" name="three" value="3">3</button>
+
+                            <button class="op-button plus lightmode-bg text-dark" id="plus" name="plus" value="+">
+                                +
+                                <!-- <i class="fas fa-plus"></i> -->
+                            </button>
+                        
+                    <!-- </div>
+                    <div class="num-row"> -->
+                        
+                            <button class="num-button four lightmode-bg text-dark" id="four" name="four" value="4">4</button>
+                        
+                            <button class="num-button five lightmode-bg text-dark" id="five" name="five" value="5">5</button>
+                        
+                            <button class="num-button six lightmode-bg text-dark" id="six" name="six" value="6">6</button>
+
+                            <button class="op-button minus lightmode-bg text-dark" id="minus" name="minus" value="-">
+                                -
+                                <!-- <i class="fas fa-minus"></i> -->
+                            </button>
+                        
+                    <!-- </div>
+                    <div class="num-row"> -->
+                        
+                            <button class="num-button seven lightmode-bg text-dark" id="seven" name="seven" value="7">7</button>
+                        
+                            <button class="num-button eight lightmode-bg text-dark" id="eight" name="eight" value="8">8</button>
+                        
+                            <button class="num-button nine lightmode-bg text-dark" id="nine" name="nine" value="9">9</button>
+
+                            <button class="op-button product lightmode-bg text-dark" id="multiply" name="multiply" value="×">
+                                ×
+                                <!-- <i class="fas fa-times"></i>-->
+                            </button>
+                        
+                    <!-- </div> -->
+                    <!-- div class="num-row"-->
+                        
+                            <button class="num-button zero lightmode-bg text-dark" id="zero" name="zero" value="0">0</button>
+
+
+                            <button class="op-button divide lightmode-bg text-dark" id="divide" name="divide" value="/">
+                                <span>÷</span>
+                                <!-- <i class="fas fa-divide"></i> -->
+                            </button>
+
+                            <button class="op-button decimal lightmode-bg text-dark" id="decimal" name="decimal" value=".">
+                                <i>․</i>
+                                <!-- <i class="fas fa-divide"></i> -->
+                            </button>
+                        
+                    <!-- /div -->
+                <!-- </div> -->
+
+                <!-- <div id="operations-container"> -->
+                    
+                    <button class="op-button clear lightmode-bg text-dark" id="clear" name="clear" value="clear">
+                        C
+                        <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+                    <button class="op-button recall lightmode-bg text-dark" id="recall" name="recall" value="recall">
+                        MR
+                        <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+                    <button class="op-button undo lightmode-bg text-dark" id="undo" name="undo" value="undo">
+                        UNDO
+                    </button>
+
+                    <button class="op-button equals button-red-bg-lightmode text-light" id="equals" name="equals" value="=">
+                        =
+                        <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+                    
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+
+    <script>
+
+            class DomNode {
+                constructor(tagName, attrs, props) {
+                    this.tagName = tagName;
+                    this._children = [];
+                    //this.attrs = attrs || {};
+                    //this.props = props || {};
+                    
+                    
+                    
+                    Object.defineProperties(this, {
+                        '_ParentID': {
+                            writable: true,
+                            configurable: false,
+                            enumerable: false
+                        },
+                        'ParentID': {
+                            configurable: false,
+                            enumerable: true,
+
+                            set (value) {
+                                this._ParentID = value;
+                            },
+                            get () {
+                                return this._ParentID;
+                            }
+                        }, 
+                        '_CompID': {
+                            writable: true,                
+                            configurable: false,
+                            enumerable: false,   
+                            },
+                        'CompID': {
+                            enumerable: true,
+                            set (value) {
+                                this._CompID = value;
+                            },
+                            get () {
+                                return this._CompID;
+                                }
+                            },
+                        '_children' : {
+                            value: [],
+                            configurable: false,
+                            enumerable: true
+                            }
+                        }
+                    );
+                }       
+                getTagName() {
+                    return this.tagName;
+                }
+                add() {
+                    toBeOverwritten();
+                }
+                remove() {
+                    toBeOverWritten();
+                }
+                getChild(){
+                    toBeOverWritten();    
+                }
+                hasChildren(){
+                    toBeOverwritten();
+                }
+
+            }
+
+class DomTree extends DomNode {
+    constructor(tagName, container) {
+        super(tagName);
+        this.root = container;
+        this._children = [];
+
+        this.CompID = 1;
+        this.ParentID = 0;
+
+        Object.defineProperties(this, {
+            'children': {
+                configurable: false,
+                enumerable: true,
+
+                get() {
+                    return this._children;
+                },
+                set (val) {
+                    this.add(val);
+                }
+            }
+        });
+    }
+    /**
+     * Adds nodes to the DomTree
+     * @param {object} node 
+     */
+    add(node){
+        this._children.push(node);
+        const CompNum = (this.children.length + this._CompID);
+        node.CompID = CompNum;
+        node.ParentId = this.CompID;
+    }
+    /**
+     * Take a number which corresponds to the index number of the node in the _children array.
+     * @param {number} index 
+     * @returns Array less one node
+     */
+    remove(index){
+        const arrLength = this._children.length;
+        if (typeof index != 'number'|| index == NaN) {
+            throw ('DomTree.remove() only takes an integer as an argument')
+        } else {
+            let removeArray = [];
+            for (let i = 0; i < this._children.length; i++) {
+                if (i !== index) {
+                    removeArray.push(this._children[i]);
+                }
+            }
+            return this._children = removeArray;
+        }        
+    }
+    replace(newNode, oldNodeIndex){
+
+        let spliceArr = this._children;
+        
+        const oldNode = this.getChild(oldNodeIndex);
+
+        let oldCompID = oldNode.CompID;
+
+        /* CompID and ParentID of OldNode are set on newNode */
+        newNode.CompID = oldCompID;
+        newNode.ParentID = this.CompID;
+        spliceArr.splice(oldNodeIndex , 1, newNode);
+        
+        
+        return this._children = spliceArr;
+    
+    }
+    /**
+     * A getter that gives us a shortcut to accessing the children property without the constant need to type props.
+     */
+    
+    /**
+     * This will get a Child at a given array. It may be worth writing a function to traverse an array looking for a certain child (i.e call indexOf). 
+     * @param {number} index An index number for an array 
+     * @returns a child located at the given index in an array will re
+     */
+    getChild(index) {
+        if ((typeof index == 'number'|| 'bigInt') && index != NaN) {
+            if (index < this._children.length) {
+                return this._children[index];
+            } else {
+                throw('DomTree.getChild(): Argument exceeds index');
+            }
+            
+        } else {
+            throw('DomTree.getChild() only takes number as parameter');
+        }
+    }
+    /**
+     * Checks type and length of children array. 
+     * If it is not an Array or its length is not greater than 0, false will be returned.  
+     * As we shall see later, leaf nodes such as those with Text will either have a specific check placed on them or will hold an empty children property.
+     * 
+     @returns true or false
+     */
+    hasChildren() {
+        if (Array.isArray(this._children) && (this._children.length > 0 )) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    getRoot() {
+        return this.root;
+    }
+}
+
+class Vnode extends DomNode {
+    constructor(vnodeBuilder) {
+        super(vnodeBuilder.tagName);
+        //this.tagName = vnodeBuilder.tagName;
+        this.attrs = vnodeBuilder.attrs ?? {}; 
+        this.props = vnodeBuilder.props ?? {};
+
+        if (vnodeBuilder.props?.children != null) {
+            if (vnodeBuilder.props?.children != undefined && vnodeBuilder.props?.children instanceof Array) {
+                vnodeBuilder.props.children.forEach(child => this.add(child));
+            } else {
+                // Put Something Here?!?
+            }
+        }
+    }
+    static get vnodeBuilder() {
+        class vnodeBuilder {
+            /**
+             * This builds our vNode for us and helps us to write objects in a fluent style. Note, the vNodeBuilder parameter is optional.
+             * Note: If using fluent style (vnode.Builder.withTagName())
+             * @param {string} tagName Tag for HTML, defaults to 'div' if none supplied. HTML. The virtual DOM does not check this for validity,
+             * @param {object} vnodeBuilder Object comprised of attrs and props. Optional as both default to empty object literals if nothing is passed. 
+             */
+            constructor(tagName, vnodeBuilder){
+                this.tagName = tagName || (vnodeBuilder?.tagname ?? 'div');
+                this.attrs = vnodeBuilder?.attrs ?? {};
+                this.props = vnodeBuilder?.props ?? {};
+            
+            }
+            /**
+             * 
+             * @param {string} tag Tag for HTML, defaults to 'div' if none supplied. HTML. The virtual DOM does not check this for validity,
+             * @returns Object with {'tagName': {your_tag_here}}
+             */
+            withTagName(tag){
+                this.tagName = tag;
+                return this;
+            }
+            /**
+             * Returns an attrs object to the instance. This function can be passed an AttrsBuild instance (including AttrsBuild.AttrsBuilder()).
+             * @param {Object} attrs Object Comprised of attrs
+             * @returns 
+             */
+            withAttrs(attrs) {
+                this.attrs = attrs;
+                return this;
+                 
+            }
+            withProps(props){
+                this.props = props;
+                return this;
+                
+            }
+            build() {
+                return new vnodeBuilder(this.tagName, this);
+            }
+        }
+        return vnodeBuilder;
+    }
+    /**
+     * This adds a node as a child to the vNode. Also sets the CompID and ParentID on the node.
+     * 
+     * 
+     * @param {any} node Must be instanceof Vnode or string;
+     */
+    add(node) {
+        if (node instanceof Vnode || typeof node === 'string') {
+            if ((this.CompID != null || 0) || node instanceof Vnode) {
+                const CompNum = (this._CompID * 100) + this.children.length;
+                node.CompID = CompNum;
+                node.ParentId = this.CompID;
+            }
+            this._children.push(node);
+            
+        } else {
+            throw new TypeError('Node must be string or Vnode');
+        }
+    }
+    get children(){
+        return this._children;
+    }
+    /**
+     * 
+     * @param {integer} index index number of child node in array.
+     * @returns A string or a Vnode instance
+     */
+    getChild(index) {
+        if ((typeof index == 'number'|| 'bigInt') && index != NaN) {
+            if (index < this._children.length) {
+                return this._children[index];
+            } else {
+                throw('vnode.getChild(): Argument exceeds index');
+            }
+            
+        } else {
+            throw('vnode.getChild() only takes number as parameter');
+            }
+        }
+    
+    /**
+     * Checks to see if node has any child nodes
+     * @returns true or false
+     */
+    hasChildren() {
+        if (Array.isArray(this._children) && (this._children.length > 0 )) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    set ParentID(id) {
+        this._ParentID = id;
+
+    }
+    set CompID(id) {
+        this.CompID = id;
+        let i = 1;
+        this.children.forEach(child => {
+            if ((child instanceof vnode || DomNode) && child.ParentID == null && child.CompID == null) {
+                child.ParentID = this.CompID;
+                child.CompID = (this.CompID * 100) + i;  
+            }
+            i++; 
+        })
+    }
+}
+
+function mount(vnode, container) {
+     // vnode is the vDOMElement we created earlier but with a more succinct name
+        // container is the part of the existing DOM which will hold the rendered VDOM.
+        // create DOM element by using createElement built-in function
+        vnode.el = document.createElement(vnode.tagName);
+     
+        // iterate over the js Object and set DOM attributes in accordance with the attrs assigned to the vDOM object
+         /**
+          * This loops passes key to a switch whih evaluates them and  conducts the necessary operations          
+          * 
+          * */
+        for (const key in vnode.attrs) {
+            
+            switch(key) {
+                case 'className':
+                    vnode.el.setAttribute('class', `${vnode['attrs'][key]}`);
+                    console.log(`looptest: ${vnode['attrs'][key]}`);
+                    break;
+                case 'style':
+                    let styleString = '';
+                    for (const key in vnode['attrs']['style']){
+                        styleString += `${key}:${vnode['attrs']['style'][key]};`
+                    }
+                    vnode.el.setAttribute('style', styleString);
+                    
+                    break;
+                case 'id':
+                    vnode.el.setAttribute('id', `${vnode['attrs']['id']}`)
+                    
+                    break;
+                default:
+                    vnode.el.setAttribute(key, vnode['attrs'][key]);
+                    break;
+            }   
+        } 
+        /**
+         * The _children property is marked private on our Vnode. It copies the children in props.children. _children will either contain vnodes or strings, which we can deal with here specifically.
+         */
+        // loop over props object and assign data to textNode or attribute
+        if (vnode.hasChildren() === true) {
+            for (const child of vnode._children) {
+                if (typeof child === 'object') {
+                            mount(child, vnode.el);
+                        } else {
+                            vnode.el.append(child);
+                            }
+                        }
+                    }
+        container.append(vnode.el);
+}
+
+function unmount(vnode) {
+    if (vnode.hasOwnProperty(el)) {
+            vnode.el.parentNode.removeChild(vnode.el);
+            }
+        }
+function patch(a, b) {
+    if (a.hasOwnProperty(el)){
+        
+        // a.el.replaceWith(mount())
+    }
+}
+
+
+
+/* END OF GENERAL CLASSES AND FUNCTIONS */
+
+/* ---------------------------------------------------------------------------- MAIN APP ------- */
+
+
+const display_calc = new Vnode(new Vnode.vnodeBuilder('div')
+                                                .withAttrs(
+                                                    {'id': 'appRoot',
+                                                'className':'display',
+                                                'style': {
+                                                    'background-color': 'white' 
+                                                }
+                                                    })
+                                                .build());
+
+const result_display = new Vnode(new Vnode.vnodeBuilder('div')
+                                                            .withAttrs(
+                                                                {
+                                                                    'id': 'result_display',
+                                                                    'class': 'number',
+                                                                    'style': {
+                                                                        'color': 'blue',
+                                                                        'font-weight': '800'
+                                                                    } 
+                                                                }
+                                                            )
+                                                            .withProps(
+                                                                {'children':['0']}
+                                                            ));
+
+const operation_display = new Vnode(new Vnode.vnodeBuilder('div')
+                                                        .withAttrs(
+                                                            {
+                                                                'id': 'op_display',
+                                                                'class': 'number',
+                                                                'style': {
+                                                                    'color': 'red',
+                                                                    'font-weight': '500'
+                                                                } 
+                                                            }
+                                                        )
+                                                        .withProps(
+                                                            {'children':['100']}
+                                                        ));
+
+const mountPoint = document.getElementById('app-container');
+
+
+const dom_tree = new DomTree('div', mountPoint);
+
+dom_tree.add(display_calc);
+display_calc.add(result_display);
+display_calc.add(operation_display);
+
+
+mount(dom_tree, mountPoint);
+console.log(dom_tree.el);
+
+
+
+
+
+    </script>
+
+</html>

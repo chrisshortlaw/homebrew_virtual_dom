@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>JSCalc</title>
+        <meta name="description" content="JSCalc">
+        <meta name="author" content="Chris Short">
+        <meta name="viewport" content="width=device-width">
+        <!-- <meta name='X-Content-Type-Options' value='nosniff'> -->
+
+
+        <!--<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.2/css/bulma.min.css"> -->
+        <link rel="stylesheet" type="text/css" href="./assets/style.css">
+        <!--Insert View-Model JS Script Here-->
+        
+        <script src="https://kit.fontawesome.com/47685cdca8.js" crossorigin="anonymous"></script>
+
+        <!-- script src="./viewModel.js" type="text/javascript"></script -->
+        
+        
+        
+    </head>
+
+    <body>
+        <div class="app-container" role="application">
+            <div id="calcBg">
+                <div id='displayMount'>
+
+                </div>
+            </div>
+
+            <div class="button-container">
+                <div id="num-buttons-container">
+                    <div class="num-row">
+                        
+                            <button class="num-button" id="1" name="one" value="1">1</button>
+                        
+                            <button class="num-button" id="2" name="two" value="2">2</button>
+                        
+                            <button class="num-button" id="3" name="three" value="3">3</button>
+                        
+                    </div>
+                    <div class="num-row">
+                     
+                            <button class="num-button" id="4" name="four" value="4">4</button>
+                       
+                            <button class="num-button" id="5" name="five" value="5">5</button>
+                        
+                            <button class="num-button" id="6" name="six" value="6">6</button>
+                        
+                    </div>
+                    <div class="num-row">
+                       
+                            <button class="num-button" id="7" name="seven" value="7">7</button>
+                       
+                            <button class="num-button" id="8" name="eight" value="8">8</button>
+                       
+                            <button class="num-button" id="9" name="nine" value="9">9</button>
+                        
+                    </div>
+                    <div class="num-row">
+                       
+                            <button class="num-button" id="0" name="zero" value="0">0</button>
+                        
+                    </div>
+                </div>
+
+                <div id="operations-container">
+                    
+                    <button class="op-button" id="plus" name="plus" value="+">
+                        +
+                        <!-- <i class="fas fa-plus"></i> -->
+                    </button>
+                   
+                    <button class="op-button" id="minus" name="minus" value="-">
+                        -
+                        <!-- <i class="fas fa-minus"></i> -->
+                    </button>
+                    
+                   
+                    <button class="op-button" id="multiply" name="multiply" value="×">
+                        ×
+                        <!-- <i class="fas fa-times"></i>-->
+                    </button>
+                    
+                    
+                    <button class="op-button" id="divide" name="divide" value="/">
+                        ÷
+                       <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+                    <button class="op-button" id="equals" name="equals" value="=">
+                        =
+                       <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+                    <button class="op-button" id="clear" name="clear" value="clear">
+                        CL
+                       <!-- <i class="fas fa-divide"></i> -->
+                    </button>
+
+                    
+                </div>
+            </div>
+        </div>
+
+    </body>
+
+
+    <script src=".\code\jscalc\monolith.js" type="text/javascript" defer ></script>
+
+</html>
