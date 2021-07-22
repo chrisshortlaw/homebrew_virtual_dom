@@ -5,8 +5,8 @@ import {DomNode} from './dom_node.js';
  */
 
 export class DomTree extends DomNode {
-    constructor(tagName, container) {
-        super(tagName);
+    constructor(tagName, container, attrs, props) {
+        super(tagName, attrs, props);
         this.root = container;
         this._children = [];
 
@@ -17,7 +17,6 @@ export class DomTree extends DomNode {
             'children': {
                 configurable: false,
                 enumerable: true,
-
                 get() {
                     return this._children;
                 },
