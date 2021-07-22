@@ -3,15 +3,11 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>JSCalc - MountTest2</title>
+        <title>JSCalc- MountTest2</title>
         <meta name="description" content="JSCalc">
         <meta name="author" content="Chris Short">
         <meta name="viewport" content="width=device-width">
         <meta name='X-Content-Type-Options' value='nosniff'>
-
-
-       
-        
 
         <link rel="stylesheet" type="text/css" href="../assets/style.css">
         
@@ -430,7 +426,7 @@ function mount(vnode, container) {
             switch(key) {
                 case 'className':
                     vnode.el.setAttribute('class', `${vnode['attrs'][key]}`);
-                    console.log(`looptest: ${vnode['attrs'][key]}`);
+                    //console.log(`looptest: ${vnode['attrs'][key]}`);
                     break;
                 case 'style':
                     let styleString = '';
@@ -462,21 +458,67 @@ function mount(vnode, container) {
                             }
                         }
                     }
-        container.append(vnode.el);
-}
+        return container.append(vnode.el);
+    }
 
 function unmount(vnode) {
-    if (vnode.hasOwnProperty(el)) {
+    if (vnode.hasOwnProperty('el')) {
             vnode.el.parentNode.removeChild(vnode.el);
             }
+         else {
+            throw new Error(`${vnode} could not be unmounted. No element property.`);
         }
-function patch(a, b) {
-    if (a.hasOwnProperty(el)){
+    }
+/* Patch compares two nodes in somewhat superficial manner. Wherever node a and node b differ, patch will alter the DOM to match the description by node B. */
+function patch(oldNode, newNode) {
+
+    if (oldNode.hasOwnProperty('el')){
         
-        // a.el.replaceWith(mount())
+        newNode.el = oldNode.el;        
+    } else {
+        throw new Error(`${oldNode} does not have an element property set. Please render and mount it first.`);
+    }
+
+    const el = newNode.el;
+    const parentNode = el.parentNode;
+
+    if (oldNode.tagName !== newNode.tagName) {
+        console.log('tagName is being lost')
+        unmount(oldNode);
+        mount(newNode, parentNode);
+        
+    } else {      
+        if (newNode.children.length !== oldNode.children.length) {
+            const aChild = oldNode.children;
+            const bChild = newNode.children;
+            const common_length = Math.min(aChild.length, bChild.length);
+
+            for (let i = 0; i < common_length; i++) {
+                patch(aChild[i], bChild[i]);
+            }
+            if (bChild > aChild){
+                bChild.slice(aChild.length).forEach(child => {
+                    mount(child, el);
+            });
+
+            } else if (aChild > bChild) {
+                aChild.slice(bChild.length).forEach(child => {
+                    unmount(child);
+                });
+            } else {
+                
+                }
+        } else {
+            console.log('Else state at 511 fired');
+            unmount(oldNode);
+            mount(newNode, parentNode);
+            
+        }
     }
 }
 
+        
+ /*  END OF PATCH FUNCTION */
 
 
 /* END OF GENERAL CLASSES AND FUNCTIONS */
@@ -484,59 +526,123 @@ function patch(a, b) {
 /* ---------------------------------------------------------------------------- MAIN APP ------- */
 
 
-const display_calc = new Vnode(new Vnode.vnodeBuilder('div')
+    const display_calc = new Vnode(new Vnode.vnodeBuilder('div')
                                                 .withAttrs(
                                                     {'id': 'appRoot',
-                                                'className':'display',
-                                                'style': {
-                                                    'background-color': 'white' 
-                                                }
+                                                'className':'display lightmode-bg' 
+                                                
                                                     })
                                                 .build());
 
-const result_display = new Vnode(new Vnode.vnodeBuilder('div')
+    const result_display = new Vnode(new Vnode.vnodeBuilder('span')
                                                             .withAttrs(
                                                                 {
                                                                     'id': 'result_display',
-                                                                    'class': 'number',
+                                                                    'class': 'number text-dark',
                                                                     'style': {
-                                                                        'color': 'blue',
-                                                                        'font-weight': '800'
-                                                                    } 
+                                                                        'font-weight': '300'
+                                                                    }
                                                                 }
                                                             )
                                                             .withProps(
                                                                 {'children':['0']}
+                                                            ).build());
+
+    const operation_display = new Vnode(new Vnode.vnodeBuilder('span')
+                                                            .withAttrs(
+                                                                {
+                                                                    'id': 'op_display',
+                                                                    'class': 'number text-dark',
+                                                                    'style': {
+                                                                        
+                                                                        'font-weight': '500'
+                                                                    } 
+                                                                }
+                                                            )
+                                                            .withProps(
+                                                                {'children':['100']}
+                                                            ).build());
+
+    const mountPoint = document.getElementById('app-container');
+
+
+    const dom_tree = new DomTree('div', mountPoint);
+
+    dom_tree.add(display_calc);
+    display_calc.add(result_display);
+    display_calc.add(operation_display);
+
+
+    mount(dom_tree, mountPoint);
+
+    const dom_tree2 = new DomTree('div', mountPoint)
+
+
+
+    
+    
+    
+    function changePage(mountNode, newMount) {
+        
+        const new_result = new Vnode(new Vnode.vnodeBuilder('div')
+                                                            .withAttrs(
+                                                                {
+                                                                    'id': 'result_display',
+                                                                    'class': 'number text-dark',
+                                                                    'style': {
+                                                                        'font-weight': '300'
+                                                                    }
+                                                                }
+                                                            )
+                                                            .withProps(
+                                                                {'children':['100']}
                                                             ));
-
-const operation_display = new Vnode(new Vnode.vnodeBuilder('div')
+        const new_op_display = new Vnode(new Vnode.vnodeBuilder('div')
+                                                            .withAttrs(
+                                                                {
+                                                                    'id': 'op_display',
+                                                                    'class': 'number text-dark',
+                                                                    'style': {
+                                                                        
+                                                                        'font-weight': '500'
+                                                                    } 
+                                                                }
+                                                            )
+                                                            .withProps(
+                                                                {'children':['200']}
+                                                            ));
+        
+        const new_display_calc = new Vnode(new Vnode.vnodeBuilder('div')
                                                         .withAttrs(
-                                                            {
-                                                                'id': 'op_display',
-                                                                'class': 'number',
-                                                                'style': {
-                                                                    'color': 'red',
-                                                                    'font-weight': '500'
-                                                                } 
-                                                            }
-                                                        )
-                                                        .withProps(
-                                                            {'children':['100']}
-                                                        ));
+                                                        {'id': 'appRoot',
+                                                        'className':'display lightmode-bg' 
 
-const mountPoint = document.getElementById('app-container');
+                                                        })
+                                                        .build());
 
 
-const dom_tree = new DomTree('div', mountPoint);
+        
+        
+        
+        
+        new_display_calc.add(new_op_display);
+        new_display_calc.add(new_result);
+        newMount.add(new_display_calc);
 
-dom_tree.add(display_calc);
-display_calc.add(result_display);
-display_calc.add(operation_display);
-
-
-mount(dom_tree, mountPoint);
-console.log(dom_tree.el);
-
+        patch(mountNode, newMount);
+        
+    
+} /* ------- END OF changePage() Function ------------------ */
+    
+    
+    
+    
+    setTimeout(
+        function () {
+            console.log('changePage has fired')
+            changePage(dom_tree, dom_tree2)
+        }, 
+    5000);
 
 
 
