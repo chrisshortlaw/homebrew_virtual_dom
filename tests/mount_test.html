@@ -11,94 +11,106 @@
 
 
        
+        <script src="https://kit.fontawesome.com/98de925b9c.js" crossorigin="anonymous"></script>
+
         <link rel="stylesheet" type="text/css" href="../assets/style.css">
         
     </head>
 
     <body>
-        <div class="app-container" role="application">
-            <div id="calcBg">
-                <div id='displayMount'>
+        <div class='main-container highlight-color-bg-lightmode'>
 
-                </div>
-            </div>
+            <div class="app-container lightmode-bg" id='app-container' role="application">   
+                <div class = "button-container">
+                    <div class = "num-buttons-container">
+                    <!-- <div class="num-row"> -->
+                        
+                            <button class="num-button one lightmode-bg text-dark" id="one" name="one" value="1">1</button>
+                        
+                            <button class="num-button two lightmode-bg text-dark" id="two" name="two" value="2">2</button>
+                        
+                            <button class="num-button three lightmode-bg text-dark" id="three" name="three" value="3">3</button>
 
-            <div class="button-container">
-                <div id="num-buttons-container">
-                    <div class="num-row">
+                            <button class="op-button plus lightmode-bg text-dark" id="plus" name="plus" value="+">
+                                +
+                                <!-- <i class="fas fa-plus"></i> -->
+                            </button>
                         
-                            <button class="num-button" id="1" name="one" value="1">1</button>
+                    <!-- </div>
+                    <div class="num-row"> -->
                         
-                            <button class="num-button" id="2" name="two" value="2">2</button>
+                            <button class="num-button four lightmode-bg text-dark" id="four" name="four" value="4">4</button>
                         
-                            <button class="num-button" id="3" name="three" value="3">3</button>
+                            <button class="num-button five lightmode-bg text-dark" id="five" name="five" value="5">5</button>
                         
-                    </div>
-                    <div class="num-row">
-                     
-                            <button class="num-button" id="4" name="four" value="4">4</button>
-                       
-                            <button class="num-button" id="5" name="five" value="5">5</button>
-                        
-                            <button class="num-button" id="6" name="six" value="6">6</button>
-                        
-                    </div>
-                    <div class="num-row">
-                       
-                            <button class="num-button" id="7" name="seven" value="7">7</button>
-                       
-                            <button class="num-button" id="8" name="eight" value="8">8</button>
-                       
-                            <button class="num-button" id="9" name="nine" value="9">9</button>
-                        
-                    </div>
-                    <div class="num-row">
-                       
-                            <button class="num-button" id="0" name="zero" value="0">0</button>
-                        
-                    </div>
-                </div>
+                            <button class="num-button six lightmode-bg text-dark" id="six" name="six" value="6">6</button>
 
-                <div id="operations-container">
+                            <button class="op-button minus lightmode-bg text-dark" id="minus" name="minus" value="-">
+                                -
+                                <!-- <i class="fas fa-minus"></i> -->
+                            </button>
+                        
+                    <!-- </div>
+                    <div class="num-row"> -->
+                        
+                            <button class="num-button seven lightmode-bg text-dark" id="seven" name="seven" value="7">7</button>
+                        
+                            <button class="num-button eight lightmode-bg text-dark" id="eight" name="eight" value="8">8</button>
+                        
+                            <button class="num-button nine lightmode-bg text-dark" id="nine" name="nine" value="9">9</button>
+
+                            <button class="op-button product lightmode-bg text-dark" id="multiply" name="multiply" value="×">
+                                ×
+                                <!-- <i class="fas fa-times"></i>-->
+                            </button>
+                        
+                    <!-- </div> -->
+                    <!-- div class="num-row"-->
+                        
+                            <button class="num-button zero lightmode-bg text-dark" id="zero" name="zero" value="0">0</button>
+
+
+                            <button class="op-button divide lightmode-bg text-dark" id="divide" name="divide" value="/">
+                                <span>÷</span>
+                                <!-- <i class="fas fa-divide"></i> -->
+                            </button>
+
+                            <button class="op-button decimal lightmode-bg text-dark" id="decimal" name="decimal" value=".">
+                                <i>․</i>
+                                <!-- <i class="fas fa-divide"></i> -->
+                            </button>
+                        
+                    <!-- /div -->
+                <!-- </div> -->
+
+                <!-- <div id="operations-container"> -->
                     
-                    <button class="op-button" id="plus" name="plus" value="+">
-                        +
-                        <!-- <i class="fas fa-plus"></i> -->
+                    <button class="op-button clear lightmode-bg text-dark" id="clear" name="clear" value="clear">
+                        C
+                        <!-- <i class="fas fa-divide"></i> -->
                     </button>
-                   
-                    <button class="op-button" id="minus" name="minus" value="-">
-                        -
-                        <!-- <i class="fas fa-minus"></i> -->
+                    <button class="op-button recall lightmode-bg text-dark" id="recall" name="recall" value="recall">
+                        MR
+                        <!-- <i class="fas fa-divide"></i> -->
                     </button>
-                    
-                   
-                    <button class="op-button" id="multiply" name="multiply" value="×">
-                        ×
-                        <!-- <i class="fas fa-times"></i>-->
+                    <button class="op-button undo lightmode-bg text-dark" id="undo" name="undo" value="undo">
+                        UNDO
                     </button>
-                    
-                    
-                    <button class="op-button" id="divide" name="divide" value="/">
-                        ÷
-                       <!-- <i class="fas fa-divide"></i> -->
-                    </button>
-                    <button class="op-button" id="equals" name="equals" value="=">
+
+                    <button class="op-button equals button-red-bg-lightmode text-light" id="equals" name="equals" value="=">
                         =
-                       <!-- <i class="fas fa-divide"></i> -->
+                        <!-- <i class="fas fa-divide"></i> -->
                     </button>
-                    <button class="op-button" id="clear" name="clear" value="clear">
-                        CL
-                       <!-- <i class="fas fa-divide"></i> -->
-                    </button>
-
                     
+                    
+                    </div>
                 </div>
             </div>
         </div>
     </body>
 
 
-    <script defer >
+    <script>
 
             class DomNode {
                 constructor(tagName, attrs, props) {
@@ -469,7 +481,7 @@ function patch(a, b) {
 
 /* END OF GENERAL CLASSES AND FUNCTIONS */
 
-/* Main APP */
+/* ---------------------------------------------------------------------------- MAIN APP ------- */
 
 
 const display_calc = new Vnode(new Vnode.vnodeBuilder('div')
@@ -482,7 +494,7 @@ const display_calc = new Vnode(new Vnode.vnodeBuilder('div')
                                                     })
                                                 .build());
 
-const result_display = new Vnode(new Vnode.vnodeBuilder('h2')
+const result_display = new Vnode(new Vnode.vnodeBuilder('div')
                                                             .withAttrs(
                                                                 {
                                                                     'id': 'result_display',
@@ -497,7 +509,7 @@ const result_display = new Vnode(new Vnode.vnodeBuilder('h2')
                                                                 {'children':['0']}
                                                             ));
 
-const operation_display = new Vnode(new Vnode.vnodeBuilder('h2')
+const operation_display = new Vnode(new Vnode.vnodeBuilder('div')
                                                         .withAttrs(
                                                             {
                                                                 'id': 'op_display',
@@ -512,7 +524,7 @@ const operation_display = new Vnode(new Vnode.vnodeBuilder('h2')
                                                             {'children':['100']}
                                                         ));
 
-const mountPoint = document.getElementById('displayMount');
+const mountPoint = document.getElementById('app-container');
 
 
 const dom_tree = new DomTree('div', mountPoint);
@@ -523,7 +535,7 @@ display_calc.add(operation_display);
 
 
 mount(dom_tree, mountPoint);
-console.log(JSON.stringify(dom_tree));
+// console.log(JSON.stringify(dom_tree));
 
 
 
