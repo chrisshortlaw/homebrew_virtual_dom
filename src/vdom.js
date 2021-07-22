@@ -75,63 +75,96 @@ const vdom = {
         return container.append(el);
     },
 
-    unmount: function(v_node) {
-        if (v_node.hasOwnProperty(el)) {
-            v_node.el.parentNode.removeChild(v_node.el);
+    unmount: function(vnode) {
+        if (vnode.hasOwnProperty(el)) {
+                vnode.el.parentNode.removeChild(vnode.el);
+                }
+             else {
+                throw new Error(`${vnode} could not be unmounted. No element property.`);
             }
-        },
-   
-        
+    
+    }, 
     /**
-     * @param {object} a - a vnode or a dom_tree object 
-     * @param {object} b - a vnode or a dom_tree object 
+     * @param {object} oldNode - a vnode or a dom_tree object 
+     * @param {object} newNode - a vnode or a dom_tree object 
     */ 
-    patch: function(a, b) {
-        // compare two vnodes, identify differences
-        // const assigns the parent element of component n1 to n2
-        const el = (b.el = a.el);
-        
-        // simple if state comparing the tags
-        if (a.tagName !== b.tagName) {
-            vdom.mount(b, el.parentNode);
-            vdom.unmount(a);
+    patch: function(oldNode, newNode) {
+
+
+        if (oldNode.hasOwnProperty('el')){
+            
+            newNode.el = oldNode.el;        
         } else {
-            // Old vNode has string children
-            if (typeof a.props.children === 'string') {
-                el.textContent = b.children;
-            } else {
-                if (typeof a.children === 'string') {
-                    el.textContent = '';
-                    b.children.forEach(child => mount(child, el));            
+            throw new Error(`${oldNode} does not have an element property set. Please render and mount it first.`);
+        }
+    
+        const el = newNode.el;
+    
+        const parentNode = () => {if (oldNode.el.parentElement != null) {
+                    return oldNode.el.parentElement;
                 } else {
-                    const c1 = a.children;
-                    const c2 = b.children;
-                    const commonLength = Math.min(c1.length, c2.length);
-                    // Patch children both nodes have in common
-                    for (let i = 0; i < commonLength; i++) {
-                        patch(c1[i], c2[i]);
+                    return oldNode.el.parentNode;
+                }
+            }
+    
+        if (oldNode.tagName !== newNode.tagName) {
+            unmount(oldNode);
+            mount(newNode);
+        } else {      
+            if (newNode.children.length !== oldNode.children.length) {
+                const aChild = oldNode.children;
+                const bChild = newNode.children;
+                const common_length = Math.min(aChild.length, bChild.length);
+    
+                for (let i = 0; i < common_length; i++) {
+                    patch(aChild[i], bChild[i]);
+                }
+                if (bChild > aChild){
+                    bChild.slice(aChild.length).forEach(child => {
+                        mount(child, el);
+                });
+    
+                } else if (aChild > bChild) {
+                    aChild.slice(bChild.length).forEach(child => {
+                        unmount(child);
+                    });
+                } else {
+                    
                     }
-        
-                    // Where old node is longer
-                    // remove excess children
-                    if (c1.length > c2.length) {
-                        c1.slice(c2.length).forEach(child => {
-                            unmount(child);
-                        })
-                    }
-                    // New node is longer
-                    // add excess children
-                    else if (c1.length < c2.length) {
-                        c2.slice(c1.length).forEach(child => {
-                            mountVDOM(child, el)
-                            })
+            } else {
+                if (Object.keys(oldNode.attrs).length !== Object.keys(newNode.attrs).length) {
+                        unmount(oldNode);
+                        mount(newNode, parentNode);
+                    } else {
+    
+                        const el_doc_id = oldNode.el.id;
+                        const el_new_attrs = Document.getElemenByID(el_doc_id); 
+    
+                        for (const key in newNode.attrs) {
+                            switch(key) {
+                                case 'Classname':
+                                    if (newNode.attrs.className !== oldNode.attrs.className) {
+                                        el_new_attrs.setAttribute('class', `${newNode['attrs'][key]}`);
+                                        break;
+                                    }
+                                case 'style':
+                                    let styleString = '';
+                                    for (const key in newNode['attrs']['style']){
+                                        styleString += `${key}:${newNode['attrs']['style'][key]};`
+                                        }
+                                    el_new_attrs.setAttribute('style', styleString);  
+                                    break;
+                                case 'id':
+                                    el_new_attrs.setAttribute('id', `${newNode['attrs']['id']}`);     
+                                    break;
+                                default:
+                                    el_new_attrs.setAttribute(`${key}`, `${newNode['attrs'][key]}`);
+                                }
+                            }
                         }
                     }
                 }
-            }
-        },
-    
-
+    }
 
 /* ------------------------------------------END OF OBJECT------------------------------------------------- */
 }
