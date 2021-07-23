@@ -1,0 +1,357 @@
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600&display=swap');
+
+
+/* -------------------------------------------------------------------------- GENERAL ---- */
+
+h1,
+h2,
+h3,
+h4,
+p,
+button,
+div,
+#calcDisplay > * {
+    font-family: 'Mitr', sans-serif;
+    font-size: 18px;
+    color: rgb(45, 30, 47);
+}
+
+/* --------------------------------------------------------------------------- COLORS --------------------------------------------------------------- */
+
+ /* --------------------------- Light Mode ---------------- */
+.lightmode-bg {
+    background-color: rgb(250, 250, 250);
+}
+
+.button-red-bg-lightmode {
+    background-color: rgb(247, 44, 37);
+}
+
+.highlight-color-bg-lightmode {
+    background-color: rgb(53,167,255);
+}
+
+.text-dark {
+    color: rgb(45, 30, 47);
+}
+
+.text-light {
+    color:rgb(204, 215, 197);
+}
+
+.op-button-bg {
+    background-color: rgba(53,167,255, 0.3);
+
+}
+
+.equals-button-bg {
+    background-color: rgba(247, 44, 37, 0.5);
+}
+
+
+/* -------------------------------------- Dark Mode ---------------------------- */
+
+.darkmode-bg {
+    background-color: rgb(45, 30, 47);
+}
+
+.button-red-bg-darkmode {
+    background-color: rgb(247, 44, 37);
+}
+
+.highlight-color-darkmode {
+    background-color: rgb(53,167,255);
+}
+
+.alt-color {
+    background-color: rgb(110,114,113);
+}
+
+/* --------------------------------------------------------------------------- INDEX.HTML ---- */
+
+.main-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+
+}
+
+
+/* Generic Container for single page app to centre content */
+.app-container {
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+}
+
+#calcBg {
+    width: 100%;
+    height: 40%;
+    /* border: solid 5pt; */
+    overflow: auto;
+    overflow-wrap: break-word;
+    border-radius: 16px;
+}
+/* The display of our calculator app */
+#appRoot {
+    position: absolute;
+    bottom: 62%;
+    left: 30%;
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 66%;
+    height: 30%;
+    overflow: auto;
+    font-weight: 200;
+}
+
+
+.result-display {
+    
+}
+
+.op-display {
+
+}
+
+.number {
+    font-size: 36px;
+}
+
+    /* This background colour is here for the purposes of debugging and to identify margins. Remove for finished product */
+  
+.num-button,
+.op-button {
+    margin: 10px 0px 10px 0px;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    box-shadow: 6px 6px 16px 0 rgba(49, 49, 48, 0.5),
+    -6px -6px 16px 0 rgba(49, 49, 48, .5);
+    border: none;
+   
+}
+
+.num-button:hover{
+    background-color: rgba(53,167,255, 0.2);
+}
+
+
+.op-button:hover,.equals:hover {
+    background-color:rgba(209, 205, 199, 0.5);
+}
+
+ .num-button,.op-button {
+    margin: 0 auto;
+}
+
+.button-container {
+    position: absolute;
+    top: 40vh;
+    height: 60%;
+    width: 100%;
+}
+
+/* ---------------------------------- GRID AREAS & NUMBER BUTTONS CONTAINER --------------------------------- */
+
+.one {
+    grid-area: num1; 
+}
+
+.two {
+    grid-area: num2;
+}
+
+.three {
+    grid-area: num3;
+}
+
+.four {
+    grid-area: num4;
+}
+
+.five {
+    grid-area: num5;
+}
+
+.six {
+    grid-area: num6;
+}
+
+.seven {
+    grid-area: num7;
+}
+
+.eight {
+    grid-area: num8;
+}
+
+.nine {
+    grid-area: num9;
+}
+
+.zero {
+    grid-area: num0;
+}
+
+.plus {
+    grid-area: plus;
+}
+
+.minus {
+    grid-area: minus;
+}
+
+.product {
+    grid-area: product;
+}
+
+.divide {
+    grid-area: divide;
+}
+
+.equals {
+    grid-area: equals;
+}
+
+.clear {
+    grid-area: clear;
+}
+
+.recall{
+    grid-area: recall;
+}
+
+.undo {
+    grid-area: undo;
+}
+
+.num-buttons-container {
+   
+    padding: 7.5px 7.5px;
+    /*position: relative; */
+    
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+    "num1 num2 num3 plus"
+    "num4 num5 num6 minus"
+    "num7 num8 num9 product"
+    "num0 num0 decimal divide"
+    "clear recall undo equals";
+    border-radius: 16px;
+    gap: 10px 0px;
+     
+   
+
+
+
+    
+    /*flex: 60%;
+    display: flex;
+    flex-flow: column nowrap ;
+    justify-content:center;
+    padding: 10px;
+    margin: 0;
+    list-style: none;
+    border: solid 1px;
+    height: 100%; */
+
+}
+
+
+/* ------------------------------------------------ BUTTON PAD GLYPHS - SPECIAL SETTINGS --------------------------------------------- */
+
+#divide {
+    font-size: 150%;
+}
+
+#divide span{
+
+}
+
+#decimal {
+    font-size: 200%;    
+}
+
+#decimal {
+    
+}
+
+#zero {
+    width: 75%;
+    border-radius: 25px;
+}
+
+#undo {
+    font-size: 16px;
+}
+
+#plus,
+#minus {
+    font-size: 150%;
+}
+
+#multiply {
+    font-size: 150%;
+}
+
+
+/* ----------------- BUTTON CLICK ANIMATION -------- */
+
+button:active {
+    box-shadow: inset -6px -6px 16px 0 rgba(255, 255, 255, .5), 
+    inset 6px 6px 16px 0 rgba(209, 205, 199, .5);
+
+}
+
+
+/* ---------------------------------------- Media Queries ------------- */
+/* ----------------------------------- BASE IPHONE SE BREAK POINT --------- */
+@media only screen and (min-width: 321px) {
+    .app-container {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 95vh;
+        width: 25vw;
+    }
+
+    .appRoot {
+
+    }
+
+    .num-button {
+        width: 50%;
+    }
+
+    #plus,
+    #minus,
+    #multiply,
+    #divide,
+    #equals,
+    #decimal,
+    #undo,
+    #recall,
+    #clear {
+        width: 45%;
+    }
+
+}
+
+/* ------------------------------------ IPAD BREAKPOINT ---------------- */
+
+/* INSERT THINGS HERE */
+
+
+
+/* -------------------------------------- RESIDUAL DESKTOP BREAKPOINT ------------- */
+
+
+
+
+/* ------------------------ AS OF 22/7/2021 ------- No Errors in CSS: W3C CSS Validation Service ------------------------------ */
