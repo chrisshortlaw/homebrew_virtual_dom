@@ -12,7 +12,7 @@ button,
 div,
 #calcDisplay > * {
     font-family: 'Mitr', sans-serif;
-    font-size: 18px;
+    font-size: 14px;
     color: rgb(45, 30, 47);
 }
 
@@ -39,6 +39,14 @@ div,
     color:rgb(204, 215, 197);
 }
 
+.op-button-bg {
+    background-color: rgba(53,167,255, 0.3);
+
+}
+
+.equals-button-bg {
+    background-color: rgba(247, 44, 37, 0.5);
+}
 
 
 /* -------------------------------------- Dark Mode ---------------------------- */
@@ -74,44 +82,53 @@ div,
     width: 100%;
     height: 100%;
     border-radius: 16px;
+    min-width: 320px;
+    min-height: 568px;
+    overflow: clip scroll; 
 }
-
+/* Background of  the screen and buttons */
 #calcBg {
     width: 100%;
     height: 40%;
-    /* border: solid 5pt; */
     overflow: auto;
     overflow-wrap: break-word;
     border-radius: 16px;
 }
 /* The display of our calculator app */
 #appRoot {
-    position: absolute;
+    position: fixed;
     bottom: 62%;
-    left: 30%;
+    left: 5%;
     display: flex;
     flex-flow: column-reverse nowrap;
     justify-content: flex-start;
     align-items: flex-end;
-    width: 66%;
+    width: 90%;
     height: 30%;
-    overflow: auto;
+    overflow-wrap: anywhere;
     font-weight: 200;
+    text-overflow:clip;
+    /* overflow:scroll; */
 }
 
-.result-display {
-    
+#op_display {
+    min-height: 60%;
+    max-height: 65%;
+    overflow:  clip scroll;
+    /* position: fixed; */
 }
 
-.op-display {
-
+#result {
+    min-height: 35%;
+    max-height: 40%;
+    overflow: scroll scroll;
+    position: fixed;
 }
+
 
 .number {
     font-size: 36px;
 }
-
-    /* This background colour is here for the purposes of debugging and to identify margins. Remove for finished product */
   
 .num-button,
 .op-button {
@@ -119,18 +136,22 @@ div,
     width: 80%;
     height: 80%;
     border-radius: 50%;
-    box-shadow: 6px 6px 16px 0 rgba(209, 205, 199, .5),
-    -6px -6px 16px 0 rgba(255, 255, 255, .5);
+    box-shadow: 6px 6px 16px 0 rgba(138, 138, 135, 0.5),
+    -6px -6px 16px 0 rgba(146, 146, 145, 0.5);
     border: none;
+   
 }
 
-.num-button:hover,
-.op-button:hover {
+.num-button:hover{
     background-color: rgba(53,167,255, 0.2);
 }
 
- .num-button, 
- .op-button {
+
+.op-button:hover,.equals:hover {
+    background-color:rgba(209, 205, 199, 0.5);
+}
+
+ .num-button,.op-button {
     margin: 0 auto;
 }
 
@@ -139,6 +160,8 @@ div,
     top: 40vh;
     height: 60%;
     width: 100%;
+    min-height: 60%;
+    min-width: 100%;
 }
 
 /* ---------------------------------- GRID AREAS & NUMBER BUTTONS CONTAINER --------------------------------- */
@@ -217,9 +240,8 @@ div,
 
 .num-buttons-container {
    
-    padding: 7.5px 7.5px;
-    /*position: relative; */
-    
+    padding: 2px 2px;
+    position: relative;
     display: grid;
     grid-template-rows: repeat(5, 1fr);
     grid-template-columns: repeat(4, 1fr);
@@ -228,32 +250,16 @@ div,
     "num4 num5 num6 minus"
     "num7 num8 num9 product"
     "num0 num0 decimal divide"
-    "clear recall undo equals";
+    "clear clear . equals";
     border-radius: 16px;
     gap: 10px 0px;
-     
-   
-
-
-
-    
-    /*flex: 60%;
-    display: flex;
-    flex-flow: column nowrap ;
-    justify-content:center;
-    padding: 10px;
-    margin: 0;
-    list-style: none;
-    border: solid 1px;
-    height: 100%; */
-
 }
 
 
 /* ------------------------------------------------ BUTTON PAD GLYPHS - SPECIAL SETTINGS --------------------------------------------- */
 
 #divide {
-    font-size: 150%;
+    font-size: 125%;
 }
 
 #divide span{
@@ -261,11 +267,16 @@ div,
 }
 
 #decimal {
-    font-size: 200%;    
+    font-size: 250%;    
 }
 
-#decimal i {
-    padding-top: 60%;
+#clear {
+    width: 75%;
+    border-radius: 20px;
+}
+
+#decimal {
+    
 }
 
 #zero {
@@ -273,9 +284,6 @@ div,
     border-radius: 25px;
 }
 
-#equals:hover {
-    background-color:rgb(247, 44, 37, 0.5);;
-}
 #undo {
     font-size: 16px;
 }
@@ -302,21 +310,38 @@ button:active {
 /* ---------------------------------------- Media Queries ------------- */
 /* ----------------------------------- BASE IPHONE SE BREAK POINT --------- */
 @media only screen and (min-width: 321px) {
+    
+    .main-container {
+        min-height: 568px;
+        min-width: 320px;
+        /* overflow: scroll scroll; */
+    }
+
+    #calcDisplay > * {   
+        font-size: 18px;
+    }
+
     .app-container {
         position: absolute;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
-        height: 95vh;
+        height: 60vh;
         width: 25vw;
+        min-width: 320px;
+        min-height: 568px;
+        overflow: hidden auto;
+
     }
 
-    .appRoot {
-
+    .number {
+        font-size: 36px;
     }
 
     .num-button {
-        width: 50%;
+        width: 80%;
+        height: 80%;
+        
     }
 
     #plus,
@@ -326,16 +351,81 @@ button:active {
     #equals,
     #decimal,
     #undo,
-    #recall,
-    #clear {
-        width: 45%;
+    #recall {
+        width: 80%;
+        height: 80%;
     }
 
 }
 
-/* ------------------------------------ IPAD BREAKPOINT ---------------- */
+/* ---------------------------------------------------------------------------------- IPAD BREAKPOINT ---------------- */
 
-/* INSERT THINGS HERE */
+@media only screen and (min-height: 678px) {
+
+
+    
+    #appRoot {
+        bottom: 45%;
+        padding-bottom: 20px;
+    }
+
+    .button-container {
+        top: 60%;
+    }
+
+    .app-container {
+        height: 569px;
+        width: 25vw;
+        min-width: 320px;
+        min-height: 568px;
+        max-height: 570px;
+        max-width: 320px;
+        position: fixed;
+    }
+
+    #divide {
+        font-size: 175%;
+    }
+    
+    #divide span{
+    
+    }
+    
+    #decimal {
+        font-size: 250%;    
+    }
+    
+    #clear {
+        width: 75%;
+        border-radius: 20px;
+    }
+    
+    #decimal {
+        
+    }
+    
+    #zero {
+        width: 75%;
+        border-radius: 25px;
+    }
+    
+    #undo {
+        font-size: 16px;
+    }
+    
+    #plus,
+    #minus {
+        font-size: 175%;
+    }
+    
+    #multiply {
+        font-size: 175%;
+    }
+
+    #equals {
+        font-size: 175%;
+    }
+} /* --------------------------------------------------------------------------------------------------   END OF IPAD MEDIA QUERY */ 
 
 
 

@@ -7,7 +7,6 @@ import {PUBSUB} from '../viewModel.js'; // Change This Later
 
 export const inputValidatorRegex = {
  
-   
     decimal: new RegExp('(\d+\.\d+)|(\.\d+)'),
     notNumeral: new RegExp('\D|\W'),
     operator: new RegExp('\+|\-|\/|\*|\%'),
@@ -15,8 +14,6 @@ export const inputValidatorRegex = {
     digitInput: new RegExp('\d'),
     decimalInput: new RegExp('/\.'),
     operatorInput: new RegExp('[+*-/]'),
-
-   
    // const arithExpInput = /(\d+)\s*([+*-/])\s*(\d+)/;
     arithExpInput: new RegExp('^\d(?:\s[+*-/]\s\d)+$')
 }
