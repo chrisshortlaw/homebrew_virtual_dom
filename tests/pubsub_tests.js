@@ -77,11 +77,11 @@ testObjconstructor();
 /* Working as of 12/7/21 */
 
 testAddTopic(observertest3, 'Add Topic Failed');
-/* Apparently working */
+/* Working */
 testTopicList(observertest4, 'Failed to create Array', 'Incorrect Number of Topics');
 
 testSubscribe(observertest5, 'topic1', console.log, 'TestSubscribe: Subscription Method Failed');
-/* Apparently Working */
+/*  Working */
 testPublish(observertest7, 'testTopic', console.log, 'TestPublish: This is a working test');
 //testSubscribe(observertest6, 'topic2', console, 'You may not see this. Expect Error Thrown'); 
 // This test should fail and throw an internal error in the method.
