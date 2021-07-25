@@ -73,58 +73,60 @@ div,
     position: relative;
     width: 100vw;
     height: 100vh;
-
+    overflow: auto;
 }
 
 
 /* Generic Container for single page app to centre content */
 .app-container {
-    width: 100%;
-    height: 100%;
+    width: 320px;
+    height: 568px;
     border-radius: 16px;
     min-width: 320px;
     min-height: 568px;
-    overflow: clip scroll; 
+    max-height: 568px;
+    overflow: scroll; 
+    position: absolute;
 }
 /* Background of  the screen and buttons */
 #calcBg {
-    width: 100%;
-    height: 40%;
-    overflow: auto;
+    width: 320px;
+    height: 568px;
+    overflow: hidden;
     overflow-wrap: break-word;
     border-radius: 16px;
 }
 /* The display of our calculator app */
 #appRoot {
-    position: fixed;
-    bottom: 62%;
+    position: absolute;
+    bottom: 65%;
     left: 5%;
     display: flex;
     flex-flow: column-reverse nowrap;
     justify-content: flex-start;
     align-items: flex-end;
     width: 90%;
-    height: 30%;
+    height: 40%;
     overflow-wrap: anywhere;
     font-weight: 200;
-    text-overflow:clip;
-    /* overflow:scroll; */
+    text-overflow: clip;
 }
+    
 
 #op_display {
-    min-height: 60%;
-    max-height: 65%;
-    overflow:  clip scroll;
-    /* position: fixed; */
+    min-height: 35%;
+    max-height: 70%;
+    overflow: hidden scroll;
+    overflow-wrap: anywhere;
+    
+    
 }
 
 #result {
     min-height: 35%;
     max-height: 40%;
-    overflow: scroll scroll;
-    position: fixed;
+    overflow: scroll;
 }
-
 
 .number {
     font-size: 36px;
@@ -139,7 +141,6 @@ div,
     box-shadow: 6px 6px 16px 0 rgba(138, 138, 135, 0.5),
     -6px -6px 16px 0 rgba(146, 146, 145, 0.5);
     border: none;
-   
 }
 
 .num-button:hover{
@@ -156,8 +157,8 @@ div,
 }
 
 .button-container {
-    position: absolute;
-    top: 40vh;
+    position: fixed;
+    top: 42vh;
     height: 60%;
     width: 100%;
     min-height: 60%;
@@ -262,10 +263,6 @@ div,
     font-size: 125%;
 }
 
-#divide span{
-
-}
-
 #decimal {
     font-size: 250%;    
 }
@@ -273,10 +270,6 @@ div,
 #clear {
     width: 75%;
     border-radius: 20px;
-}
-
-#decimal {
-    
 }
 
 #zero {
@@ -314,15 +307,19 @@ button:active {
     .main-container {
         min-height: 568px;
         min-width: 320px;
-        /* overflow: scroll scroll; */
+
     }
 
     #calcDisplay > * {   
         font-size: 18px;
     }
+    
+    #appRoot {
+        max-height: 30%;
+    }
 
     .app-container {
-        position: absolute;
+        position: fixed;
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -330,7 +327,7 @@ button:active {
         width: 25vw;
         min-width: 320px;
         min-height: 568px;
-        overflow: hidden auto;
+        overflow: auto;
 
     }
 
@@ -356,7 +353,7 @@ button:active {
         height: 80%;
     }
 
-}
+} /* END OF BREAK POINT */
 
 /* ---------------------------------------------------------------------------------- IPAD BREAKPOINT ---------------- */
 
@@ -365,8 +362,8 @@ button:active {
 
     
     #appRoot {
-        bottom: 45%;
-        padding-bottom: 20px;
+        bottom: 52%;
+        padding-bottom: 10px;
     }
 
     .button-container {
@@ -374,22 +371,20 @@ button:active {
     }
 
     .app-container {
-        height: 569px;
+        height: 568px;
         width: 25vw;
         min-width: 320px;
-        min-height: 568px;
-        max-height: 570px;
         max-width: 320px;
         position: fixed;
     }
+
+
 
     #divide {
         font-size: 175%;
     }
     
-    #divide span{
-    
-    }
+
     
     #decimal {
         font-size: 250%;    
@@ -425,7 +420,8 @@ button:active {
     #equals {
         font-size: 175%;
     }
-} /* --------------------------------------------------------------------------------------------------   END OF IPAD MEDIA QUERY */ 
+}
+ /* --------------------------------------------------------------------------------------------------   END OF IPAD MEDIA QUERY */ 
 
 
 
