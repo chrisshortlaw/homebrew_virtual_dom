@@ -1,15 +1,14 @@
 # JSCALC
 
-This project will showcase a single-page app using html, css, and javascript to provide for interactive elements.
+JSCalc is a demo app for a much larger project: a simple virtual DOM library.
 
-The single-page app will be a calculator which will be able to evaluate functions and perform arithmetic.
+The virtual DOM will be used to create a straight-forward calculator web-app, which can perform simple arithmetic. Buttons and moving components will all be rendered via Javascript functions, assembled to a virtual DOM and mounted when called upon.
 
-This app will be built upon a custom library, built by the author, which will manipulate a virtual DOM a la React & Vue.
-
-The project itself will deploy a model-view-controller design pattern, separating the logic from the user input and the view aspects.
+The project therefore focusses on using Javascript to create the 'view' element of the Model-View-Controller pattern. In addition, a state management component will be included.
 
 This Project was submitted as Milestone Project 2 as part of the developer's studies with the Code Institute.
 
+DEMO APP IS [HERE](https://chrisshortlaw.github.io/jscalc/)
 ---
 
 ## Table of Contents
@@ -44,23 +43,35 @@ The approach to design and development will be the one that was devised and popu
 
 ### User Stories
 
-As a user, I want:
+As the user of a front-end library, I want:
+
+1. To write HTML, CSS and Javascript quicker
+2. Have a simpler way to manipulate what the browser displays to users
+3. Have classes/objects which can be extended and customised to suit my needs
+4. Is flexible and permits me to build what I want to build
+5. Aids me in adhering to SOLID principles
+6. Provides a neater interface for more complex code operations
+
+As a user of an app, I want:
 
 1. to input numbers into the calculator
 2. to perform operations on the numbers I input
 3. to have the correct answer of those operations displayed to me
 4. for the calculator to have a user friendly interface
-5. to be able to perform algebraic operations with the calculator
-6. to draw graphs with the calculator
-7. to have the calculator have a dark mode
-8. to allow me to change the colors of the calculator display
-9. to provide an easy way for me to convert values (e.g. imperial to metric)
 
 ### Strategy
 
 The strategy plane of UX design concerns itself with high-level decisions about the product and trade-offs between features to be developed now and others to be developed later. Compare feasibility of features with importance.
 
-The objectives of the product are to provide a working calculator app which user will use to perform calculations. These calculations can range from:
+As this project has two parts: build a library to manipulate a virtual DOM and mount it, and use that library to build an app, it is important to consider the user stories of both the user of the library (the developer) and the end-user. A library should allow the developer to write code quicker and permit them to arrange their code at a greater level of abstraction. Rather than write hundreds of lines of repetitive HTML, it would be better to write single, fluent functions which produce that HTML in a predictable and proper fashion. The developer is now free to focus on what the behaviour of her app will be, its aesthestic, its user experience. They focus on prototyping and then moving on the optimisation.
+
+When writing the library, we should be cognisant of what a successful library is and what it does. A successful library is of assistance to someone making something. Nothing more is required, but this masks a plethora of requirements for different developers. Looking at some of the more popular front end libraries, jQuery, React.js and vue.js, the general features of each are that they allow a developer to achieve more with fewer lines of code.
+
+For example, jQuery uses the '$' to save time when selecting parts of the DOM and updating them. Its code wraps around objects in the DOM and makes them more accessible. React and vue.js do the same thing, although the way they achieve it slightly different. React's interface, for example, requires you to write HTML-like code called 'JSX' (javascript Extensible Markup Language). Similarly, vue lets you write templates to create html and css. So a helpful interface is key in developing a useful library.
+
+Most libraries emphasise their speed and how lightweight they are, so a library should aim to be lean and use the resources of the browser efficiently. Ultimately, all of these libraries reduce to javascript, an interpreted language, so there will be a limit to speed enhancements. 
+
+If we are going to build an app with our library, we should consider what we should expect from this product. A calculator should potentially be able to do the following:
 
 - Simple (single operator) Arithmetic expressions;
 - Arithmetic expressions with multiple operators, parentheses;
@@ -76,13 +87,26 @@ The development of a calculator with all of these functions is certainly possibl
 
 The LEAN model of software design will be adopted here with the identification of a minimum viable product (MVP) which can be released to the public. 'Lean startups' are very _en vogue_ at the present and business types are greater fashion-victims than teenagers. Yet, it makes sense to focus on developing a basic, working product and seek to add features to it. In this regard, we will plot out the different objectives on the basis of feasibility and importance. Importance here will be based on how we perceive each products appeal to the wider public.
 
+Our library will take a similar approach, focussing on building a quicker way to write HTML and create interactive elements for a webpage or an app. This will require us to focus on the 'view' aspect of the model-view-controller framework. React, for example, just focusses on the 'view' aspect and leaves issues such as state to other libraries like Redux. Vue.js, on the other hand, incorporates state as part of its library. This project will develpo statement management, but it will follow after we have a working 'view'.
+
 #### [INSERT IMPORTANCE/FEASIBILITY GRAPH HERE]
 
-As can be seen from the graph, it is clear that our focus should be on the implementation of basic arithmetic expressions followed by the accounting/finance functions. These are popular and often used functions which users will find useful. These functions also naturally build upon one another.
 
 #### _User Needs_
 
 Here we segment our users into different groups, each having a certain characteristic in common. Marketers often segment groups by demographics: age, ethnicity, income level and so on.
+
+Here are the sorts of people who want to use a front-end library:
+
+1. Web Developers
+
+    Going for the obvious one first, web developers create apps and websites. Being able to create a webpage quickly and avoid repetition is a key advantage, permitting the development of more complex user experiences and interfaces.
+
+2. Back-end developers
+
+    Our culture is very visual and often our work is judged on how it looks rather than its underlying quality. Thus is the cross the Back-End develpoer must bear as they find their work is sullied by the need for a pretty veneer. Here, however, a frontend framework, which does not require too much HTML or CSS, which uses a familiar syntax and which is accessible can provide great assistance.
+
+The two groups above may actually comprise the entire community of developers, which speaks to the general usefulness of a tool which makes your job easier.
 
 I am going to identify three types of user for this calculator app.
 
@@ -92,7 +116,6 @@ I am going to identify three types of user for this calculator app.
 
 2. [INSERT ADDITIONAL USERS]
 
-#### Personas
 
 ### Scope
 
@@ -100,11 +123,11 @@ The scope follows on from the strategy plane. In this plane, we identify the spe
 
 #### What are we going to make?
 
-Our initial product will provide some basic calculator functionality (addition, subtraction, multiplication, division, percentage etc.). Later on, we might add financial functions, and potentially scientific calculator functions.
+We are going to make a front-end library and use it to make a basic calculator app.
 
-On the front-end, the user interface will work like a calculator. The display will have numbers and operators which can be clicked with a mouse or pushed with a button. To keep things simple, and to control user-input we will prevent inputs from a keyboard (both physical and virtual). This has the advantage of allowing us to retain a tight control over the user-input, reducing our need to accopunt for user error. This will also increase the security of the app.
+Our initial product will provide some basic calculator functionality (addition, subtraction, multiplication, division). Time permitting, financial functions might be added. The calculator app should have minimal HTML to demonstrate the functionality of the library.
 
-Finally, an undo function (whether it removes a digit entered in error or it undoes a calculation) will allow users to quickly fix errors, removing a potential point of irritation.
+On the front-end, the user interface will work like a calculator. The display will have numbers and operators which can be clicked with a mouse or pushed with a button. To keep things simple, an input validaotr will only permit valid numbers and operators to be entered. This has the advantage of allowing us to retain a tight control over the user-input, reducing our need to account for user error. This will also increase the security of the app.
 
 ### Structure
 
@@ -114,36 +137,44 @@ The structure plane involves the detailing of how each feature will work togethe
 
 #### How will we structure this app?
 
-Because we anticipate we shall need to scale our app, we should implement an appropriate design pattern. This will make it easier to add features in later versions, as well as keep our neatly code separated. A calculator app should be rather simple, so we should resist complicated design patterns.
+All code should be open for extension and scalability. We should have the ability to add additional features as we progress. Many pain points arise not out of code that does not work but our of code that is not open for extension or which cannot be made to adapt. 
+
+Because we anticipate we shall need to scale our app, we should implement an appropriate design pattern. This will make it easier to add features in later versions, as well as keep our neatly code separated. A calculator app should be rather simple, so we should resist complicated design patterns. A library should do something similar. For example, our library should implement a front-end but should also be open to working with a state manager at a later stage. At this point, we begin to develop a critical view of what good code is. Does good code tightly or loosely couple its different features? Should a library be *opinionated*? FOr example, compare the Flask library for Python with Django. The latter has much stronger opinions on how a developer should go about solving certain problems, whilst leaving them a vast discretion in other areas. Flask, by contrast, is indifferent to what it runs with. That said, an opinionated library does not, *per se*, squash creativity or enforce uniformity: Django powers a universe of different web apps and web sites.
+
+From my point of view, I will seek to loosely couple the different parts of the library. Being able to pick-and-choose is often a valued trait in software and loosely coupling gives me more scope to add additional features or change things as time goes on.
 
 If we think about the user interface many modern calculators possess, it has a display and a set of physical buttons. The physical buttons can be depressed and the display shows those inputs to the user. In certain contexts (such as pressing an enter or equals button) the display will show the user the upshot of an expression. Users therefore expect a responsive user interface which will show them the inputs they enter. They will also expect more feedback when there inputs are invalid. An example of an invalid input would be multiple decimal points or successive, double operators. One method would be to check their validity and disregard the invalid input. The app should also be able to display the inputs dynamically, like a calculator displays numbers and operators following each button press.
 
-To achieve this, the 'Model'-'View'-'Controller' design pattern will be adopted. This splits the responsibility for the data processing to the 'Model', the general presentation and style to the 'View' and the mediation between the the aforementioned View and Model to the Controller. In this case, the Model will hold the mathematical functions, api calls (if any), expression evaluations,arrays (stack), and the core data for the app. The Controller is charged with validating inputs, and managing the state. The View will  manage and render the VirtualDOM as well as hold our static HTML & CSS. The View will be manipulated by the Controller.
+To achieve this, the 'Model'-'View'-'Controller' design pattern will be adopted. This splits the responsibility for the data processing to the 'Model', the general presentation and style to the 'View' and the mediation between the the aforementioned View and Model to the Controller. In this case, the Model will hold the mathematical functions, api calls (if any), expression evaluations,arrays (stack), and the core data for the app. The Controller is charged with validating inputs, and managing the state. The View will manage and render the user interface and information to the browser, who will paint it to the user's screen.
 
 #### The Underlying Structure
 
-When building this app, my intention was to get to grips with the Virtual-Dom and the problems it solves. I started out by reading the documentation of some of the better known front -end libraries: React and Vue.js. Yet, I found the terminology confounding at times, even if the documentation was otherwise very well written. A desire to overcome my diffidence pushed me to try an write my own (cut-down) versions of what they were doing. This diversion quickly became a rabbit-hole but the more I wrote, the more I understood and the more I began to see the underlying logic and simplicity of each library. At some point, I had written enough that it could qualify as my own front-end library, albeit a rudimentary one.
+WWhen I began this project, my intention was to get to grips with the Virtual-Dom and the problems it solves. I started out by reading the documentation of some of the better known front -end libraries: React and Vue.js. Yet, I found the terminology confounding at times, even if the documentation was otherwise very well written. A desire to overcome my diffidence pushed me to try to create my own (cut-down) versions. This quickly ballooned into my writing my own library. Yet the more I dod on this more I began to see the underlying logic and simplicity of each library and the problems they seek to solve.
 
 Most apps are straightforward when decomposed. They consist of data and a way of presenting that data: 'Hello World' with pretensions. A wrinkle comes about when your presentation and the form of data is not one-to-one. At that stage, an intermediary is introduced to handle the data and transform it to something presentable. And thus we have our three part app. Below, I shall outline how I understand this and how I understand the approaches taken by React and Vue.js.
 
-At this point, I should state that I was greatly assisted by a volume of work by other developers in this area. In particular, the [Preact](), [PubSub.js](), and [Mozart]() by Tom Cully all provided insight and assistance into how these systems work. In particular, the effectiveness and simplicity of their code belies the clever decisions and approaches each of those projects deployed.
+At this point, I should state that I was greatly assisted by a volume of work by other developers in this area. In particular, the [Preact](https://github.com/preactjs/preact), [PubSub.js](https://github.com/mroderick/PubSubJS) by [Morgan Roderick](https://github.com/mroderick), and [Mozart](https://github.com/tomdionysus/mozart) by [Tom Cully](https://github.com/tomdionysus) all provided insight and assistance into how these systems work. In particular, the effectiveness and simplicity of their code belies the clever decisions and approaches each of those projects deployed.
 
-[INSERT MORE HERE]
+It is apposite to discuss the different approaches taken by frameworks such as jQuery and Angular and those such as React and Vue.js. Angular and jQuery manipulate the DOM directly through the DOM API and some optimisations to the search of the DOM. Vue and React deploy a virtual DOM, really a collection of javascript Objects, which is updated and rendered to the DOM upon changes being made by the underlying logic of the App.
+
+Much is made at how the virtual DOM is meant to be a significantly faster method of making interactive apps than querying the DOM and updating the relevant parts directly. This can be overstated. Generally, the DOM API has been optimised enough that querying the DOM and manipulating elements is quite fast and light on memory. Where DOM manipulation becomes slow is when you ask the browser to repeatedly re-render the layout of a webpage. Those calculations are relatively complex and require a lot of work form the browser. If you have ever wondered why your browser is such a memory hog, this is one the reasons why. Speed gains that come from virtual DOM libraries can probably be attributed to clever algorithms at the reconciliation phase of the DOM manipulation (the phase where you are telling the browser what needs to change on the page): React and Vue gather these updates into batches and make single, larger calls to the DOM. THe reasoning here is the browser is recalculating the DOM layout anyway and will have to locate every element. A better use of memory, therefore, arises by gathering as many layout changes as possible into a single change.
+
+While both approaches are viable, my library will manipulate and update the browser through the use of a virtual DOM. This will necessitate the construction and manipulation of many javascript objects, necessitating a neat and efficient interface for object creation.
 
 #### _VirtualDOM_
 
 A key part of the user experience is going to be feedback that arises when the user provides inputs. Anyone familiar with a calculator or any computer expects that when a key is pressed the corresponding value is displayed to them. There can be a few ways of achieving this input. One way might be to use the built-in features of the HTML form. A text-box permits the user to input characters and have them displayed to the user. These fields can then be styled to hide their lineage and resemble a more dynamic web-app. The limitations of this approach will be quickly exposed, however: the app will be limited to how many fields we have set out in our static HTML file. This might work where we only display a single number (recalling the most basic of calculators) but we want our app to scale and have a more pleasant user experience than a basic calculator.
 
-To achieve this, we shall have the display of our app be compromised of styled DOM elements. This will give us more flexibility when we decide how we want to display the inputs and outputs of our app. Yet, constanct DOM manipulation can become computationally heavy for a browser, a programme that is already something of a compute and memory hog. To reduce the need to constantly manipulate the DOM directly, we shall implement a virtual DOM.
+To achieve this, we shall have the display of our app be compromised of styled DOM elements. This will give us more flexibility when we decide how we want to display the inputs and outputs of our app. Yet, constant DOM manipulation can become computationally heavy for a browser, a programme that is already something of a compute and memory hog. To reduce the need to constantly manipulate the DOM directly, we shall implement a virtual DOM.
 
-A virtualDOM is, as the name suggests, a virtual or shadow DOM which is held by the Model and rendered by the ViewModel. The inspiration for this virtualDOM project came from a blogpost entitled [Building a Simple Virtual DOM from Scratch](https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#lets-make-our-app-more-interesting) by Jason Yu and much of the code is adapted from his work. The following sites and blogposts were also useful:
+A virtualDOM is, as the name suggests, a virtual DOM which forms the 'View' part of our 'Model - View - Controller'. The underying logic of the app sends information which is rendered to a tree of javascript objects. This Object tree is compared with the virtual DOM, which is itself a tree of javascript Objects that matches what is rendered to the DOM. The neceessary changes are made and then the virtual DOM is rendered and mounted to the browser. Ideally, this mounting and rendering algorithm should effectively identify which parts of the DOM needs to change and can intelligently instruct the browser on which parts to re-render. In addition to the sources above,  the inspiration for this virtualDOM project came from a blogpost entitled [Building a Simple Virtual DOM from Scratch](https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#lets-make-our-app-more-interesting) by Jason Yu and much of the code is adapted for this work. The following sites and blogposts were also useful:
 
 - [Marc Backes' 'Vue from Scratch - Part 2'](https://marc.dev/blog/vue-2-from-scratch-part-2/)
 - [Gethyl George Kurian - 'How Virtual-DOM and diffing works in React'](https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-works-in-react-6fc805f9f84e)
 - [Daniel Pedroso - Virtual DOM Explained](https://www.pluralsight.com/guides/virtual-dom-explained)
 - [Sven Roeterdink - 'Build your own React.js'](https://swennemans.gitbooks.io/building-your-own-react-js/content/)
 
-The virtualDOM is a simple Javascript Object which possesses the relevant tags, attrs and classes possessed by the DOM. Holding a simple object such as this is (allegedly) less computationally expensive than holding and rendering a DOM in piece-meal fashion with the DOM manipulation commands possessed by Javascript. For example, a div containing the text 'Hello World' might contain the following:
+The virtualDOM is a simple Javascript Object which possesses the relevant tags, attrs and classes possessed by the DOM. Holding a simple object such as this is (allegedly) less computationally expensive than holding and rendering a DOM in piece-meal fashion with the DOM manipulation commands possessed by Javascript. For example, an object which is to be rendered as a div containing the text 'Hello World' might contain the following:
 
     ``` javascript
     const vDisplay = {
@@ -162,7 +193,7 @@ This object would translate to the following in HTML:
     <div id='display'>Hello World</div>
     ```
 
-In order to make this code usable, we should define a function which will create javascript objects for us with the relevant attributes and tag names. Here is an example of how this function might look:
+In order to make this code usable, we need to define a function which will create javascript Objects for us with the relevant attributes and tag names. Here is an example of how this function might look:
 
     ```javascript
     function createVDOMElement(tagName, attrs, children) {
@@ -180,7 +211,7 @@ In order to make this code usable, we should define a function which will create
 
 It is possible to rewrite this code as an arrow function (=>) making the code more succinct, but possibly at the expense of readability. Arrow functions can be assigned to variables allowing them to be called by other functions.
 
-The next function will be a mount function. This function inserts the relevant VDOM elements into the actual DOM.
+The next function will be a mount function. This function inserts the relevant VDOM elements into the actual DOM. Here is a cut-down version of the mount function used by this library.
 
     ```javascript
     function mountVDOM(vnode, container) {
@@ -215,73 +246,24 @@ Similarly, we will remove the element with an unmount function.
     }
     ```
 
-'Diffing' or 'patching' is where the vDOM and the actual DOM are compared, the differences are identified, and then only those nodes which bear some differences are re-rendered. This saves on rendering the entire app each time a difference arises. Here is an adaption of an example given by Marc Backes:
+'Diffing' or 'patching' is where the vDOM and the actual DOM are compared, the differences are identified, and then only those nodes which bear some differences are re-rendered. This saves on rendering the entire app each time a difference arises. Take this example from [the Virtual Dom](https://github.com/Matt-Esch/virtual-dom/blob/master/vdom/patch.js) by [Matt Esch](https://github.com/Matt-Esch) or [this](https://github.com/preactjs/preact/blob/master/src/diff/index.js) from [Preact](https://github.com/preactjs/preact).  Each patch algorithm does, at their heart, the same thing. It walks down the tree of javascript Objects and runs comparisons on objects where it can. Where there is a mis-match, the new DOm is swapped in and the browser is asked to render this part of the DOM and its children.
 
-    ```javascript
-    function patch(n1, n2) {
-        // compare two vnodes, identify differences
-        // unsure what the below is doing when creating a constant
-        const el = (n2.el = n1.el);
+What should occur to us at this stage it that our library will need to generate and deploy a tree structure, one that is capable of being called by functions which pass data changes as arguments. This will be an important part of developing a working design.
 
-        // simple if state comparing the tags
-        if (n1.tag !== n2.tag) {
-            mount(n2, el.parentNode);
-            unmount(n1);
-        } else {
-            // Old vNode has string children
-            if (typeof n1.children === 'string') {
-                el.textContent = n2.children;
-            } else {
-                el.textContent = '';
-                n2.children.forEach(child => mount(child, el));            
-                } else {
-                    const c1 = n1.children;
-                    const c2 = n2.children;
-                    const commonLength = Math.min(c1.length, c2.length);
-                    // Patch children both nodes have in common
-                    for (let i = 0; i < commonLength; i++) {
-                        patch(c1[i], c2[i]);
-                    }
-
-                    // Where old node is longer
-                    // remove excess children
-                    if (c1.length > c2.length) {
-                        c1.slice(c2.length).forEach(child => {
-                            unmount(child);
-                        })
-                    }
-                    // New node is longer
-                    // add excess children
-                    else if (c1.length < c2.length) {
-                        c2.slice(c1.length).forEach(child => {
-                            mount(child, el)
-                        })
-                    }
-                }
-            }
-        }
-    ```
 We now have a way to identify and mount differences which have occurred since our screen was last rendered. Turning to our calculator app, the virtualDOM will primarily be concerned with managing and rendering a pleasant display. To this end, the structure of our app will look something like this:
 
     ```HTML
     <div id='appDisplay'>
     <!--appDisplay will be the primary mount point for our app. It will be the parent node for all the children below-->
-        <div id='calcHist'>
-        <!--calcHist will display the previous calculations and results. It can be cleared by the user by clicking on the CE key. calcHist itself will be rendered in the virtual DOM; the history will be mounted as children to the JS Object -->
-        </div>
+    
         <div id='equationDisp'>
-            <div id='firstOperand'>
-            <!--Per the name, this will take the first Operand. On DOMContentLoaded, it will default to '0' but this will re-render upon first input. Users will complete the entry by pressing enter on the GUI numberpad-->
-            <!--Our number will appear as a child of firstOperand, i.e. a textNode -->
-            <!--Upon completion of the equation and display of the result, both operands and operator will become children of calcHist-->
+            <div id='equation'>
+            <!--Per the name, this displays the equation. On DOMContentLoaded, it will default to '0' but this will re-render upon first input. Users will input the desired quation through clicking the virtual numberpad on the DOM and pressing '='.-->
+            <!--Our equation will actually be a textNode Child of this div. This is either accessed through element.TextContent or through a textNode in the DOM API -->
             </div>
-            <div id='secondOperand'>
-            <!--As above, the app will, for the time being, enforce RPN as the preferred method of input. Users will be required to enter both operands beforem selecting an operator. -->
-            </div>
-            <div id="operator">
-            </div>
+         
             <div id="result">
-            <!--Displays the answer to the processe equation. Will investigate method to have result remain as firstOperand so successive calculations can be done.-->
+            <!--Displays the answer to the processed equation. As with the above, this will have a textNode as a child, which will hold the result-->
             </div>
         </div>
     </div>
@@ -290,117 +272,72 @@ We now have a way to identify and mount differences which have occurred since ou
 The relevant javascript objects should look as follows:
 
     ```javascript
-    [{
+    {
         tagName:'div',
         attrs: {
-            id: 'calcHist'
+            id: 'appDisplay'
         },
         children: [ 
             // Children for calcHist will be comprised of text Nodes
             // it may be easier to render each of these as a single object
-                    { // firstOperand
-                        tagName: 'p'
-                        attrs: {}
-                        children: ['100'] // this should render as textContent.
+                    {
+                        tagName:'div',
+                        attrs: {
+                            id: 'equation',
+                        },
+                        children: ['0'] // child is a textNode
                     },
-                    { // secondOperand
-                        tagName: 'p'
-                        attrs: {}
-                        children: ['200']
-                    },
-                    { //operator
-                        tagName: 'p'
-                        attrs: {}
-                        children: ['+']
-                    },
-                    { // result
-                        tagName: 'p'
-                        attrs: {}
-                        children: ['300']
-                    }      
+                    {
+                        tagName: 'div',
+                        attrs: {
+                            id: 'result',
+                            
+                        },
+                        children: ['0'] // child is a textNode
+                    }
                 ]
+                
     },
-    {
-        tagName:'div',
-        attrs: {
-            id: 'equation',
-        },
-        children: [
-            {
-                tagName: 'div',
-                attrs:{
-                    id: 'firstOperand',
-                    value: 0 // value must match child - devise function to check this.
-                },
-                children: ['0'] // child is a textNode
-            },
-            {
-                tagName:'div',
-                attrs:{
-                    id: 'secondOperand',
-                    value: 0 // value is integer which we can use to perform equations
-                },
-                children: ['0']
-            },
-            {
-                tagName: 'div',
-                attrs: {
-                    id: 'operator',
-                    value: +
-                },
-                children: ['+']
-            },
-            {
-                tagName: 'div',
-                attrs: {
-                    id: 'result',
-                    value: 0 // value should be assigned by function in model.
-                },
-                children: []
-            }
-        ]
-    }]
     ```
 
-We shall probably need to add classes to the attrs of these js objects as we will want all the elements to be styled correctly.
+Even this, very simple, element has two branches both terminating in a leaf. If we are to add features, such as a history function or a graphing function, we need a method to generate this tree structure repeatedly, quickly and in a way that reduces overall complexity.
 
-We now have a sketch of the basic data-structures and operations of our app.
+We now have a sketch of the basic data-structures and operations of our library and we are beginning to see how it meets the requirements for our demo app.
 
 #### Components & 'Props'
 
-The code above, the articles and tutorials cited all lack a discussion of components and props. These form a key aspect of the use of any front-end framework such as React and Vue.js and any emulation of those frameworks, however simple, is incomplete without them.
+The code above, the articles and tutorials cited all lack a discussion of components and props. These form a key aspect of the use of any front-end framework such as React and Vue.js and any emulation of those frameworks, however simple, is incomplete without discussing them.
 
 *Components* according to React.js's [tutorial](https://reactjs.org/docs/components-and-props.html) are functions that accept data are parameters and cause something to be rendered in the Virtual DOM. An example of a component might be a clock which displays the current time. The relevant function takes the data on the current time as a parameter and creates the appropriate object in the virtual DOM. The vDOM can then be rendered to display the current time on a webpage.
 
 Where *components* are functions that take data as parameters and create parts of the vDOM, *props* are the data and parameters. Taking our Clock example, the *prop* would be the current time which is fed to the function (the *component*) as a parameter.
 
-Turning to the present app, I propose to start very simply with four components: An 'operand-1' component, an 'operand-2', 'operator' component and a 'result' component. Each of these shall have a single prop which shall be a string. For operand1 and operand2, these shall be numbers (either integers or floats), the operator will be a series of symbols or a string (i.e exponent, squareroot etc.). The prop attached to result shall also be a number, either an integer (where both numbers are integers) or a float.
+The important information to take away here is that components are functions (which in javascript are really just Objects) and props are the data or the logic which tells these functions what to produce.
 
-A sample of what our component might look like:
+As a spoiler, here is a sample version of what a component from a calculator app might look:
 
     ```javascript
-    function operand1(tagName = 'span', attrs = {id: 'operand1'}, props = {value: 0, text: `${this.value}`})  {
-        return {tagName,
-                attrs,
-                props
-                }
-
+        function createTextComponent(tagName, textChild, classes, id){
+            /* Body omitted for brevity*/
         }
+        const new_result = createTextComponent('div', result, 'number text-dark', 'result_display');
     ```
 
 This should yield a javascript Object which looks like this:
 
     ```javascript
     {
-        tagName: 'span',
+        tagName: 'div',
         attrs: {
-            id: 'operand1'
+            id: 'result-display',
+            classes: 'number text-dark'
             },
         props: {
-            text: '0'
+            children:[`${result}`,] 
         }
     }
     ```
+The function renders an object with the 'result' parameter being inserted as a template literal. This is to demonstrate how this function can incorporate changes or variables into its generation process.
 
 We run this through our mount function, using 'vnode' as shorthand for our object:
 
@@ -435,12 +372,16 @@ We run this through our mount function, using 'vnode' as shorthand for our objec
     All going well, the above should yield the following:
 
         ```HTML
-        <span id='operand1'>0</span>
+        <div id='result-display' class='number text-dark'>`${result in here as text}`</div>
         ```
+
+This will be valid HTML. Note the flexibility also means we can use our functions to add in-line styles and style each component depending on whether certain conditions are met. This can lead to writing less CSS. I shall not focus on this aspect for the demo app as the use of inline CSS can be controversial and it may be preferable to use the DOM API built-in interafce for adding styles to a page, but the option is there and certainly can be deployed should a user desire it.
 
 ##### State & Reaction
 
-The ability to maintain, update and recall state is an important part of any User Interface and Experience. Most front-end libraries have a state-management library: React integrates tightly with Redux, Vue.js uses vuex. State management allows for the *encapsulation* of the underlying data or dat-model as well as ensuring the user-interface changes and updates along with said underlying data.
+The ability to maintain, update and recall state is an important part of any User Interface and Experience. Most front-end libraries have a state-management library, whether bundled directly or a simplified interface: React integrates tightly with Redux, Vue.js uses its own vuex. State management allows for the *encapsulation* of the View aspect of our app, as it allows the MOdel or Data aspect of the app to simply message changes to the state-manager without needing to interact with the virtual DOM directly.
+
+Encapsulation is highly desirable as it makes for code that is, as said above, open for extension but closed for modification (especially inadvertent modification). Neatly encapsulated code permits the app to be augmented with additional features
 
 It does this in two ways: it holds the data as an object (we shall call it a 'state manager'), updating and altering this object as necessary, and it deploys a publish/subscribe pattern to alert other elements (the render functions in the vDOm, the vDOM itself etc.) of any such changes or updates. A useful animation and explanation can be found in vue.js' [documentation](https://vuejs.org/v2/guide/reactivity.html).
 
@@ -496,58 +437,244 @@ The below is an adaptation of the observer pattern from an article by [Devan Pat
         }
     }
     ```
-We could also use jQuery .on() events in place of an observer pattern. This might be a simpler implementation.
-
-#### Model/DATA
-
-The VirtualDOM, its components and props, form what will be painted to the browser. In turn, this receives props from the State Manager communicated via our PublishSubscribe instance. The State Manager will in turn, receives inputs from an instance of our Model Class.
-
-In making this class, I have, for now, required it be linked to an instance of the PublishSubscribe class. This makes this part of the library opinionated, even though PublishSubscribe only loosely couples classes and instances. I will freely admit this,
+Most developers, even junior ones, will have used the Observer pattern at some point if they have ever used an event listener in javascript. The advantages of such a design pattern are that it allows you to write objects with single responsibility that send messages to one another, as opposed to directly calling and manipulating each other. It also introduces asynchronicity into your code as message need only be passed when a function has done its work and no function is awaiting another.
 
 ### Skeleton
 
-Here we begin to design the interface and the navigation of the product. This should be a natural follow-on from above. Why? Because a bunch of articles, books and papers from a self-styled experts on UX design tell us it should be so. Anyway, this is the bit where you figure out how many distinct html files you will need to write, where to put a nav-bar, and all that stuff. Invariably the nav bar will be at the top, and will transform to a burger menu on mobile. There you have it.
+Here we begin to design the interface and the navigation of the product. This should be a natural follow-on from above. This is the bit where you figure out how many distinct html files you will need to write, where to put a nav-bar and so on.
+
+It may seem like this should not apply to a library, but a library must have some semblance of a user interface too, and should have an underlying structure. Later, we will talk about how our library can help build the structure of our app.
+
+Turning to our skeleton, we might consider how our library integrates into the app as whole. Here is a diagram of a model-view-controller setup for an app:
+
+![M-V-C-Diagram](./Images/mvcdiagram.gif "M-V-C Diagram")
+
+Our app will focus on the view and making it easier to produce HTML. This is where we begin to consider design patterns in code and how they might help us. We have established that we need to build two things: a tree structure and also a way to produce complex, tree-like, objects using relatively straight-forward functions. Simple, right?
+
+Not really. These structures will have a degree of complexity and designing them from scratch actually takes a lot of effort. Fortunately, some of tha pain is removed by referring to design patterns. Particularly, two texts: Design Patterns: Elements of Reusable Object-Oriented Software and Tomas Corral's Master Design Patterns in Javascript.
+
+To cut a long story short, when one wishes to design a tree structure, the Composite pattern is deployed. With the Composite pattern, we have three types of object: A base Node which will hold the common methods and properties for our composites, a 'tree' Node which will have 'root' (for the purposes of the web, this would be an element upon which our virtual DOM will mount), and a 'composite' node which holds all the useful information. The tree Node (in opur library, this is called the DomTree) is the base upon which we build our virtual Dom. It comes with a mountPoint (an element), and the ability to hold childNodes.
+
+Sample Dom Tree Code:
+
+    ```javascript
+    class DomTree extends DomNode {
+    constructor(tagName, container, attrs, props) {
+        super(tagName, attrs, props);
+        this.root = container;
+        this._children = [];
+
+        this.CompID = 1;
+        this.ParentID = 0;
+
+        Object.defineProperties(this, {
+            'children': {
+                configurable: false,
+                enumerable: true,
+                get() {
+                    return this._children;
+                },
+                set (val) {
+                    this.add(val);
+                }
+            }
+        });
+    }
+    ```
+
+Creating a tree node works as follows:
+
+    ```javascript
+    let mountPoint = document.getElementById('mountPoint');
+    let dom_tree = new DomTree('div', mountPoint);
+    ```
+
+Children can be added to the DomTree through the use of a .add() method. Once this is complete, the DomTree can be mounted by using our mount function if it is an initial upload or our patch function if we are altering our DOM.
+
+The Children of our DomTree will be Composite Nodes called 'Vnodes'. A sample of how to create a sample Vnode:
+
+    ```javascript
+    class Vnode extends DomNode {
+            constructor(vnodeBuilder) {
+            super(vnodeBuilder.tagName);
+            //this.tagName = vnodeBuilder.tagName;
+            this.attrs = vnodeBuilder.attrs ?? {}; 
+            this.props = vnodeBuilder.props ?? {};
+
+            if (vnodeBuilder.props?.children != null) {
+                if (vnodeBuilder.props?.children != undefined && vnodeBuilder.props?.children instanceof Array) {
+                    vnodeBuilder.props.children.forEach(child => this.add(child));
+                } else {
+                    // Put Something Here?!?
+                }
+            }
+        }
+    }
+    ```
+I shall discuss the Vnode Builder in the next section. Needless to say, it extends the DomNode and possesses attributes and props.
+The vNode is composite node: it can be added to other vNodes, or a DomTree, and can have other vNodes added to it. From this, we can design a tree structure in a relatively simple way.
+
+Now we have our tree structure, we still have to address the relatively prolonged way of generating and adding multiple Vnodes. In our calculator app, for example, we have multiple buttons which must each be generated and applied to the Dom. Writing these out in long form takes hundreds of lines of either javascript code or HTML. Having to repeat this constantly also introduces human error into the development, potentially leading us to bugs and syntax errors.
+
+What we need therefore is a way to construct these vnode objects and give them whatever custom attributes we might have. 
+
+
+This is where the Builder Design Pattern comes in. The Builder helps you create an object by assembling various building blocks in a fast, fluent style.
+
+Here is an example of the Builder Pattern applied to the creation of a series of button vnodes:
+
+    ```javascript
+    function createButton(buttonValue, buttonName, buttonClasses) {
+
+        const button_vnode = new Vnode(new Vnode.vnodeBuilder()
+                                .withTagName('button')
+                                .withAttrs(new AttrsBuild(new AttrsBuild.AttrsBuilder()
+                                            .withId(`${buttonName}`)
+                                            .withClass(`${buttonClasses}`)
+                                            .withClass(`${buttonName}`)
+                                            .withName(`${buttonName}`)
+                                            .withValue(`${buttonValue}`)
+                                            .build())
+                                        )
+                                .withProps(new PropsBuild.PropsBuilder()
+                                            .withChildren([`${buttonValue}`])
+                                            .build()
+                                        )
+                                .build()
+                                    );
+        return button_vnode;
+        }
+    ```
+As you can see, we are making use of EcmaScript 11's chaining to allow us to write an abstract function which we can use to produce multiple button nodes on the DOM.
+
+Here for example, is a loop forming a tree with the calculator buttons:
+
+    ```javascript
+        function renderButtonComponent(tree) {
+
+        const num_button_container = createComponent('div', 'num-buttons-container');
+
+        const num_button = {'one': 1, 'two': 2, 'three':3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine':9, 'zero': 0}; 
+        const op_button = {'plus':'+', 'minus':'-', 'multiply':'x', 'divide':'÷', 'clear':'C','equals': '=', 'decimal' : '.'};
+
+        for (const key in num_button) {
+            let currButton = createButton(num_button[key], key, 'num-button lightmode-bg test-dark');
+            num_button_container.add(currButton);
+        }
+        for (const key in op_button) {
+            let currButton = null;
+            if (key === 'equals') {
+                currButton = createButton(op_button[key], key, 'num-button equals-button-bg test-dark');
+
+            } else if (key == 'multiply'){
+                currButton = createButton('*', key, 'num-button op-button-bg test-dark');
+            } else if (key == 'divide'){
+                currButton = createButton('/', key, 'num-button op-button-bg test-dark');
+            } else {
+                currButton = createButton(op_button[key], key, 'num-button op-button-bg test-dark');
+            }
+            num_button_container.add(currButton);
+        }
+        tree.add(num_button_container);
+        return tree;
+
+    ```
+This code is not the most succinct or efficient, but even at this point we have reduced over a hundred lines to about twenty.
+
+For a further look at the Builder Pattern, the attrs_build.js and props_build.js files in the virtual_dom folder to get a feel for the pattern in action.
 
 ### Surface
 
-Colours (colors for all those US english types), typography, pictures, animations: all the pretty stuff that people like and that marketing firms charge a ransom for. These go on the surface plane and should reinforce the previous planes. If you are a wannabe developer, like myself, the golden thread of the previous planes will inevitably some SAAS money-for-old-rope scheme which the surface layer will bravely attempt to mask. Or it might be a blockchain/coin scam or one of those 'tech' companies that is really just an attempt to circumvent labour protections and regulation with an app. But a pretty font, an endless scroller webpage and some one-word marketing spiel might be enough to turn you into a unicorn, thus proving there are people who are just too rich to invest prudently.
+Libraries tend not to have surface levels. Or so people might think but one of the first things any library wishes to tell you is how to implement it or how simple it is to build a hello world component. The surface level is thus the interface in using the various components and the end result.
+
+My surface level is my deployed demo app, which can be access at: https://chrisshortlaw.github.io/jscalc.
+
+The library I wrote enabled me to write a non-trivial demonstration in a relatively short period of time.
+
+One might also note the initial HTML for the app:
+
+    ```HTML
+    <!DOCTYPE html>
+
+    <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <title>JSCalc - DEMO</title>
+            <meta name="description" content="JSCalc">
+            <meta name="author" content="Chris Short">
+            <meta name="viewport" content="width=device-width">
+            
+
+            <link rel="stylesheet" type="text/css" href="./style.css">
+            
+        </head>
+
+        <body>
+            <div class='main-container highlight-color-bg-lightmode'>
+                <div class="app-container lightmode-bg" id='app-container' role="application">   
+                </div>
+            </div>
+        </body>
+
+        <script src='./main.js' defer></script>
+    </html>
+    ```
+
+Coming in at a bear 24 lines, it demonstrates how much of the work I can shift to the library and the CSS style sheet. And it demonstrates this library has the potential to be used for the creation of more and different apps. For example, a todo list, a simple 'hello world'.
+
+![calculator demo app](/Images/Calculator_DEMO.png)
 
 ---
 
 ## Features
 
+Library:
+
+- [X] React Style Virtual DOM
+- [X] Build App Components with a fluent style
+- [X] Build a virtual DOM with minimal functions
+- [X] Update and alter app through state changes to the virtual DOM
+- [X] Provide a framework upon which future apps can be built
+- [X] Use the library to build a functioning App 
+
+App:
+
+- [X] Calculation functions: addition, subtraction, division, multiplication, exponents, square root etc. - Javascript functions & classes
+- [X] Display buttons, inputs, results of operations - HTML & CSS
+- [X] User input - handled by javascript, html
+
 ### Features to be implemented
 
-- [] Calculation functions: addition, subtraction, division, multiplication, exponents, square root etc. - Javascript functions & classes
-- [] Display buttons, inputs, results of operations - HTML & CSS
-- [] User input - handled by javascript, html
-- [] Order of Operations & Brackets
-- [] Mortgage & Interest Calculator
-- [] Logarithms (Is there an API for this?)
-- [] Converter: Weights & Measure
-- [] Converter: Currency
+Library:
 
-The above features correspond to model, view, controller design pattern. The calculation functions are the model, containing the logic and manipulating the data. The display corresponds to the view, displaying the information the user sees. The user input is the controller, allowing the user to interact with the programme and obtain their desired results.
+- [] Develop StateManager & PublishSubscribe components
+
+The state manager and the publish subscribe have been built and subjected to unit tests. However, I have yet to use them as part of an integration test. I plan to continue working on this.
+
+- [] Clean interface for mounting, patching
+
+- [] Optimise diffing algorithm
+
+The present algorithm is rudimentary and would potentially run into problems with an app of complexity. A more efficient algorithm is possible but will hjave to be developed at a later stage.
 
 ---
 
 ## Testing
 
-Devise tests as we go along with recordings or pictures to demonstrate operations.
+The nature of the project meant that the code was subjected to extensive unit tests on each individual part.
 
-Model Tests:
+Testing was carried out in a simple fashion. Functions were written and run in NOde.js. Console.assert was used to assert what the expected behaviour was and whether the output of the function yielded such behaviour. Where an error was expected, the library should throw a new Error, alert, or message. The breakdown of these unit tests can be found in the testing folder in the respository.
 
-- Addition function adds two numbers together. Addition is commutative.
+Integration tests were carried out locally using a live server extension on VS Code. These tests were entirely concerned with the calculator app and it functionality with the library. Integration testing worked incrementally: small parts of code were added and checked before another piece was deployed. The progress of these integration tests can be found in the 'tests' folder in this repo within the 'mount tests' folder.
 
-- Subtraction function deducts the right-most number from the leftmost.
+Each piece of code was run through JSHint. No errors were found although this code does use newer concepts from ECMAScript 11 such as optional chaining and nullish coalescing.
 
-- Multiplication yields the product of the left and right numbers.
+The HTML produced by the library was found to be error free:
 
-- Division yields the product of the inverse of the right-most number by the left-most.
+![html_validation](Images\html_validator_screenshot.png)
 
-- Divide by zero errors are caught and prevented.\
 
-- Non-integers are caught and prevented.
+CSS was passed through a CSS validator with no errors returned.
 
 ### **Interesting Bugs / Problems**
 
@@ -575,8 +702,6 @@ Model Tests:
     For the initial development stages, the Code will be kept in a monolithic, single code file with internally segregated sections. While this is not best practice for readability, it will more easily allow for frequent testing.
 
     Alternatively, an apache or nginx server could be set up on the development machine. This will be pursued at a later stage once the main structure and functions of the code have been written. At the preliminary stages, such a set up seems overkill.
-
----
 
 ## **Deployment**
 
@@ -721,6 +846,50 @@ To create a branch, type:
     git branch <insert name of branch>
     ```
 
-### Deploying to Heroku
+### Deploying to GitHub Pages
+
+Deployed on Github Pages: chrisshortlaw.github.io/jscalc/
+
+#### Deployment Process
+
+To deploy this page to GitHub Pages from its GitHub repository, the following steps were taken:
+
+1. Locate the [GitHub Repo](https://github.com/chrisshortlaw/jscalc "Link to GitHub Repo").
+2. Select Settings from the menu items at the top of the page.
+3. Scroll down the Settings page to the "Pages" section.
+4. Under "Source" click the drop-down menu labelled "None" and select "Master Branch".
+5. Upon selection, the page will automatically refresh meaning that the website is now deployed.
+6. Scroll back down to the "GitHub Pages" section to retrieve the deployed link.
 
 ## Credits
+
+The following projects were of great assistance, inspiration and I have emulated them shamelessly:
+
+- [Preact by Preactjs](https://github.com/preactjs/preact)
+- [PubSub.js by Morgan Roderick](https://github.com/mroderick/PubSubJS) 
+- [Mozart by Tom Cully](https://github.com/tomdionysus/mozart)
+- [the Virtual Dom by Matt Esch](https://github.com/Matt-Esch/virtual-dom)
+- [Simple-Virtual-Dom by Livoras](https://github.com/livoras/simple-virtual-dom)
+
+A lot of code was taken and compared from the following projects and tutorials:
+
+- [Building a Simple Virtual DOM from Scratch](https://dev.to/ycmjason/building-a-simple-virtual-dom-from-scratch-3d05#lets-make-our-app-more-interesting)
+- [Marc Backes' 'Vue from Scratch - Part 2'](https://marc.dev/blog/vue-2-from-scratch-part-2/)
+- [Gethyl George Kurian - 'How Virtual-DOM and diffing works in React'](https://medium.com/@gethylgeorge/how-virtual-dom-and-diffing-works-in-react-6fc805f9f84e)
+- [Daniel Pedroso - Virtual DOM Explained](https://www.pluralsight.com/guides/virtual-dom-explained)
+- [Sven Roeterdink - 'Build your own React.js'](https://swennemans.gitbooks.io/building-your-own-react-js/content/)
+- [Brian Nevill O'Neill - State Management Pattern in Javascript](https://dev.to/bnevilleoneill/state-management-pattern-in-javascript-sharing-data-across-components-2gkj)
+- [Devan Patel - Observer Design Pattern in Javascript](https://www.digitalocean.com/community/conceptual_articles/observer-design-pattern-in-javascript)
+
+
+Book referred to:
+
+- Casciaro, Mario & Luciano Mammino. 'Node.js Design Patterns', Packt Publishing, 2020.
+- Yang, Hu. 'Easy Learning Design Patterns Javascript'
+- Tomás Corral Casas. 'Mastering Javascript Design Patterns' 3rd edition(Early Access). Packt Publishing. 2019.
+- Gamma, Erich; Richard Helm, Ralph E. Johnson & John Vlissides. 'Design Patterns: Elements of Reusable Object-Oriented Software' (i.e "The Gang of Four Book"), Pearson Education, 2016.
+- Williams, Alberta. 'Guide to using the Composite Pattern With Javascript' at 'https://x-team.com/blog/understanding-the-composite-pattern/' (Last Accessed: 18-7-2021).
+
+
+- Many thanks to my mentor, Seun Owonikoko, who gave sage advice on this project and its design.
+- Many thanks also to Tom Cully, who was a source of encouragement and a critical eye.
