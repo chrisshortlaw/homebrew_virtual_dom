@@ -768,13 +768,13 @@ function createTextComponent(tag, state, classNames, id) {
      */
   function makeNewTree(operand, result, tree) {
 
-    
+    const new_display_calc = createComponent('div', 'display lightmode-bg', 'appRoot');
     const new_result = createTextComponent('div', result, 'number text-dark', 'result_display');
     const new_op_display = createTextComponent('div', operand, 'number text-dark', 'op_display');
 
-    tree.add(new_op_display);
-    tree.add(new_result)
-
+    new_display_calc.add(new_op_display);
+    new_display_calc.add(new_result);
+    tree.add(new_display_calc);
 
     return tree;
 }
@@ -812,7 +812,7 @@ const jsCalc = {
         jsCalc.operand = '0';
         jsCalc.result = '0';
 
-        let dom_tree = makeNewTree(jsCalc.operand, jsCalc.result, new DomTree('div', jsCalc.mountPoint, {'class': "display lightmode-bg", "_id": 'appRoot'}));
+        let dom_tree = makeNewTree(jsCalc.operand, jsCalc.result, new DomTree('div', jsCalc.mountPoint));
         vdom.mount(dom_tree, dom_tree.getRoot());
         jsCalc.currentTree = dom_tree;
         return jsCalc.currentTree;    
@@ -832,7 +832,7 @@ const jsCalc = {
     clearFields() {
         this.operand = '0';
         this.result = '0';
-        return jsCalc.updateDisplay(jsCalc.operand, jsCalc.result, new DomTree('div', jsCalc.mountPoint, {'class': "display lightmode-bg", "id": 'appRoot'}));
+        return jsCalc.updateDisplay(jsCalc.operand, jsCalc.result, new DomTree('div', jsCalc.mountPoint));
     },
     updateDisplay: function (value, resultValue, newTree) {
     
@@ -913,11 +913,5 @@ document.addEventListener('DOMContentLoaded', () => {
     set_event_listeners(document, function() {
                                                 jsCalc.getUserInput(this.value);
                                             });
-
-    /* Way to ensure op-display scrolls to bottom when input data */
-    window.setInterval(function() {
-        var elem = document.getElementById('op_display');
-        elem.scrollTop = elem.scrollHeight;
-      }, 5000);
                                             
 }); /* --------------------------------------------------------------- END OF DOCUMENT CONTENT LOADED LISTENER ------------------------ */

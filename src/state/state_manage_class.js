@@ -11,7 +11,7 @@ export class StateManager {
      * 
      * @param {Object} ObjectParam Contains key-values for state Object 
      */
-    constructor(ObjectParam) {
+    constructor(ObjectParam, pubSubInstance) {
         // this will hold the current state
         this._state = {};
         // this will hold the previous states and permit undo and recall 
@@ -19,11 +19,9 @@ export class StateManager {
         // this holds the initial state to which the object will return upon satisfaction of certain conditions
         this._initState = {};
         // this holds a reference to the PublishSubscribe Object Instance which will be called when the state updates
-        this._stateUpdateObj = null;
-
-        if (ObjectParam.hasOwnProperty('notifyStateUpdate')) {
-            this._stateUpdateObj = ObjectParam.notifyStateUpdate;
-        }
+        
+        this._topic = '';
+        this._pubsub = pubSubInstance;
         // sets the init State Property which will be the default and initial state for the object
         if (ObjectParam.hasOwnProperty('initState')) {
             this._initState = ObjectParam.initState;
@@ -49,21 +47,15 @@ export class StateManager {
             return this._history;
         }
 
-        setState(stateObj) {
-            const oldState = this.state;
-            if (typeof stateObj === "object"){
-                this._state = stateObj;
-                Object.freeze(oldState);
-                this._history.push(oldState);
-                this.notifyStateUpdate();
-            } else {
-                alert ('Argument must be an Object');
-            }
+        setState(state) {
+            const oldState = this._state;
+            this._state = state;
+            Object.freeze(oldState);
+            this._history.push(oldState);
         }
 
         resetState(){
-            this.setState(this.getInitState());
-            this.notifyStateUpdate();
+            this.state(this.getInitState());
         }
 
         getPrevState(){
@@ -83,28 +75,45 @@ export class StateManager {
             }
             // this.notifyStateUpdate()
         }
+       
+}
+
+
+/*  
+
+ /*
         /**
-         * @param {Object} func Instance of PublishSubscribe class
-         * This sets what function the State Manager instance will call when state updates occur. The func will most likely be an instance of the publishSubscribe class. Passed as an anonymous function as we do not wish to call the notification until an actual state change occurs.
+         * @param {Object} func Instance of PublishSubscribe class/ Or other object.
+         * This sets what function the State Manager instance will call when state updates occur. 
+         * The func will most likely be an instance of the publishSubscribe class. 
+         * Passed as an anonymous function as we do not wish to call the notification until an actual state change occurs.
          */
-        setStateUpdateObj(func) {
+        /*
+         setStateUpdateObj(topic, func) {
             
             this._stateUpdateObj = () => func;
-
+            this._topic = topic;
         }
+        */
+        
         /**
          * Notifies other functions of state changes
          */
-        notifyStateUpdate(topic, value) {
+        /*
+        notifyStateUpdate(value) {
             if (this._stateUpdateObj != null) {
-                this._stateUpdateObj(topic, value);
+                this._stateUpdateObj(this._topic, value);
             } else {
-                alert('StateUpdate has not been set.');
+                throw new Error('StateUpdate has not been set.');
 
             }
             
-        }
-    }
+        } */
+    
+        
+
+
+
 
 // StateObj for Each Component: Display Input, Result Input (Later Buttons etc.)
 // Subscribe to DATA

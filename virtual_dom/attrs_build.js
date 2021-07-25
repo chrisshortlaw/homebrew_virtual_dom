@@ -1,3 +1,5 @@
+/* Passes JSHINT with esversion warnings */
+
 /* 
     Attrs Build is a base class that will be used for easier composition of vnodes and attaching the relevant properties.
 
@@ -5,50 +7,23 @@
 
 export class AttrsBuild {
     constructor(AttrsBuilder){
-
-        this._className = AttrsBuilder?._className ?? '';
-        this._style = AttrsBuilder?._style ?? {};
-        this._id = AttrsBuilder?._id ?? '';
-        this.className = AttrsBuilder?.className ?? '';
-        this.style = AttrsBuilder?.style ?? {};
-        this.id = AttrsBuilder?.id ?? '';
-        
-        if (AttrsBuilder != null || undefined){
-            for (const key in Object.keys(AttrsBuilder)){
-                if (key !== ('className'||'id'||'style')){
-                    this[key] = AttrsBuilder[key];
-                }
-            }
-        }   
-    }
-    static get AttrsBuilder() {
-        class AttrsBuilder{
-            constructor(AttrsBuilder){
-                this.className = AttrsBuilder?.className ?? '';
-                this.style = AttrsBuilder?.style ?? {};
-                this.id = AttrsBuilder?.id ?? '';
-
-                Object.defineProperties(this, {
-                    '_class': {
-                        writable: true,
-                        enumerable: true,
-                        configurable: false
-                    },
-                    '_style': {
-                        writable: true,
-                        enumerable: true,
-                        configurable: false
-                    },
-                    '_id': {
-                        writable: true,
-                        enumerable: true,
-                        configurable: false
-                    }
-                });
-            }   
-        withClass(string) {
-
-            Object.defineProperty(this, 'className', {
+        Object.defineProperties(this, {
+            '_class': {
+                writable: true,
+                enumerable: true,
+                configurable: false
+            },
+            '_style': {
+                writable: true,
+                enumerable: true,
+                configurable: false
+            },
+            '_id': {
+                writable: true,
+                enumerable: true,
+                configurable: false
+            },
+            'className': {
                 configurable: false,
                 enumerable: true,
             
@@ -63,18 +38,11 @@ export class AttrsBuild {
                             throw('ClassName only takes a string as an argument');
                         }
                     },
-                
-                get() {
+                get () {
                     return this._class;
-                    }
-            })
-
-            this.className = string;
-            return this;
-        }
-        withStyle(styleObject) {
-
-            Object.defineProperty(this, 'style', {
+                }
+            },
+            'style': {
                 enumerable: true,
                 configurable: false,
 
@@ -89,12 +57,8 @@ export class AttrsBuild {
                 }
         
 
-            })
-            this.style = styleObject;
-            return this;
-        }
-        withId(val) {
-            Object.defineProperty(this, 'id', {
+            },
+            'id': {
                 enumerable: true,
                 configurable: false,
         
@@ -108,8 +72,66 @@ export class AttrsBuild {
                 get () {
                     return this._id;
                 }
-            })            
+            },
+            'name':{
+                enumerable: true,
+                writable: true,
+                configurable: false,
+
+            },
+            'value': {
+                enumerable: true,
+                writable: true,
+                configurable: false,
+            }
+        });
+
+      
+        this.className = AttrsBuilder?.className ?? '';
+        this.style = AttrsBuilder?.style ?? {};
+        this.id = AttrsBuilder?.id ?? '';
+        this.name = AttrsBuilder?.name ?? '';
+        this.value = AttrsBuilder?.value ?? null;
+    
+    }
+
+    static get AttrsBuilder() {
+        class AttrsBuilder{
+            constructor(AttrsBuilder){
+                this.className = AttrsBuilder?.className ?? '';
+                this.style = AttrsBuilder?.style ?? {};
+                this.id = AttrsBuilder?.id ?? '';
+                this.name = AttrsBuilder?.name ?? '';
+                this.value = AttrsBuilder?.value ?? '';
+
+               
+            }   
+        withClass(string) {
+            if (this.className !== '') {
+                this.className += ` ${string}`;
+            } else {
+                this.className = string;
+            }
+            return this;
+        }
+        withStyle(styleObject) {
+            if (typeof this.style === 'object' && Object.keys(this.style) > 0) {
+                for (key in styleObject) {
+                    this['style'][key] = styleObject[key];
+                }
+            }
+            return this;
+        }
+        withId(val) {
             this.id = val;
+            return this;
+        }
+        withName(name) {
+            this.name = name;
+            return this;
+        }
+        withValue(val){
+            this.value = val;
             return this;
         }
         setAttribute(AttrName, AttrVal) {
@@ -118,7 +140,7 @@ export class AttrsBuild {
                 writable: true,
                 configurable: true,
                 enumerable: true
-            })
+            });
             return this;
         }
         build() {

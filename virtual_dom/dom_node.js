@@ -1,3 +1,4 @@
+/* JSHINT pass - no errors */
 /**
  * Basic Class for the development of Nodes and the DOM tree.
  * 
@@ -66,5 +67,4 @@ export class DomNode {
     hasChildren(){
         toBeOverwritten();
     }
-
 }

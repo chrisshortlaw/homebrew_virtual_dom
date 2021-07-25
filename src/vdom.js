@@ -49,11 +49,13 @@ const vdom = {
                 case 'style':
                     let styleString = '';
                     for (const key in vnode['attrs']['_style']){
-                        styleString += `${key}:${vnode['attrs']['_style'][key]};`
+                        styleString += `${key}:${vnode['attrs']['_style'][key]};`;
                     }
                     el.setAttribute('style', styleString);
+                    break;
                 case 'id':
-                    el.setAttribute('id', vnode['attrs']['_id'])
+                    el.setAttribute('id', vnode['attrs']['_id']);
+                    break;
                 default:
                     el.setAttribute(key, vnode['attrs'][key]);
             }   
@@ -100,16 +102,11 @@ const vdom = {
     
         const el = newNode.el;
     
-        const parentNode = () => {if (oldNode.el.parentElement != null) {
-                    return oldNode.el.parentElement;
-                } else {
-                    return oldNode.el.parentNode;
-                }
-            }
+        const parentNode = oldNode.el.parentNode;
     
         if (oldNode.tagName !== newNode.tagName) {
-            unmount(oldNode);
-            mount(newNode);
+            vdom.unmount(oldNode);
+            vdom.mount(newNode);
         } else {      
             if (newNode.children.length !== oldNode.children.length) {
                 const aChild = oldNode.children;
@@ -117,24 +114,24 @@ const vdom = {
                 const common_length = Math.min(aChild.length, bChild.length);
     
                 for (let i = 0; i < common_length; i++) {
-                    patch(aChild[i], bChild[i]);
+                    vdom.patch(aChild[i], bChild[i]);
                 }
                 if (bChild > aChild){
                     bChild.slice(aChild.length).forEach(child => {
-                        mount(child, el);
+                        vdom.mount(child, el);
                 });
     
                 } else if (aChild > bChild) {
                     aChild.slice(bChild.length).forEach(child => {
-                        unmount(child);
+                        vdom.unmount(child);
                     });
                 } else {
                     
                     }
             } else {
                 if (Object.keys(oldNode.attrs).length !== Object.keys(newNode.attrs).length) {
-                        unmount(oldNode);
-                        mount(newNode, parentNode);
+                        vdom.unmount(oldNode);
+                        vdom.mount(newNode, parentNode);
                     } else {
     
                         const el_doc_id = oldNode.el.id;
@@ -167,59 +164,7 @@ const vdom = {
     }
 
 /* ------------------------------------------END OF OBJECT------------------------------------------------- */
-}
-
-/* -------------------------------- Misc Test Functions -------------------- */
-/**
- * 
- * @param {Object} n1 - object rendered with vDOM.h function 
- * @param {Object} n2 - object rendered with vDOM.h or .hNumNode function
-*/
-
-function patchText(n1, n2) {
-    // takes two rendered objects with h
-    // assigns the el key/value of n2 to be the same as n1 - n2 may replace n1
-        const el = (n2.el = n1.el);
-        // if statement comparing each node
-        if (n2.tagName !== n1.tagName) {
-            mountVDOM(n2, el.parentNode);
-            unmount(n1);
-        } else {
-            if (n2.props['text'] !== n1.props['text']) {
-                el.removeChild(n1.props['text']);
-                el.appendChild(document.createTextNode(n2.props['text']));
-                //this.setCurrentNode(n2);
-            } 
-        }
-    }
-
-function hNumNode(numText) {
-        /**
-         * function which focusses on the creation, diffing and amendment of Text Nodes
-         * Note: Function is impure - side effect: depends on state of getCurrentNode - consider
-         * refactor to make purer and produce 
-         *
-         */
-        const newNode = h('span', {}, {text: `${numText}`});
-        if (!this.getCurrentNode) {
-            this.mountVDOM(newNode, document.getElementById('app-root'));
-        } else {
-            patchText(this.getCurrentNode, newNode);
-                }
-                
-        }
-
-
-/* ------------------------------------------- BUILD STOCK COMPONENTS ----------- */
-
-/* 
-    the render function, H, has three parameters, tagName, Attrs & props. As our data changes and our state updates, we shall need to render new components which reflect these. Re-entering the same tagName or attrs or props seems wasteful if we are only updating a text-node, adding a class or changing a style.
-    
-    Components will help save time here. These are more concrete instantiations of our vDOM elements, with certain data hard-coded or specific methods used  to change data points.
-
-    The key here is we want functions to create new instantiations, rather than persistent objects with methods. Our virtual DOM is concerned with rendering and reconciling two distinct objects,  rather than updating a single vDOM object.
-*/
-
+};
 
 
 export {vDOM};

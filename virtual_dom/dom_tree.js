@@ -1,5 +1,5 @@
 import {DomNode} from './dom_node.js';
-
+/* PASSED JSHINT */
 /**
  * This class extends the DomNode class. It will be a container class which shall hold our tree. It will also possess the root property, which will  be the mount point for our tree. All nodes of our virtual Dom will need to have this Tree node as an ancestor even where it is several levels removed.
  */
@@ -43,16 +43,17 @@ export class DomTree extends DomNode {
      */
     remove(index){
         const arrLength = this._children.length;
-        if (typeof index != 'number'|| index == NaN) {
-            throw ('DomTree.remove() only takes an integer as an argument')
+        if (typeof index != 'number'|| isNaN(index) === true) {
+            throw new Error('DomTree.remove() only takes an integer as an argument');
         } else {
             let removeArray = [];
-            for (let i = 0; i < this._children.length; i++) {
+            for (let i = 0; i < arrLength; i++) {
                 if (i !== index) {
                     removeArray.push(this._children[i]);
                 }
             }
-            return this._children = removeArray;
+            this._children = removeArray;
+            return this._children;
         }        
     }
     replace(newNode, oldNodeIndex){
@@ -67,10 +68,9 @@ export class DomTree extends DomNode {
         newNode.CompID = oldCompID;
         newNode.ParentID = this.CompID;
         spliceArr.splice(oldNodeIndex , 1, newNode);
-        
-        
-        return this._children = spliceArr;
-    
+
+        this._children = spliceArr;
+        return this._children;
     }
     /**
      * A getter that gives us a shortcut to accessing the children property without the constant need to type props.
@@ -82,15 +82,14 @@ export class DomTree extends DomNode {
      * @returns a child located at the given index in an array will re
      */
     getChild(index) {
-        if ((typeof index == 'number'|| 'bigInt') && index != NaN) {
+        if ((typeof index == 'number'|| 'bigInt') && isNaN(index) === false) {
             if (index < this._children.length) {
                 return this._children[index];
             } else {
-                throw('DomTree.getChild(): Argument exceeds index');
+                throw new Error('DomTree.getChild(): Argument exceeds index');
             }
-            
         } else {
-            throw('DomTree.getChild() only takes number as parameter');
+            throw new Error('DomTree.getChild() only takes number as parameter');
         }
     }
     /**

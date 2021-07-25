@@ -13,6 +13,7 @@
 
 export class PublishSubscribe {
     /**
+     * Object that allows other objects to subscribe to topics or broadcast values to a topic stream which can be processed by subscribers.
      * 
      * @param {Array} topic Array of strings denoting topics to subscribe to 
      */
@@ -105,7 +106,7 @@ export class PublishSubscribe {
         if (Object.prototype.hasOwnProperty.call(this, topic)) {
              this[topic].push(callbackFunction);
             } else {
-                throw 'No Such Subscription Created';
+                throw new Error(`${topic}: `+'No Such Subscription Created');
             }
     }
     /**
@@ -122,7 +123,7 @@ export class PublishSubscribe {
         if (Object.prototype.hasOwnProperty.call(this, topic)){
             this[topic].forEach((subscriber) => { subscriber(output); });
         } else {
-            throw 'No Such Subscribed Topic';
+            throw new Error(`${topic}: `+ 'No Such Subscribed Topic');
         }
     }
 

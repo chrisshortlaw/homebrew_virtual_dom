@@ -1,7 +1,7 @@
 import {DomNode} from './dom_node.js';
-import {AttrsBuild} from './attrs_build.js';
-import {PropsBuild} from './props_build.js'; 
-
+//import {AttrsBuild} from './attrs_build.js';
+//import {PropsBuild} from './props_build.js'; 
+ /* PASSED JSHINT */
 
 /* vNodes are the nodes that will form the main-stay of any app. These nodes will have DOM attributes, such as ID & classes, and properties, such as children and DATA. The children property will allow the creation of branches and leaves without having to resort to repeated use of the .add() function. DATA permits the specification of the sort of data a component can hold and how it is updated.
 
@@ -95,7 +95,7 @@ export class Vnode extends DomNode {
      * @returns A string or a Vnode instance
      */
     getChild(index) {
-        if ((typeof index == 'number'|| 'bigInt') && index != NaN) {
+        if ((typeof index == 'number'|| 'bigInt') && isNaN(index) === false) {
             if (index < this._children.length) {
                 return this._children[index];
             } else {
@@ -121,16 +121,23 @@ export class Vnode extends DomNode {
     set ParentID(id) {
         this._ParentID = id;
 
+
     }
     set CompID(id) {
-        this.CompID = id;
+        this._CompID = id;
         let i = 1;
         this.children.forEach(child => {
-            if ((child instanceof vnode || DomNode) && child.ParentID == null && child.CompID == null) {
-                child.ParentID = this.CompID;
-                child.CompID = (this.CompID * 100) + i;  
+            if ((child instanceof Vnode || DomNode) && child.ParentID == null && child.CompID == null) {
+                child.ParentID = this._CompID;
+                child.CompID = (this._CompID * 100) + i;  
             }
             i++; 
-        })
+        });
+    }
+    get ParentID() {
+        return this._ParentID;
+    }
+    get CompID() {
+        return this._CompID;
     }
 }

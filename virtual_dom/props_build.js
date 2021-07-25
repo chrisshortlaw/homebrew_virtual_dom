@@ -30,7 +30,7 @@ export class PropsBuild {
                         enumerable: true,
                         configurable: true,
                         } 
-                    })
+                    });
 
                 this.data = propsBuilder?.data ?? {};
                 this.children = propsBuilder?.children ?? [];
@@ -43,7 +43,7 @@ export class PropsBuild {
                     configurable: true,
                     enumerable: true,
 
-                    })
+                    });
             
                 this.data = object;
                 return this;
@@ -54,7 +54,7 @@ export class PropsBuild {
                         if ((kid instanceof Vnode) || (typeof kid === 'string')) {
                             this.children.push(kid);
                         } else {
-                            throw('Children must be vnode Element or string')
+                            throw new Error('PropsBuild.WithChildren. Invalid Argument. Children must be vnode Element or string');
                         }
                     });
                 } else {
