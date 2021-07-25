@@ -1,0 +1,433 @@
+@import url('https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600&display=swap');
+
+
+/* -------------------------------------------------------------------------- GENERAL ---- */
+
+h1,
+h2,
+h3,
+h4,
+p,
+button,
+div,
+#calcDisplay > * {
+    font-family: 'Mitr', sans-serif;
+    font-size: 14px;
+    color: rgb(45, 30, 47);
+}
+
+/* --------------------------------------------------------------------------- COLORS --------------------------------------------------------------- */
+
+ /* --------------------------- Light Mode ---------------- */
+.lightmode-bg {
+    background-color: rgb(250, 250, 250);
+}
+
+.button-red-bg-lightmode {
+    background-color: rgb(247, 44, 37);
+}
+
+.highlight-color-bg-lightmode {
+    background-color: rgb(53,167,255);
+}
+
+.text-dark {
+    color: rgb(45, 30, 47);
+}
+
+.text-light {
+    color:rgb(204, 215, 197);
+}
+
+.op-button-bg {
+    background-color: rgba(53,167,255, 0.3);
+
+}
+
+.equals-button-bg {
+    background-color: rgba(247, 44, 37, 0.5);
+}
+
+
+/* -------------------------------------- Dark Mode ---------------------------- */
+
+.darkmode-bg {
+    background-color: rgb(45, 30, 47);
+}
+
+.button-red-bg-darkmode {
+    background-color: rgb(247, 44, 37);
+}
+
+.highlight-color-darkmode {
+    background-color: rgb(53,167,255);
+}
+
+.alt-color {
+    background-color: rgb(110,114,113);
+}
+
+/* --------------------------------------------------------------------------- INDEX.HTML ---- */
+
+.main-container {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    overflow: auto;
+}
+
+
+/* Generic Container for single page app to centre content */
+.app-container {
+    width: 320px;
+    height: 568px;
+    border-radius: 16px;
+    min-width: 320px;
+    min-height: 568px;
+    max-height: 568px;
+    overflow: scroll; 
+    position: absolute;
+}
+/* Background of  the screen and buttons */
+#calcBg {
+    width: 320px;
+    height: 568px;
+    overflow: hidden;
+    overflow-wrap: break-word;
+    border-radius: 16px;
+}
+/* The display of our calculator app */
+#appRoot {
+    position: absolute;
+    bottom: 65%;
+    left: 5%;
+    display: flex;
+    flex-flow: column-reverse nowrap;
+    justify-content: flex-start;
+    align-items: flex-end;
+    width: 90%;
+    height: 40%;
+    overflow-wrap: anywhere;
+    font-weight: 200;
+    text-overflow: clip;
+}
+    
+
+#op_display {
+    min-height: 35%;
+    max-height: 70%;
+    overflow: hidden scroll;
+    overflow-wrap: anywhere;
+    
+    
+}
+
+#result {
+    min-height: 35%;
+    max-height: 40%;
+    overflow: scroll;
+}
+
+.number {
+    font-size: 36px;
+}
+  
+.num-button,
+.op-button {
+    margin: 10px 0px 10px 0px;
+    width: 80%;
+    height: 80%;
+    border-radius: 50%;
+    box-shadow: 6px 6px 16px 0 rgba(138, 138, 135, 0.5),
+    -6px -6px 16px 0 rgba(146, 146, 145, 0.5);
+    border: none;
+}
+
+.num-button:hover{
+    background-color: rgba(53,167,255, 0.2);
+}
+
+
+.op-button:hover,.equals:hover {
+    background-color:rgba(209, 205, 199, 0.5);
+}
+
+ .num-button,.op-button {
+    margin: 0 auto;
+}
+
+.button-container {
+    position: fixed;
+    top: 42vh;
+    height: 60%;
+    width: 100%;
+    min-height: 60%;
+    min-width: 100%;
+}
+
+/* ---------------------------------- GRID AREAS & NUMBER BUTTONS CONTAINER --------------------------------- */
+
+.one {
+    grid-area: num1; 
+}
+
+.two {
+    grid-area: num2;
+}
+
+.three {
+    grid-area: num3;
+}
+
+.four {
+    grid-area: num4;
+}
+
+.five {
+    grid-area: num5;
+}
+
+.six {
+    grid-area: num6;
+}
+
+.seven {
+    grid-area: num7;
+}
+
+.eight {
+    grid-area: num8;
+}
+
+.nine {
+    grid-area: num9;
+}
+
+.zero {
+    grid-area: num0;
+}
+
+.plus {
+    grid-area: plus;
+}
+
+.minus {
+    grid-area: minus;
+}
+
+.product {
+    grid-area: product;
+}
+
+.divide {
+    grid-area: divide;
+}
+
+.equals {
+    grid-area: equals;
+}
+
+.clear {
+    grid-area: clear;
+}
+
+.recall{
+    grid-area: recall;
+}
+
+.undo {
+    grid-area: undo;
+}
+
+.num-buttons-container {
+   
+    padding: 2px 2px;
+    position: relative;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-areas:
+    "num1 num2 num3 plus"
+    "num4 num5 num6 minus"
+    "num7 num8 num9 product"
+    "num0 num0 decimal divide"
+    "clear clear . equals";
+    border-radius: 16px;
+    gap: 10px 0px;
+}
+
+
+/* ------------------------------------------------ BUTTON PAD GLYPHS - SPECIAL SETTINGS --------------------------------------------- */
+
+#divide {
+    font-size: 125%;
+}
+
+#decimal {
+    font-size: 250%;    
+}
+
+#clear {
+    width: 75%;
+    border-radius: 20px;
+}
+
+#zero {
+    width: 75%;
+    border-radius: 25px;
+}
+
+#undo {
+    font-size: 16px;
+}
+
+#plus,
+#minus {
+    font-size: 150%;
+}
+
+#multiply {
+    font-size: 150%;
+}
+
+
+/* ----------------- BUTTON CLICK ANIMATION -------- */
+
+button:active {
+    box-shadow: inset -6px -6px 16px 0 rgba(255, 255, 255, .5), 
+    inset 6px 6px 16px 0 rgba(209, 205, 199, .5);
+
+}
+
+
+/* ---------------------------------------- Media Queries ------------- */
+/* ----------------------------------- BASE IPHONE SE BREAK POINT --------- */
+@media only screen and (min-width: 321px) {
+    
+    .main-container {
+        min-height: 568px;
+        min-width: 320px;
+
+    }
+
+    #calcDisplay > * {   
+        font-size: 18px;
+    }
+    
+    #appRoot {
+        max-height: 30%;
+    }
+
+    .app-container {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        height: 60vh;
+        width: 25vw;
+        min-width: 320px;
+        min-height: 568px;
+        overflow: auto;
+
+    }
+
+    .number {
+        font-size: 36px;
+    }
+
+    .num-button {
+        width: 80%;
+        height: 80%;
+        
+    }
+
+    #plus,
+    #minus,
+    #multiply,
+    #divide,
+    #equals,
+    #decimal,
+    #undo,
+    #recall {
+        width: 80%;
+        height: 80%;
+    }
+
+} /* END OF BREAK POINT */
+
+/* ---------------------------------------------------------------------------------- IPAD BREAKPOINT ---------------- */
+
+@media only screen and (min-height: 678px) {
+
+
+    
+    #appRoot {
+        bottom: 52%;
+        padding-bottom: 10px;
+    }
+
+    .button-container {
+        top: 60%;
+    }
+
+    .app-container {
+        height: 568px;
+        width: 25vw;
+        min-width: 320px;
+        max-width: 320px;
+        position: fixed;
+    }
+
+
+
+    #divide {
+        font-size: 175%;
+    }
+    
+
+    
+    #decimal {
+        font-size: 250%;    
+    }
+    
+    #clear {
+        width: 75%;
+        border-radius: 20px;
+    }
+    
+    #decimal {
+        
+    }
+    
+    #zero {
+        width: 75%;
+        border-radius: 25px;
+    }
+    
+    #undo {
+        font-size: 16px;
+    }
+    
+    #plus,
+    #minus {
+        font-size: 175%;
+    }
+    
+    #multiply {
+        font-size: 175%;
+    }
+
+    #equals {
+        font-size: 175%;
+    }
+}
+ /* --------------------------------------------------------------------------------------------------   END OF IPAD MEDIA QUERY */ 
+
+
+
+/* -------------------------------------- RESIDUAL DESKTOP BREAKPOINT ------------- */
+
+
+
+
+/* ------------------------ AS OF 22/7/2021 ------- No Errors in CSS: W3C CSS Validation Service ------------------------------ */
