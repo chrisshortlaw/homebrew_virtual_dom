@@ -1,6 +1,6 @@
-# JSCALC
+# Homebrew Virtual Dom
 
-JSCalc is a demo app for a much larger project: a simple virtual DOM library.
+A simple Virtual DOM library (like React or Vue) with a functioning calculator app to demonstrate. 
 
 The virtual DOM will be used to create a straight-forward calculator web-app, which can perform simple arithmetic. Buttons and moving components will all be rendered via Javascript functions, assembled to a virtual DOM and mounted when called upon.
 
