@@ -620,7 +620,7 @@ One might also note the initial HTML for the app:
     </html>
     ```
 
-Coming in at a bear 24 lines, it demonstrates how much of the work I can shift to the library and the CSS style sheet. And it demonstrates this library has the potential to be used for the creation of more and different apps. For example, a todo list, a simple 'hello world'.
+Coming in at a bare 24 lines, it demonstrates how much of the work I can shift to the library and the CSS style sheet. And it demonstrates this library has the potential to be used for the creation of more and different apps. For example, a todo list, a simple 'hello world'.
 
 ![calculator demo app](/Images/Calculator_DEMO.png)
 
